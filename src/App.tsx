@@ -104,6 +104,8 @@ import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
 import AdminInstitutionReviewsPage from "@/admin/pages/AdminInstitutionReviewsPage";
 import AdminInstitutionDetailPage from "@/admin/pages/AdminInstitutionDetailPage";
 import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
+import AdminDoctorReviewsPage from "@/admin/pages/AdminDoctorReviewsPage";
+import AdminDoctorDetailPage from "@/admin/pages/AdminDoctorDetailPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
 import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
