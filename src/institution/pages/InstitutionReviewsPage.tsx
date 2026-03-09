@@ -117,8 +117,8 @@ const initialMockReviews: Review[] = [
     text: "價格偏高，且未事先說明額外費用。希望收費能更透明。\nPricing was on the high side, and extra charges were not explained in advance. Hope pricing can be more transparent.",
     date: "2024-02-28",
     target: "institution",
-    targetName: "Bright Dental Clinic",
-    orderRef: "ORD-20240228-004",
+    targetName: INSTITUTION_NAME,
+    orderRef: "IC20240228-004",
     images: 0,
     reply: {
       content: "非常抱歉給您帶來不便，我們已改善收費說明流程。歡迎再次光臨體驗改善後的服務。We apologize for the inconvenience. We have improved our pricing explanation process.",
