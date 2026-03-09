@@ -404,12 +404,12 @@ export const mockInstitutions: Institution[] = [
 ];
 
 export const mockPopularServices: PopularService[] = [
-  { id: "ps1", name: { en: "Scaling & Polishing", zh: "洗牙" }, price: 800, institutionIds: ["1", "2", "3"], icon: "sparkles" },
-  { id: "ps2", name: { en: "Tooth Filling", zh: "補牙" }, price: 600, institutionIds: ["1", "3"], icon: "shield" },
+  { id: "ps1", name: { en: "Scaling & Polishing", zh: "潔牙及拋光" }, price: 500, institutionIds: ["1", "2", "3"], icon: "sparkles" },
+  { id: "ps2", name: { en: "Root Canal Treatment", zh: "根管治療" }, price: 2500, institutionIds: ["1", "3"], icon: "shield" },
   { id: "ps3", name: { en: "Tooth Extraction", zh: "拔牙" }, price: 800, institutionIds: ["3", "1"], icon: "scissors" },
-  { id: "ps4", name: { en: "Teeth Whitening", zh: "牙齒美白" }, price: 3500, institutionIds: ["1", "4"], icon: "sun" },
-  { id: "ps5", name: { en: "Braces", zh: "矯齒" }, price: 25000, institutionIds: ["2"], icon: "smile" },
-  { id: "ps6", name: { en: "Dental Implant", zh: "植牙" }, price: 15000, institutionIds: ["1", "4"], icon: "anchor" },
+  { id: "ps4", name: { en: "Teeth Whitening", zh: "牙齒美白" }, price: 2800, institutionIds: ["1", "4"], icon: "sun" },
+  { id: "ps5", name: { en: "Orthodontics", zh: "正畸矯齒" }, price: 25000, institutionIds: ["1", "2"], icon: "smile" },
+  { id: "ps6", name: { en: "Dental Implant", zh: "種植牙" }, price: 12000, institutionIds: ["1", "4"], icon: "anchor" },
 ];
 
 export const mockCoupons: Coupon[] = [
