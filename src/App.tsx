@@ -162,6 +162,8 @@ const App = () => (
                           <Route path="register" element={<InstitutionRegisterPage />} />
                           <Route path="credentials" element={<InstitutionCredentialsPage />} />
                           <Route path="dashboard" element={<InstitutionDashboardPage />} />
+                          <Route path="info" element={<InstitutionInfoPage />} />
+                          <Route path="services" element={<InstitutionServicesPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />

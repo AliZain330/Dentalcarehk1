@@ -16,7 +16,11 @@ const InstitutionLayout: React.FC = () => {
 
   const sidebarItems = [
     ...(approved
-      ? [{ icon: LayoutDashboard, label: isEn ? "Dashboard" : "控制台", path: "/institution/dashboard" }]
+      ? [
+          { icon: LayoutDashboard, label: isEn ? "Dashboard" : "控制台", path: "/institution/dashboard" },
+          { icon: Info, label: isEn ? "Institution Info" : "機構資訊", path: "/institution/info" },
+          { icon: Stethoscope, label: isEn ? "Services" : "服務管理", path: "/institution/services" },
+        ]
       : []),
     { icon: Building2, label: isEn ? "Registration" : "機構註冊", path: "/institution/register" },
     { icon: FileCheck, label: isEn ? "Credentials" : "資質審核", path: "/institution/credentials" },
