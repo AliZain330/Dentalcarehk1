@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import AdminMetricCard from "../components/AdminMetricCard";
 import { Megaphone, Users, Eye, TrendingUp, Search, Plus, Pause, Play, Square, Pencil, ArrowLeft, Loader2, Save } from "lucide-react";
 import { mockCampaigns, type AdminCampaign } from "../data/adminMarketingData";
-import { useToast } from "@/hooks/use-toast";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
 
 const campaignTypeLabel = (t: AdminCampaign["type"], isEn: boolean) => {
   const map: Record<string, [string, string]> = {
@@ -36,7 +36,7 @@ const AdminCampaignsPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
-  const { toast } = useToast();
+  const notify = useAdminNotify();
 
   const [campaigns, setCampaigns] = useState(mockCampaigns);
   const [search, setSearch] = useState("");
@@ -58,17 +58,17 @@ const AdminCampaignsPage: React.FC = () => {
 
   const togglePause = (id: string) => {
     setCampaigns((prev) => prev.map((c) => c.id === id ? { ...c, status: c.status === "paused" ? "active" : "paused" as AdminCampaign["status"] } : c));
-    toast({ title: isEn ? "Campaign Updated" : "活動已更新" });
+    notify.success("Campaign updated", "活動已更新");
   };
 
   const endCampaign = (id: string) => {
     setCampaigns((prev) => prev.map((c) => c.id === id ? { ...c, status: "ended" as AdminCampaign["status"] } : c));
-    toast({ title: isEn ? "Campaign Ended" : "活動已結束" });
+    notify.success("Campaign ended", "活動已結束");
   };
 
   const handleCreate = () => {
     if (!newCampaign.name || !newCampaign.startDate || !newCampaign.endDate) {
-      toast({ title: isEn ? "Fill required fields" : "請填寫必填項", variant: "destructive" });
+      notify.error("Please fill required fields", "請填寫必填項");
       return;
     }
     setSaving(true);
@@ -83,7 +83,7 @@ const AdminCampaignsPage: React.FC = () => {
       setSaving(false);
       setCreateOpen(false);
       setNewCampaign({ name: "", nameZh: "", type: "promotion", startDate: "", endDate: "", rules: "", rulesZh: "" });
-      toast({ title: isEn ? "Campaign Created" : "活動已創建" });
+      notify.success("Campaign created", "活動已創建");
     }, 1000);
   };
 

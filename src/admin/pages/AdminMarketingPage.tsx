@@ -13,13 +13,14 @@ import {
   mockPlatformCoupons, mockInstitutionCoupons,
   type AdminCoupon,
 } from "../data/adminMarketingData";
-import { useToast } from "@/hooks/use-toast";
+import AdminStatusBadge from "@/admin/components/AdminStatusBadge";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
 
 const AdminMarketingPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
-  const { toast } = useToast();
+  const notify = useAdminNotify();
 
   const [platformCoupons, setPlatformCoupons] = useState(mockPlatformCoupons);
   const [instCoupons, setInstCoupons] = useState(mockInstitutionCoupons);
@@ -27,17 +28,6 @@ const AdminMarketingPage: React.FC = () => {
   const [searchI, setSearchI] = useState("");
   const [statusFilterP, setStatusFilterP] = useState<string>("all");
   const [statusFilterI, setStatusFilterI] = useState<string>("all");
-
-  const statusBadge = (s: AdminCoupon["status"]) => {
-    const map: Record<string, { variant: "default" | "secondary" | "destructive" | "outline"; label: string; labelZh: string }> = {
-      active: { variant: "default", label: "Active", labelZh: "進行中" },
-      draft: { variant: "outline", label: "Draft", labelZh: "草稿" },
-      disabled: { variant: "destructive", label: "Disabled", labelZh: "已停用" },
-      expired: { variant: "secondary", label: "Expired", labelZh: "已過期" },
-    };
-    const m = map[s];
-    return <Badge variant={m.variant}>{isEn ? m.label : m.labelZh}</Badge>;
-  };
 
   const filterCoupons = (list: AdminCoupon[], search: string, statusFilter: string) =>
     list.filter((c) => {
@@ -54,7 +44,7 @@ const AdminMarketingPage: React.FC = () => {
     setInstCoupons((prev) =>
       prev.map((c) => c.id === id ? { ...c, status: c.status === "disabled" ? "active" : "disabled" as AdminCoupon["status"] } : c)
     );
-    toast({ title: isEn ? "Status Updated" : "狀態已更新" });
+    notify.success("Status updated", "狀態已更新");
   };
 
   const totalActive = platformCoupons.filter((c) => c.status === "active").length + instCoupons.filter((c) => c.status === "active").length;
@@ -93,7 +83,7 @@ const AdminMarketingPage: React.FC = () => {
             <TableCell className="text-center">{c.totalIssued.toLocaleString()}</TableCell>
             <TableCell className="text-center">{c.totalUsed.toLocaleString()}</TableCell>
             <TableCell className="text-xs text-muted-foreground">{c.validFrom} ~ {c.validTo}</TableCell>
-            <TableCell className="text-center">{statusBadge(c.status)}</TableCell>
+            <TableCell className="text-center"><AdminStatusBadge status={c.status} /></TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-1">
                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/admin/marketing/coupons/${c.id}`)}>

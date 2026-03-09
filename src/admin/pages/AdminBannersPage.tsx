@@ -12,7 +12,7 @@ import AdminMetricCard from "../components/AdminMetricCard";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import { Image, Eye, MousePointer, ArrowLeft, ArrowUp, ArrowDown, Pencil, Ban, Plus, Loader2, Save } from "lucide-react";
 import { mockBanners, type AdminBanner } from "../data/adminMarketingData";
-import { useToast } from "@/hooks/use-toast";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
 
 const statusConfig: Record<string, { variant: "default" | "secondary" | "destructive" | "outline"; en: string; zh: string }> = {
   active: { variant: "default", en: "Active", zh: "啟用" },
@@ -24,7 +24,7 @@ const AdminBannersPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
-  const { toast } = useToast();
+  const notify = useAdminNotify();
 
   const [banners, setBanners] = useState(mockBanners);
   const [editOpen, setEditOpen] = useState(false);
@@ -33,7 +33,7 @@ const AdminBannersPage: React.FC = () => {
 
   const toggleStatus = (id: string) => {
     setBanners((prev) => prev.map((b) => b.id === id ? { ...b, status: b.status === "disabled" ? "active" : "disabled" as AdminBanner["status"] } : b));
-    toast({ title: isEn ? "Banner Updated" : "橫幅已更新" });
+    notify.success("Banner updated", "橫幅已更新");
   };
 
   const moveOrder = (id: string, dir: -1 | 1) => {
@@ -58,7 +58,7 @@ const AdminBannersPage: React.FC = () => {
       setBanners((prev) => prev.map((b) => b.id === editBanner.id ? editBanner : b));
       setSaving(false);
       setEditOpen(false);
-      toast({ title: isEn ? "Banner Saved" : "橫幅已保存" });
+      notify.success("Banner saved", "橫幅已保存");
     }, 800);
   };
 

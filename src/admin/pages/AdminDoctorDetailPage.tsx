@@ -13,6 +13,7 @@ import {
   ClipboardList, Stethoscope, Ban, CheckCircle, ImageIcon, Save, Shield,
 } from "lucide-react";
 import { adminDoctors, type AdminDoctor } from "../data/adminDoctorData";
+import { getOrdersByDoctorId } from "../data/adminRelations";
 import AdminMetricCard from "../components/AdminMetricCard";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import { toast } from "sonner";
@@ -25,6 +26,8 @@ const AdminDoctorDetailPage: React.FC = () => {
 
   const source = adminDoctors.find((d) => d.id === id);
   const [doc, setDoc] = useState<AdminDoctor | null>(source ? { ...source } : null);
+  const relatedOrders = doc ? getOrdersByDoctorId(doc.id) : [];
+
   const [editingPerms, setEditingPerms] = useState(false);
   const [perms, setPerms] = useState(source?.permissions || { inClinic: false, textConsult: false, videoConsult: false, canPrescribe: false, canIssueSickLeave: false });
 
@@ -187,12 +190,27 @@ const AdminDoctorDetailPage: React.FC = () => {
       {/* Placeholders */}
       <div className="grid lg:grid-cols-2 gap-6">
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Consultation Statistics" : "問診統計"}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Recent Orders" : "近期訂單"}</CardTitle></CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center justify-center py-8">
-              <ClipboardList className="h-8 w-8 text-muted-foreground/40 mb-2" />
-              <p className="text-sm text-muted-foreground">{isEn ? "Detailed stats will be shown here" : "詳細統計將在此顯示"}</p>
-            </div>
+            {relatedOrders.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8">
+                <ClipboardList className="h-8 w-8 text-muted-foreground/40 mb-2" />
+                <p className="text-sm text-muted-foreground">{isEn ? "No order data yet" : "暫無訂單資料"}</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {relatedOrders.slice(0, 4).map((order) => (
+                  <button
+                    key={order.id}
+                    onClick={() => navigate(`/admin/orders/${order.id}`)}
+                    className="flex w-full items-center justify-between rounded-md border border-border px-3 py-2 hover:bg-muted/50"
+                  >
+                    <span className="font-mono text-xs">{order.id}</span>
+                    <span className="text-sm">HK${order.amount.toLocaleString()}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
         <Card>

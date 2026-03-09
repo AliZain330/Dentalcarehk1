@@ -48,14 +48,12 @@ export const adminUsers: AdminUser[] = [
     phone: "+852 9123 4567", email: "taiman@gmail.com", avatar: "C",
     status: "active", registeredAt: "2025-08-15", totalOrders: 12, totalSpent: 24000, lastActive: "2026-03-09",
     orders: [
-      { id: "ORD-001", type: "in_clinic", institution: "Bright Smile Dental", doctor: "Dr. Sarah Chen", amount: 2000, date: "2026-03-08", status: "completed" },
-      { id: "ORD-002", type: "consultation", institution: "Online", doctor: "Dr. Emily Lau", amount: 200, date: "2026-03-05", status: "completed" },
-      { id: "ORD-003", type: "in_clinic", institution: "Happy Teeth Clinic", doctor: "Dr. Michael Wong", amount: 3500, date: "2026-02-20", status: "completed" },
-      { id: "ORD-004", type: "in_clinic", institution: "Bright Smile Dental", doctor: "Dr. Sarah Chen", amount: 1500, date: "2026-01-15", status: "cancelled" },
+      { id: "ORD-20260309-001", type: "in_clinic", institution: "Bright Smile Dental Centre", doctor: "Dr. Sarah Chen", amount: 800, date: "2026-03-09", status: "completed" },
+      { id: "OC-20260307-002", type: "consultation", institution: "Online", doctor: "Dr. Grace Fung", amount: 500, date: "2026-03-07", status: "completed" },
     ],
     reviews: [
-      { id: "RV-001", orderId: "ORD-001", institution: "Bright Smile Dental", rating: 5, comment: "Excellent service and very professional!", date: "2026-03-08" },
-      { id: "RV-002", orderId: "ORD-003", institution: "Happy Teeth Clinic", rating: 4, comment: "Good experience overall.", date: "2026-02-21" },
+      { id: "RV-001", orderId: "ORD-20260309-001", institution: "Bright Smile Dental Centre", rating: 5, comment: "Excellent service and very professional!", date: "2026-03-09" },
+      { id: "RV-002", orderId: "OC-20260307-002", institution: "Online Consultation", rating: 4, comment: "Good experience overall.", date: "2026-03-08" },
     ],
     complaints: [
       { id: "CMP-001", subject: "Long waiting time", content: "Had to wait over 40 minutes past my appointment time.", date: "2026-01-16", status: "resolved" },
@@ -66,11 +64,11 @@ export const adminUsers: AdminUser[] = [
     phone: "+852 9234 5678", email: "siuming.w@outlook.com", avatar: "W",
     status: "active", registeredAt: "2025-10-02", totalOrders: 8, totalSpent: 16000, lastActive: "2026-03-07",
     orders: [
-      { id: "ORD-010", type: "in_clinic", institution: "Central Dental Hospital", doctor: "Dr. Emily Lau", amount: 2500, date: "2026-03-06", status: "completed" },
-      { id: "ORD-011", type: "consultation", institution: "Online", doctor: "Dr. Grace Fung", amount: 300, date: "2026-02-28", status: "completed" },
+      { id: "ORD-20260309-002", type: "in_clinic", institution: "Happy Teeth Clinic", doctor: "Dr. Michael Wong", amount: 1500, date: "2026-03-09", status: "confirmed" },
+      { id: "ORD-20260306-001", type: "in_clinic", institution: "Happy Teeth Clinic", doctor: "Dr. Michael Wong", amount: 3000, date: "2026-03-06", status: "cancelled" },
     ],
     reviews: [
-      { id: "RV-010", orderId: "ORD-010", institution: "Central Dental Hospital", rating: 5, comment: "非常專業的服務！", date: "2026-03-06" },
+      { id: "RV-010", orderId: "ORD-20260306-001", institution: "Happy Teeth Clinic", rating: 5, comment: "非常專業的服務！", date: "2026-03-06" },
     ],
     complaints: [],
   },
@@ -79,7 +77,8 @@ export const adminUsers: AdminUser[] = [
     phone: "+852 9345 6789", email: "kayan.lee@yahoo.com", avatar: "L",
     status: "active", registeredAt: "2026-01-12", totalOrders: 3, totalSpent: 6000, lastActive: "2026-03-04",
     orders: [
-      { id: "ORD-020", type: "in_clinic", institution: "Bright Smile Dental", doctor: "Dr. Sarah Chen", amount: 2000, date: "2026-03-01", status: "confirmed" },
+      { id: "OC-20260309-001", type: "consultation", institution: "Online", doctor: "Dr. Emily Lau", amount: 200, date: "2026-03-09", status: "pending" },
+      { id: "ORD-20260303-001", type: "in_clinic", institution: "Central Dental Hospital", doctor: "Dr. Emily Lau", amount: 4000, date: "2026-03-03", status: "completed" },
     ],
     reviews: [],
     complaints: [],
@@ -99,11 +98,11 @@ export const adminUsers: AdminUser[] = [
     phone: "+852 9567 8901", email: "wingkei.ho@hotmail.com", avatar: "H",
     status: "active", registeredAt: "2025-12-20", totalOrders: 5, totalSpent: 10000, lastActive: "2026-03-08",
     orders: [
-      { id: "ORD-030", type: "in_clinic", institution: "Happy Teeth Clinic", doctor: "Dr. Michael Wong", amount: 4000, date: "2026-03-07", status: "completed" },
-      { id: "ORD-031", type: "consultation", institution: "Online", doctor: "Dr. Sarah Chen", amount: 200, date: "2026-02-15", status: "completed" },
+      { id: "ORD-20260308-001", type: "in_clinic", institution: "Central Dental Hospital", doctor: "Dr. Emily Lau", amount: 5000, date: "2026-03-08", status: "completed" },
+      { id: "ORD-20260305-001", type: "in_clinic", institution: "Bright Smile Dental Centre", doctor: "Dr. Sarah Chen", amount: 600, date: "2026-03-05", status: "completed" },
     ],
     reviews: [
-      { id: "RV-030", orderId: "ORD-030", institution: "Happy Teeth Clinic", rating: 3, comment: "Service was okay but the clinic was crowded.", date: "2026-03-07" },
+      { id: "RV-030", orderId: "ORD-20260308-001", institution: "Central Dental Hospital", rating: 3, comment: "Service was okay but the clinic was crowded.", date: "2026-03-08" },
     ],
     complaints: [
       { id: "CMP-020", subject: "Billing discrepancy", content: "I was charged HK$500 more than the quoted price.", date: "2026-02-16", status: "resolved" },
@@ -115,13 +114,12 @@ export const adminUsers: AdminUser[] = [
     phone: "+852 9678 9012", email: "chiwai.ng@gmail.com", avatar: "N",
     status: "active", registeredAt: "2025-09-10", totalOrders: 15, totalSpent: 35000, lastActive: "2026-03-09",
     orders: [
-      { id: "ORD-040", type: "in_clinic", institution: "Central Dental Hospital", doctor: "Dr. Emily Lau", amount: 5000, date: "2026-03-09", status: "pending" },
-      { id: "ORD-041", type: "in_clinic", institution: "Bright Smile Dental", doctor: "Dr. Sarah Chen", amount: 2000, date: "2026-02-25", status: "completed" },
-      { id: "ORD-042", type: "consultation", institution: "Online", doctor: "Dr. Michael Wong", amount: 300, date: "2026-02-10", status: "completed" },
+      { id: "ORD-20260307-001", type: "in_clinic", institution: "Bright Smile Dental Centre", doctor: "Dr. Sarah Chen", amount: 2000, date: "2026-03-07", status: "completed" },
+      { id: "OC-20260304-001", type: "consultation", institution: "Online", doctor: "Dr. Michael Wong", amount: 200, date: "2026-03-04", status: "completed" },
     ],
     reviews: [
-      { id: "RV-040", orderId: "ORD-041", institution: "Bright Smile Dental", rating: 5, comment: "Always a great experience here!", date: "2026-02-26" },
-      { id: "RV-041", orderId: "ORD-042", institution: "Online Consultation", rating: 4, comment: "Very convenient online consultation.", date: "2026-02-10" },
+      { id: "RV-040", orderId: "ORD-20260307-001", institution: "Bright Smile Dental Centre", rating: 5, comment: "Always a great experience here!", date: "2026-03-07" },
+      { id: "RV-041", orderId: "OC-20260304-001", institution: "Online Consultation", rating: 4, comment: "Very convenient online consultation.", date: "2026-03-04" },
     ],
     complaints: [],
   },

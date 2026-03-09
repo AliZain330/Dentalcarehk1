@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { BookingProvider } from "@/context/BookingContext";
@@ -119,6 +119,11 @@ import AdminBannersPage from "@/admin/pages/AdminBannersPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
 import AdminSettlementDetailPage from "@/admin/pages/AdminSettlementDetailPage";
 import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
+import AdminSystemBasicSettingsPage from "@/admin/pages/AdminSystemBasicSettingsPage";
+import AdminSystemLanguageSettingsPage from "@/admin/pages/AdminSystemLanguageSettingsPage";
+import AdminSystemPermissionManagementPage from "@/admin/pages/AdminSystemPermissionManagementPage";
+import AdminSystemAdminAccountsPage from "@/admin/pages/AdminSystemAdminAccountsPage";
+import AdminSystemLogManagementPage from "@/admin/pages/AdminSystemLogManagementPage";
 
 const queryClient = new QueryClient();
 
@@ -248,6 +253,7 @@ const App = () => (
 
                         {/* Platform Admin */}
                         <Route path="/admin" element={<AdminLayout />}>
+                          <Route index element={<Navigate to="dashboard" replace />} />
                           <Route path="dashboard" element={<AdminDashboardPage />} />
                           <Route path="institutions" element={<AdminInstitutionsPage />} />
                           <Route path="institutions/reviews" element={<AdminInstitutionReviewsPage />} />
@@ -261,6 +267,7 @@ const App = () => (
                           <Route path="orders/:id" element={<AdminOrderDetailPage />} />
                           <Route path="orders/disputes" element={<AdminDisputesPage />} />
                           <Route path="orders/disputes/:disputeId" element={<AdminDisputeDetailPage />} />
+                          <Route path="disputes" element={<Navigate to="/admin/orders/disputes" replace />} />
                           <Route path="stats" element={<AdminStatsPage />} />
                           <Route path="marketing" element={<AdminMarketingPage />} />
                           <Route path="marketing/coupons/create" element={<AdminCouponCreatePage />} />
@@ -270,6 +277,11 @@ const App = () => (
                           <Route path="financials" element={<AdminFinancialsPage />} />
                           <Route path="financials/settlements/:id" element={<AdminSettlementDetailPage />} />
                           <Route path="settings" element={<AdminSettingsPage />} />
+                          <Route path="settings/basic" element={<AdminSystemBasicSettingsPage />} />
+                          <Route path="settings/language" element={<AdminSystemLanguageSettingsPage />} />
+                          <Route path="settings/permissions" element={<AdminSystemPermissionManagementPage />} />
+                          <Route path="settings/admin-accounts" element={<AdminSystemAdminAccountsPage />} />
+                          <Route path="settings/logs" element={<AdminSystemLogManagementPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />

@@ -12,7 +12,8 @@ import { Search, ClipboardList, Download, AlertTriangle, Wallet } from "lucide-r
 import { adminOrders, type AdminOrder } from "../data/adminOrderData";
 import AdminMetricCard from "../components/AdminMetricCard";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
-import { toast } from "sonner";
+import AdminStatusBadge from "@/admin/components/AdminStatusBadge";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
 
 type TypeFilter = "all" | "in_clinic" | "consultation";
 type StatusFilter = "all" | "pending" | "confirmed" | "in_progress" | "completed" | "cancelled";
@@ -21,6 +22,7 @@ const AdminOrdersPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
+  const notify = useAdminNotify();
 
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
@@ -43,28 +45,6 @@ const AdminOrdersPage: React.FC = () => {
   const disputeCount = adminOrders.filter((o) => o.hasDispute).length;
   const totalRevenue = adminOrders.filter((o) => o.status === "completed").reduce((s, o) => s + o.amount, 0);
 
-  const statusBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" | "outline" }> = {
-      pending: { l: isEn ? "Pending" : "待處理", v: "outline" },
-      confirmed: { l: isEn ? "Confirmed" : "已確認", v: "secondary" },
-      in_progress: { l: isEn ? "In Progress" : "進行中", v: "secondary" },
-      completed: { l: isEn ? "Completed" : "已完成", v: "default" },
-      cancelled: { l: isEn ? "Cancelled" : "已取消", v: "destructive" },
-    };
-    const c = m[s] || m.pending;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
-  const settleBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" }> = {
-      settled: { l: isEn ? "Settled" : "已結算", v: "default" },
-      unsettled: { l: isEn ? "Unsettled" : "未結算", v: "secondary" },
-      refunded: { l: isEn ? "Refunded" : "已退款", v: "destructive" },
-    };
-    const c = m[s] || m.unsettled;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -74,12 +54,12 @@ const AdminOrdersPage: React.FC = () => {
         </div>
         <div className="flex gap-2">
           {disputeCount > 0 && (
-            <Button variant="outline" onClick={() => navigate("/admin/orders/disputes")} className="gap-2">
+            <Button variant="outline" onClick={() => navigate("/admin/disputes")} className="gap-2">
               <AlertTriangle className="h-4 w-4 text-warning" />
               {isEn ? `${disputeCount} Disputes` : `${disputeCount} 個爭議`}
             </Button>
           )}
-          <Button variant="outline" onClick={() => toast.info(isEn ? "Export API key not added yet" : "導出 API 金鑰尚未添加")} className="gap-2">
+          <Button variant="outline" onClick={notify.warnApiMissing} className="gap-2">
             <Download className="h-4 w-4" />{isEn ? "Export" : "導出"}
           </Button>
         </div>
@@ -170,11 +150,11 @@ const AdminOrdersPage: React.FC = () => {
                     <TableCell className="text-right font-medium">HK${o.amount.toLocaleString()}</TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-1">
-                        {statusBadge(o.status)}
+                        <AdminStatusBadge status={o.status} />
                         {o.hasDispute && <AlertTriangle className="h-3.5 w-3.5 text-warning" />}
                       </div>
                     </TableCell>
-                    <TableCell className="text-center">{settleBadge(o.settlementStatus)}</TableCell>
+                    <TableCell className="text-center"><AdminStatusBadge status={o.settlementStatus} /></TableCell>
                     <TableCell className="text-muted-foreground">→</TableCell>
                   </TableRow>
                 ))}

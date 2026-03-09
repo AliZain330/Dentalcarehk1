@@ -11,6 +11,7 @@ import {
   ArrowLeft, Users, Phone, Mail, Calendar, ClipboardList, Wallet, Star, MessageSquareWarning, Ban, CheckCircle,
 } from "lucide-react";
 import { adminUsers, type AdminUser } from "../data/adminUserData";
+import { getOrdersByUserId } from "../data/adminRelations";
 import AdminMetricCard from "../components/AdminMetricCard";
 import { toast } from "sonner";
 
@@ -22,6 +23,8 @@ const AdminUserDetailPage: React.FC = () => {
 
   const source = adminUsers.find((u) => u.id === id);
   const [user, setUser] = useState<AdminUser | null>(source ? { ...source } : null);
+  const relatedOrders = user ? getOrdersByUserId(user.id) : [];
+
 
   if (!user) {
     return (
@@ -119,7 +122,7 @@ const AdminUserDetailPage: React.FC = () => {
         <div className="lg:col-span-2">
           <Tabs defaultValue="orders">
             <TabsList>
-              <TabsTrigger value="orders">{isEn ? "Orders" : "訂單"} ({user.orders.length})</TabsTrigger>
+              <TabsTrigger value="orders">{isEn ? "Orders" : "訂單"} ({Math.max(user.orders.length, relatedOrders.length)})</TabsTrigger>
               <TabsTrigger value="reviews">{isEn ? "Reviews" : "評價"} ({user.reviews.length})</TabsTrigger>
               <TabsTrigger value="complaints">{isEn ? "Complaints" : "投訴"} ({user.complaints.length})</TabsTrigger>
             </TabsList>
@@ -127,7 +130,7 @@ const AdminUserDetailPage: React.FC = () => {
             <TabsContent value="orders">
               <Card>
                 <CardContent className="p-0">
-                  {user.orders.length === 0 ? (
+                  {relatedOrders.length === 0 && user.orders.length === 0 ? (
                     <EmptyState icon={ClipboardList} text={isEn ? "No order history" : "沒有訂單記錄"} />
                   ) : (
                     <Table>
@@ -143,9 +146,24 @@ const AdminUserDetailPage: React.FC = () => {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {user.orders.map((o) => (
+                        {(relatedOrders.length > 0
+                          ? relatedOrders.map((order) => ({
+                              id: order.id,
+                              type: order.type,
+                              institution: order.institution,
+                              doctor: order.doctor,
+                              amount: order.amount,
+                              date: order.createdAt.split(" ")[0],
+                              status: order.status === "in_progress" ? "pending" : order.status,
+                            }))
+                          : user.orders
+                        ).map((o) => (
                           <TableRow key={o.id}>
-                            <TableCell className="font-mono text-xs">{o.id}</TableCell>
+                            <TableCell className="font-mono text-xs">
+                              <button className="hover:text-primary hover:underline" onClick={() => navigate(`/admin/orders/${o.id}`)}>
+                                {o.id}
+                              </button>
+                            </TableCell>
                             <TableCell><Badge variant="outline">{o.type === "in_clinic" ? (isEn ? "Clinic" : "到店") : (isEn ? "Consult" : "問診")}</Badge></TableCell>
                             <TableCell>{o.institution}</TableCell>
                             <TableCell>{o.doctor}</TableCell>

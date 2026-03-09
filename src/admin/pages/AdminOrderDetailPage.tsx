@@ -10,6 +10,7 @@ import {
   Calendar, CreditCard, AlertTriangle,
 } from "lucide-react";
 import { adminOrders, adminDisputes } from "../data/adminOrderData";
+import AdminStatusBadge from "@/admin/components/AdminStatusBadge";
 
 const AdminOrderDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,41 +31,6 @@ const AdminOrderDetailPage: React.FC = () => {
     );
   }
 
-  const statusBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" | "outline" }> = {
-      pending: { l: isEn ? "Pending" : "待處理", v: "outline" },
-      confirmed: { l: isEn ? "Confirmed" : "已確認", v: "secondary" },
-      in_progress: { l: isEn ? "In Progress" : "進行中", v: "secondary" },
-      completed: { l: isEn ? "Completed" : "已完成", v: "default" },
-      cancelled: { l: isEn ? "Cancelled" : "已取消", v: "destructive" },
-    };
-    const c = m[s] || m.pending;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
-  const settleBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" }> = {
-      settled: { l: isEn ? "Settled" : "已結算", v: "default" },
-      unsettled: { l: isEn ? "Unsettled" : "未結算", v: "secondary" },
-      refunded: { l: isEn ? "Refunded" : "已退款", v: "destructive" },
-    };
-    const c = m[s] || m.unsettled;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
-  const disputeStatusBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" | "outline" }> = {
-      open: { l: isEn ? "Open" : "待處理", v: "secondary" },
-      under_review: { l: isEn ? "Under Review" : "審核中", v: "outline" },
-      resolved: { l: isEn ? "Resolved" : "已解決", v: "default" },
-      refunded: { l: isEn ? "Refunded" : "已退款", v: "destructive" },
-      compensated: { l: isEn ? "Compensated" : "已補償", v: "default" },
-      closed: { l: isEn ? "Closed" : "已關閉", v: "outline" },
-    };
-    const c = m[s] || m.open;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
   const Row = ({ icon: Icon, label, value, extra }: { icon: React.ElementType; label: string; value: string; extra?: React.ReactNode }) => (
     <div className="flex items-start gap-3 py-2.5">
       <Icon className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
@@ -80,7 +46,7 @@ const AdminOrderDetailPage: React.FC = () => {
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-foreground font-mono">{order.id}</h1>
-            {statusBadge(order.status)}
+            <AdminStatusBadge status={order.status} />
             {order.hasDispute && <Badge variant="destructive" className="gap-1"><AlertTriangle className="h-3 w-3" />{isEn ? "Dispute" : "爭議"}</Badge>}
           </div>
           <p className="text-sm text-muted-foreground">{order.createdAt}</p>
@@ -93,7 +59,7 @@ const AdminOrderDetailPage: React.FC = () => {
           <CardContent className="divide-y divide-border">
             <Row icon={ClipboardList} label={isEn ? "Service" : "服務"} value={order.service} extra={<Badge variant="outline">{order.type === "in_clinic" ? (isEn ? "In-Clinic" : "到店") : (isEn ? "Consultation" : "問診")}</Badge>} />
             {order.appointmentDate && <Row icon={Calendar} label={isEn ? "Appointment" : "預約時間"} value={order.appointmentDate} />}
-            <Row icon={Wallet} label={isEn ? "Amount" : "金額"} value={`HK$${order.amount.toLocaleString()}`} extra={settleBadge(order.settlementStatus)} />
+            <Row icon={Wallet} label={isEn ? "Amount" : "金額"} value={`HK$${order.amount.toLocaleString()}`} extra={<AdminStatusBadge status={order.settlementStatus} />} />
             <Row icon={CreditCard} label={isEn ? "Payment" : "支付方式"} value={order.paymentMethod} />
           </CardContent>
         </Card>
@@ -101,9 +67,24 @@ const AdminOrderDetailPage: React.FC = () => {
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Parties" : "相關方"}</CardTitle></CardHeader>
           <CardContent className="divide-y divide-border">
-            <Row icon={User} label={isEn ? "User" : "用戶"} value={`${order.userName} (${order.userPhone})`} />
-            <Row icon={Building2} label={isEn ? "Institution" : "機構"} value={order.institution} />
-            <Row icon={Stethoscope} label={isEn ? "Doctor" : "醫生"} value={order.doctor} />
+            <Row
+              icon={User}
+              label={isEn ? "User" : "用戶"}
+              value={`${order.userName} (${order.userPhone})`}
+              extra={<Button variant="ghost" size="sm" onClick={() => navigate(`/admin/users/${order.userId}`)}>{isEn ? "View" : "查看"}</Button>}
+            />
+            <Row
+              icon={Building2}
+              label={isEn ? "Institution" : "機構"}
+              value={order.institution}
+              extra={order.institutionId ? <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/institutions/${order.institutionId}`)}>{isEn ? "View" : "查看"}</Button> : undefined}
+            />
+            <Row
+              icon={Stethoscope}
+              label={isEn ? "Doctor" : "醫生"}
+              value={order.doctor}
+              extra={<Button variant="ghost" size="sm" onClick={() => navigate(`/admin/doctors/${order.doctorId}`)}>{isEn ? "View" : "查看"}</Button>}
+            />
           </CardContent>
         </Card>
       </div>
@@ -114,7 +95,7 @@ const AdminOrderDetailPage: React.FC = () => {
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-base flex items-center gap-2"><AlertTriangle className="h-4 w-4 text-warning" />{isEn ? "Dispute Details" : "爭議詳情"}</CardTitle>
-              {disputeStatusBadge(dispute.status)}
+              <AdminStatusBadge status={dispute.status} />
             </div>
           </CardHeader>
           <CardContent className="space-y-4">

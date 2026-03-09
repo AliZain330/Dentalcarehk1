@@ -88,7 +88,7 @@ export const mockPlatformCoupons: AdminCoupon[] = [
 export const mockInstitutionCoupons: AdminCoupon[] = [
   {
     id: "CPN-I001", name: "Bright Smile VIP", nameZh: "Bright Smile VIP券",
-    type: "fixed", source: "institution", institutionName: "Bright Smile Dental",
+    type: "fixed", source: "institution", institutionName: "Bright Smile Dental Centre",
     amount: 100, minSpend: 500, applicableTo: "in_clinic",
     validFrom: "2025-01-01", validTo: "2025-12-31",
     totalIssued: 500, totalUsed: 120, maxPerUser: 1,
@@ -104,7 +104,7 @@ export const mockInstitutionCoupons: AdminCoupon[] = [
   },
   {
     id: "CPN-I003", name: "Pearl Dental Special", nameZh: "Pearl Dental特價券",
-    type: "fixed", source: "institution", institutionName: "Pearl Dental Centre",
+    type: "fixed", source: "institution", institutionName: "Pearl Dental Care",
     amount: 200, minSpend: 1000, applicableTo: "in_clinic",
     validFrom: "2025-03-01", validTo: "2025-04-30",
     totalIssued: 200, totalUsed: 45, maxPerUser: 1,

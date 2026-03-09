@@ -2,11 +2,11 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft, Building2 } from "lucide-react";
 import { mockSettlements } from "../data/adminFinancialData";
+import AdminStatusBadge from "@/admin/components/AdminStatusBadge";
 
 const AdminSettlementDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,14 +26,6 @@ const AdminSettlementDetailPage: React.FC = () => {
     );
   }
 
-  const statusMap: Record<string, { v: "default" | "secondary" | "destructive" | "outline"; en: string; zh: string }> = {
-    settled: { v: "default", en: "Settled", zh: "已結算" },
-    confirmed: { v: "secondary", en: "Confirmed", zh: "已確認" },
-    pending: { v: "outline", en: "Pending", zh: "待結算" },
-    disputed: { v: "destructive", en: "Disputed", zh: "爭議中" },
-  };
-  const s = statusMap[settlement.status];
-
   const Row = ({ label, value, highlight }: { label: string; value: React.ReactNode; highlight?: boolean }) => (
     <div className="flex justify-between py-2.5 border-b border-border last:border-0">
       <span className="text-sm text-muted-foreground">{label}</span>
@@ -49,13 +41,20 @@ const AdminSettlementDetailPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">{isEn ? "Settlement Statement" : "結算對帳單"}</h1>
           <p className="text-sm text-muted-foreground">{settlement.id}</p>
         </div>
-        <Badge variant={s.v}>{isEn ? s.en : s.zh}</Badge>
+        <AdminStatusBadge status={settlement.status} />
       </div>
 
       <Card>
         <CardHeader><CardTitle className="text-base">{isEn ? "Settlement Summary" : "結算摘要"}</CardTitle></CardHeader>
         <CardContent>
-          <Row label={isEn ? "Institution" : "機構"} value={settlement.institutionName} />
+          <Row
+            label={isEn ? "Institution" : "機構"}
+            value={
+              <button className="text-primary hover:underline" onClick={() => navigate(`/admin/institutions/${settlement.institutionId}`)}>
+                {settlement.institutionName}
+              </button>
+            }
+          />
           <Row label={isEn ? "Settlement Cycle" : "結算週期"} value={settlement.cycle} />
           <Row label={isEn ? "Total Orders" : "訂單總數"} value={settlement.orderCount} />
           <Row label={isEn ? "Gross Amount" : "訂單總額"} value={`HK$${settlement.grossAmount.toLocaleString()}`} />
@@ -83,7 +82,11 @@ const AdminSettlementDetailPage: React.FC = () => {
             <TableBody>
               {settlement.orders.map((o) => (
                 <TableRow key={o.orderId}>
-                  <TableCell className="font-mono text-xs">{o.orderId}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    <button className="hover:text-primary hover:underline" onClick={() => navigate(`/admin/orders/${o.orderId}`)}>
+                      {o.orderId}
+                    </button>
+                  </TableCell>
                   <TableCell className="text-sm">{o.date}</TableCell>
                   <TableCell className="text-right">HK${o.amount.toLocaleString()}</TableCell>
                   <TableCell className="text-right text-destructive">-HK${o.fee.toLocaleString()}</TableCell>

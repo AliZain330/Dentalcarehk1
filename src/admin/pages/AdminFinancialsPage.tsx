@@ -20,7 +20,8 @@ import {
   mockTransactions, mockSettlements, mockWithdrawals,
   type AdminTransaction, type AdminSettlement, type AdminWithdrawal,
 } from "../data/adminFinancialData";
-import { useToast } from "@/hooks/use-toast";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
+import { useAdminSystemSettings } from "@/admin/hooks/useAdminSystemSettings";
 
 const paymentMethodLabel = (m: AdminTransaction["paymentMethod"], isEn: boolean) => {
   const map: Record<string, [string, string]> = {
@@ -63,7 +64,8 @@ const AdminFinancialsPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
-  const { toast } = useToast();
+  const notify = useAdminNotify();
+  const settings = useAdminSystemSettings();
 
   // Transactions state
   const [txnSearch, setTxnSearch] = useState("");
@@ -143,7 +145,7 @@ const AdminFinancialsPage: React.FC = () => {
         arrange: ["Payment Arranged", "付款已安排"], confirm_paid: ["Paid", "已確認付款"],
       };
       const l = labels[actionDialog.action!];
-      toast({ title: isEn ? l[0] : l[1] });
+      notify.success(l[0], l[1]);
     }, 1000);
   };
 
@@ -165,12 +167,17 @@ const AdminFinancialsPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-foreground">{isEn ? "Financial Management" : "財務管理"}</h1>
           <p className="text-sm text-muted-foreground">{isEn ? "Transactions, settlements, and withdrawals" : "交易記錄、結算及提款管理"}</p>
         </div>
-        <Button variant="outline" className="gap-2" onClick={() => toast({ title: isEn ? "Export API key not added yet" : "導出 API 金鑰尚未添加" })}>
+        <Button variant="outline" className="gap-2" onClick={notify.warnApiMissing}>
           <Download className="h-4 w-4" />{isEn ? "Export Report" : "導出報表"}
         </Button>
       </div>
 
       <ApiPlaceholderNotice service={isEn ? "Financial Export" : "財務導出"} />
+      <p className="text-xs text-muted-foreground">
+        {isEn
+          ? `Current service fee from Settings: ${settings.serviceFeeRate}%`
+          : `目前套用系統設定服務費率：${settings.serviceFeeRate}%`}
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <AdminMetricCard icon={Wallet} label={isEn ? "Total Revenue" : "總收入"} value={`HK$${totalRevenue.toLocaleString()}`} />

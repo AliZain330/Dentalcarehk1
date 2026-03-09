@@ -13,40 +13,29 @@ import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  ArrowLeft, AlertTriangle, Bell, ImageIcon, ClipboardList, MessageSquareWarning,
+  ArrowLeft, AlertTriangle, ImageIcon, ClipboardList, MessageSquareWarning,
 } from "lucide-react";
 import { adminDisputes, adminOrders, type AdminDispute } from "../data/adminOrderData";
 import AdminMetricCard from "../components/AdminMetricCard";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
-import { toast } from "sonner";
+import AdminStatusBadge from "@/admin/components/AdminStatusBadge";
+import { useAdminNotify } from "@/admin/hooks/useAdminNotify";
 
 /* ─── List page ─── */
 export const AdminDisputesPage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language === "en";
+  const notify = useAdminNotify();
   const [statusFilter, setStatusFilter] = useState("all");
 
   const filtered = statusFilter === "all" ? adminDisputes : adminDisputes.filter((d) => d.status === statusFilter);
   const openCount = adminDisputes.filter((d) => d.status === "open" || d.status === "under_review").length;
 
-  const sBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" | "outline" }> = {
-      open: { l: isEn ? "Open" : "待處理", v: "secondary" },
-      under_review: { l: isEn ? "Under Review" : "審核中", v: "outline" },
-      resolved: { l: isEn ? "Resolved" : "已解決", v: "default" },
-      refunded: { l: isEn ? "Refunded" : "已退款", v: "destructive" },
-      compensated: { l: isEn ? "Compensated" : "已補償", v: "default" },
-      closed: { l: isEn ? "Closed" : "已關閉", v: "outline" },
-    };
-    const c = m[s] || m.open;
-    return <Badge variant={c.v}>{c.l}</Badge>;
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/orders")}><ArrowLeft className="h-4 w-4" /></Button>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/dashboard")}><ArrowLeft className="h-4 w-4" /></Button>
         <div>
           <h1 className="text-2xl font-bold text-foreground">{isEn ? "Dispute Handling" : "爭議處理"}</h1>
           <p className="text-sm text-muted-foreground">{isEn ? `${adminDisputes.length} total disputes` : `共 ${adminDisputes.length} 個爭議`}</p>
@@ -104,7 +93,7 @@ export const AdminDisputesPage: React.FC = () => {
                     </TableCell>
                     <TableCell className="text-sm max-w-[200px] truncate">{d.subject}</TableCell>
                     <TableCell className="text-sm">{d.createdAt.split(" ")[0]}</TableCell>
-                    <TableCell className="text-center">{sBadge(d.status)}</TableCell>
+                    <TableCell className="text-center"><AdminStatusBadge status={d.status} /></TableCell>
                     <TableCell className="text-muted-foreground">→</TableCell>
                   </TableRow>
                 ))}
@@ -123,6 +112,7 @@ export const AdminDisputeDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const isEn = language === "en";
+  const notify = useAdminNotify();
 
   const source = adminDisputes.find((d) => d.id === disputeId);
   const [dispute, setDispute] = useState<AdminDispute | null>(source ? { ...source } : null);
@@ -137,7 +127,7 @@ export const AdminDisputeDetailPage: React.FC = () => {
       <div className="flex flex-col items-center justify-center py-20">
         <AlertTriangle className="h-10 w-10 text-muted-foreground/40 mb-3" />
         <p className="text-sm font-medium text-muted-foreground">{isEn ? "Dispute not found" : "找不到爭議"}</p>
-        <Button variant="link" onClick={() => navigate("/admin/orders/disputes")}>{isEn ? "Back" : "返回"}</Button>
+        <Button variant="link" onClick={() => navigate("/admin/disputes")}>{isEn ? "Back" : "返回"}</Button>
       </div>
     );
   }
@@ -146,7 +136,7 @@ export const AdminDisputeDetailPage: React.FC = () => {
 
   const handleSaveNotes = () => {
     setDispute((p) => p ? { ...p, adminNotes: notes } : p);
-    toast.success(isEn ? "Notes saved" : "備註已保存");
+    notify.success("Notes saved", "備註已保存");
   };
 
   const handleResolve = () => {
@@ -164,21 +154,8 @@ export const AdminDisputeDetailPage: React.FC = () => {
     }
     setDispute((p) => p ? { ...p, status: newStatus, resolution, adminNotes: notes, resolvedAt: new Date().toISOString().split("T")[0], refundAmount: resType === "refund" ? Number(refundAmt) : undefined, couponCompensation: resType === "coupon" ? `HK$${couponVal} coupon` : undefined } : p);
     setShowResolve(false);
-    toast.success(isEn ? "Dispute resolved" : "爭議已處理");
-    toast.info(isEn ? "All parties have been notified" : "已通知所有相關方", { icon: <Bell className="h-4 w-4" /> });
-  };
-
-  const sBadge = (s: string) => {
-    const m: Record<string, { l: string; v: "default" | "secondary" | "destructive" | "outline" }> = {
-      open: { l: isEn ? "Open" : "待處理", v: "secondary" },
-      under_review: { l: isEn ? "Under Review" : "審核中", v: "outline" },
-      resolved: { l: isEn ? "Resolved" : "已解決", v: "default" },
-      refunded: { l: isEn ? "Refunded" : "已退款", v: "destructive" },
-      compensated: { l: isEn ? "Compensated" : "已補償", v: "default" },
-      closed: { l: isEn ? "Closed" : "已關閉", v: "outline" },
-    };
-    const c = m[s] || m.open;
-    return <Badge variant={c.v}>{c.l}</Badge>;
+    notify.success("Dispute resolved", "爭議已處理");
+    notify.info("All parties have been notified", "已通知所有相關方");
   };
 
   const isResolved = ["resolved", "refunded", "compensated", "closed"].includes(dispute.status);
@@ -186,11 +163,11 @@ export const AdminDisputeDetailPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/orders/disputes")}><ArrowLeft className="h-4 w-4" /></Button>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/disputes")}><ArrowLeft className="h-4 w-4" /></Button>
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-foreground">{dispute.id}</h1>
-            {sBadge(dispute.status)}
+            <AdminStatusBadge status={dispute.status} />
           </div>
           <p className="text-sm text-muted-foreground">{isEn ? "Order" : "訂單"}: {dispute.orderId}</p>
         </div>

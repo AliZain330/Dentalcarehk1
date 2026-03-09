@@ -16,6 +16,8 @@ import {
   ClipboardList, Wallet, Stethoscope, Pencil, Ban, CheckCircle, Trash2, AlertTriangle, ImageIcon, Save,
 } from "lucide-react";
 import { adminInstitutions, type AdminInstitution } from "../data/adminInstitutionData";
+import { getDisputesByInstitutionId, getOrdersByInstitutionId } from "../data/adminRelations";
+import { adminDoctors } from "../data/adminDoctorData";
 import AdminMetricCard from "../components/AdminMetricCard";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import { toast } from "sonner";
@@ -27,6 +29,10 @@ const AdminInstitutionDetailPage: React.FC = () => {
   const isEn = language === "en";
 
   const source = adminInstitutions.find((i) => i.id === id);
+  const relatedOrders = inst ? getOrdersByInstitutionId(inst.id) : [];
+  const relatedDoctors = inst ? adminDoctors.filter((doctor) => doctor.institutionId === inst.id) : [];
+  const relatedDisputes = inst ? getDisputesByInstitutionId(inst.id) : [];
+
   const [inst, setInst] = useState<AdminInstitution | null>(source ? { ...source } : null);
   const [editing, setEditing] = useState(false);
   const [editForm, setEditForm] = useState<Partial<AdminInstitution>>({});
@@ -137,7 +143,7 @@ const AdminInstitutionDetailPage: React.FC = () => {
         <AdminMetricCard icon={ClipboardList} label={isEn ? "Total Orders" : "總訂單"} value={inst.orders.toLocaleString()} />
         <AdminMetricCard icon={Wallet} label={isEn ? "Revenue" : "交易額"} value={`HK$${inst.transactionAmount.toLocaleString()}`} />
         <AdminMetricCard icon={Stethoscope} label={isEn ? "Doctors" : "醫生"} value={inst.doctors} />
-        <AdminMetricCard icon={Calendar} label={isEn ? "Onboarded" : "入駐日期"} value={inst.onboardingDate} />
+        <AdminMetricCard icon={AlertTriangle} label={isEn ? "Disputes" : "爭議"} value={relatedDisputes.length} />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
@@ -219,24 +225,54 @@ const AdminInstitutionDetailPage: React.FC = () => {
         </Card>
       </div>
 
-      {/* Service & doctor placeholders */}
+      {/* Connected related data */}
       <div className="grid lg:grid-cols-2 gap-6">
         <Card>
-          <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Service Overview" : "服務概覽"}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Recent Orders" : "近期訂單"}</CardTitle></CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center justify-center py-8 text-center">
-              <ClipboardList className="h-8 w-8 text-muted-foreground/40 mb-2" />
-              <p className="text-sm text-muted-foreground">{isEn ? "Service details will be shown here" : "服務詳情將在此顯示"}</p>
-            </div>
+            {relatedOrders.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <ClipboardList className="h-8 w-8 text-muted-foreground/40 mb-2" />
+                <p className="text-sm text-muted-foreground">{isEn ? "No related orders yet" : "暫無相關訂單"}</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {relatedOrders.slice(0, 4).map((order) => (
+                  <button
+                    key={order.id}
+                    onClick={() => navigate(`/admin/orders/${order.id}`)}
+                    className="flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left hover:bg-muted/50"
+                  >
+                    <span className="font-mono text-xs">{order.id}</span>
+                    <span className="text-sm">HK${order.amount.toLocaleString()}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-base">{isEn ? "Doctor Overview" : "醫生概覽"}</CardTitle></CardHeader>
           <CardContent>
-            <div className="flex flex-col items-center justify-center py-8 text-center">
-              <Stethoscope className="h-8 w-8 text-muted-foreground/40 mb-2" />
-              <p className="text-sm text-muted-foreground">{isEn ? "Doctor details will be shown here" : "醫生詳情將在此顯示"}</p>
-            </div>
+            {relatedDoctors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <Stethoscope className="h-8 w-8 text-muted-foreground/40 mb-2" />
+                <p className="text-sm text-muted-foreground">{isEn ? "No doctors linked" : "暫無關聯醫生"}</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {relatedDoctors.slice(0, 4).map((doctor) => (
+                  <button
+                    key={doctor.id}
+                    onClick={() => navigate(`/admin/doctors/${doctor.id}`)}
+                    className="flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left hover:bg-muted/50"
+                  >
+                    <span className="text-sm">{isEn ? doctor.name : doctor.nameZh}</span>
+                    <span className="font-mono text-xs text-muted-foreground">{doctor.id}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

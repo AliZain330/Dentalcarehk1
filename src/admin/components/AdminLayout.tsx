@@ -2,38 +2,20 @@ import React from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import {
-  LayoutDashboard, Building2, Stethoscope, Users, ClipboardList,
-  Ticket, Wallet, Settings, Globe, LogOut, BarChart3, Shield,
+  Globe, LogOut, Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { adminFlatNavItems, adminNavGroups } from "@/admin/config/adminNavigation";
 
 const AdminLayout: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const isEn = language === "en";
-
-  const mainItems = [
-    { icon: LayoutDashboard, label: isEn ? "Dashboard" : "儀表板", path: "/admin/dashboard" },
-    { icon: Building2, label: isEn ? "Institutions" : "機構管理", path: "/admin/institutions" },
-    { icon: Stethoscope, label: isEn ? "Doctors" : "醫生管理", path: "/admin/doctors" },
-    { icon: Users, label: isEn ? "Users" : "用戶管理", path: "/admin/users" },
-    { icon: ClipboardList, label: isEn ? "Orders" : "訂單管理", path: "/admin/orders" },
-  ];
-
-  const analyticsItems = [
-    { icon: BarChart3, label: isEn ? "Statistics" : "數據統計", path: "/admin/stats" },
-    { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", path: "/admin/marketing" },
-    { icon: Wallet, label: isEn ? "Financials" : "財務管理", path: "/admin/financials" },
-  ];
-
-  const systemItems = [
-    { icon: Settings, label: isEn ? "Settings" : "系統設定", path: "/admin/settings" },
-  ];
-
-  const allItems = [...mainItems, ...analyticsItems, ...systemItems];
-  const isActive = (path: string) => location.pathname === path;
+  const allItems = adminFlatNavItems;
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(`${path}/`);
+  const activeItem = allItems.find((item) => isActive(item.path));
 
   const NavButton = ({ item }: { item: (typeof allItems)[0] }) => (
     <button
@@ -45,7 +27,7 @@ const AdminLayout: React.FC = () => {
       }`}
     >
       <item.icon className="h-4 w-4 shrink-0" />
-      {item.label}
+      {isEn ? item.labelEn : item.labelZh}
     </button>
   );
 
@@ -63,23 +45,18 @@ const AdminLayout: React.FC = () => {
           </div>
         </div>
 
-        <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
-          <p className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            {isEn ? "Management" : "管理"}
-          </p>
-          {mainItems.map((item) => <NavButton key={item.path} item={item} />)}
-
-          <Separator className="my-2" />
-          <p className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            {isEn ? "Analytics & Growth" : "分析及增長"}
-          </p>
-          {analyticsItems.map((item) => <NavButton key={item.path} item={item} />)}
-
-          <Separator className="my-2" />
-          <p className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-            {isEn ? "System" : "系統"}
-          </p>
-          {systemItems.map((item) => <NavButton key={item.path} item={item} />)}
+        <nav className="flex-1 px-3 py-3 space-y-2 overflow-y-auto">
+          {adminNavGroups.map((group, index) => (
+            <div key={group.titleEn}>
+              {index > 0 && <Separator className="my-2" />}
+              <p className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+                {isEn ? group.titleEn : group.titleZh}
+              </p>
+              <div className="space-y-0.5">
+                {group.items.map((item) => <NavButton key={item.path} item={item} />)}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="px-3 pb-3 space-y-0.5 border-t border-border pt-3">
@@ -124,10 +101,22 @@ const AdminLayout: React.FC = () => {
               }`}
             >
               <item.icon className="h-3.5 w-3.5" />
-              {item.label}
+              {isEn ? item.labelEn : item.labelZh}
             </button>
           ))}
         </div>
+
+        <header className="hidden lg:flex items-center justify-between border-b border-border bg-card px-6 py-3">
+          <div>
+            <p className="text-lg font-semibold text-foreground">
+              {activeItem ? (isEn ? activeItem.labelEn : activeItem.labelZh) : (isEn ? "Admin Portal" : "管理後台")}
+            </p>
+            <p className="text-xs text-muted-foreground">{location.pathname}</p>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => setLanguage(language === "en" ? "zh-HK" : "en")}>
+            {language === "en" ? "繁體中文" : "English"}
+          </Button>
+        </header>
 
         <main className="flex-1 p-4 lg:p-6 overflow-auto">
           <Outlet />
