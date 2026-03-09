@@ -107,6 +107,7 @@ import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
 import AdminDoctorReviewsPage from "@/admin/pages/AdminDoctorReviewsPage";
 import AdminDoctorDetailPage from "@/admin/pages/AdminDoctorDetailPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
+import AdminUserDetailPage from "@/admin/pages/AdminUserDetailPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
 import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
@@ -248,6 +249,7 @@ const App = () => (
                           <Route path="doctors/reviews" element={<AdminDoctorReviewsPage />} />
                           <Route path="doctors/:id" element={<AdminDoctorDetailPage />} />
                           <Route path="users" element={<AdminUsersPage />} />
+                          <Route path="users/:id" element={<AdminUserDetailPage />} />
                           <Route path="orders" element={<AdminOrdersPage />} />
                           <Route path="stats" element={<AdminStatsPage />} />
                           <Route path="marketing" element={<AdminMarketingPage />} />
