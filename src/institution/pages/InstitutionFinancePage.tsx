@@ -108,7 +108,7 @@ const InstitutionFinancePage: React.FC = () => {
   const [selectedStatement, setSelectedStatement] = useState<Statement | null>(null);
 
   // Withdrawal
-  const [withdrawalTab, setWithdrawalTab] = useState("records");
+  
   const [showBindDialog, setShowBindDialog] = useState(false);
   const [showWithdrawDialog, setShowWithdrawDialog] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState("");
