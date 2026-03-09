@@ -51,6 +51,10 @@ const VideoConsultationPage: React.FC = () => {
         <h1 className="text-sm font-medium text-primary-foreground">{t.consultation.videoConsultation}</h1>
       </div>
 
+      {/* TODO: Replace with real video SDK (e.g. Agora, Twilio) */}
+      <div className="px-4 pt-2">
+        <ApiPlaceholderNotice service="Video Consultation" />
+      </div>
       {/* Video area */}
       <div className="flex flex-1 flex-col items-center justify-center">
         {callState === "waiting" && (

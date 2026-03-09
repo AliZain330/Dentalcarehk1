@@ -48,6 +48,8 @@ const ForgotPasswordPage: React.FC = () => {
           </button>
 
           <h1 className="mb-2 text-xl font-bold text-foreground">{t.auth.forgotPassword}</h1>
+          {/* TODO: Replace with real email/SMS password reset service */}
+          <ApiPlaceholderNotice service="SMS / Email Verification" className="mb-4" />
 
           <div className="mb-6 flex rounded-lg bg-muted p-1">
             <button

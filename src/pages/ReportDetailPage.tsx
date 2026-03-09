@@ -80,10 +80,11 @@ const ReportDetailPage: React.FC = () => {
       {/* Actions */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
         <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
-          <Button variant="outline" className="flex-1" onClick={() => toast({ title: t.common.comingSoon })}>
+          {/* TODO: Replace with real file download/share services */}
+          <Button variant="outline" className="flex-1" onClick={() => toast({ title: language === "zh-HK" ? "檔案下載 API 金鑰尚未添加" : "File Download API key not added yet" })}>
             <Download className="mr-1 h-4 w-4" /> {t.reports.save}
           </Button>
-          <Button variant="outline" className="flex-1" onClick={() => toast({ title: t.common.comingSoon })}>
+          <Button variant="outline" className="flex-1" onClick={() => toast({ title: language === "zh-HK" ? "分享 API 金鑰尚未添加" : "Share API key not added yet" })}>
             <Share2 className="mr-1 h-4 w-4" /> {t.reports.share}
           </Button>
         </div>

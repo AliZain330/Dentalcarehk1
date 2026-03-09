@@ -66,6 +66,8 @@ const PaymentPage: React.FC = () => {
       </div>
 
       <div className="space-y-4 px-4">
+        {/* TODO: Replace with real payment gateway integration */}
+        <ApiPlaceholderNotice service="Payment" />
         <Card className="border-0 shadow-sm">
           <CardContent className="flex flex-col items-center p-6">
             <p className="text-sm text-muted-foreground">{t.booking.paymentAmount}</p>

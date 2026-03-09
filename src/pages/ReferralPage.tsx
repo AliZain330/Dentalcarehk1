@@ -17,6 +17,7 @@ const ReferralPage: React.FC = () => {
   const coinsBalance = 250;
 
   const handleCopy = () => {
+    // TODO: Replace with real share/clipboard API
     navigator.clipboard.writeText(referralLink).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

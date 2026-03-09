@@ -65,6 +65,8 @@ const VerificationPage: React.FC = () => {
           </button>
 
           <h1 className="mb-2 text-xl font-bold text-foreground">{t.auth.verificationTitle}</h1>
+          {/* TODO: Replace with real SMS/Email verification service */}
+          <ApiPlaceholderNotice service="SMS / Email Verification" className="mb-4" />
           <p className="mb-6 text-sm text-muted-foreground">
             {t.auth.verificationDesc} <span className="font-medium text-foreground">{target}</span>
           </p>

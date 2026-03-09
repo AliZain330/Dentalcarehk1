@@ -106,12 +106,14 @@ const ConsultationRequestPage: React.FC = () => {
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <label className="mb-2 block text-sm font-semibold text-foreground">{t.consultation.uploadImages}</label>
+            {/* TODO: Replace with real image upload/storage service */}
             <button
               onClick={() => setImageCount((c) => Math.min(c + 1, 5))}
-              className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-6 text-sm text-muted-foreground hover:border-primary"
+              className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-6 text-sm text-muted-foreground hover:border-primary"
             >
               <Camera className="h-5 w-5" />
               {t.consultation.tapToUpload} ({imageCount}/5)
+              <span className="text-[10px] text-warning">{language === "zh-HK" ? "圖片上傳 API 金鑰尚未添加" : "Image Upload API key not added yet"}</span>
             </button>
           </CardContent>
         </Card>
