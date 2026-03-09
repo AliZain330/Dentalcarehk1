@@ -97,6 +97,16 @@ import DoctorOrderHistoryPage from "@/doctor/pages/DoctorOrderHistoryPage";
 import DoctorSupportPage from "@/doctor/pages/DoctorSupportPage";
 import DoctorSettingsPage from "@/doctor/pages/DoctorSettingsPage";
 import { DoctorProvider } from "@/doctor/context/DoctorContext";
+import AdminLayout from "@/admin/components/AdminLayout";
+import AdminDashboardPage from "@/admin/pages/AdminDashboardPage";
+import AdminStatsPage from "@/admin/pages/AdminStatsPage";
+import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
+import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
+import AdminUsersPage from "@/admin/pages/AdminUsersPage";
+import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
+import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
+import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
+import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -222,6 +232,19 @@ const App = () => (
                           <Route path="/doctor/support" element={<DoctorSupportPage />} />
                           <Route path="/doctor/settings" element={<DoctorSettingsPage />} />
                           <Route path="/doctor/service-settings" element={<DoctorServiceSettingsPage />} />
+                        </Route>
+
+                        {/* Platform Admin */}
+                        <Route path="/admin" element={<AdminLayout />}>
+                          <Route path="dashboard" element={<AdminDashboardPage />} />
+                          <Route path="institutions" element={<AdminInstitutionsPage />} />
+                          <Route path="doctors" element={<AdminDoctorsPage />} />
+                          <Route path="users" element={<AdminUsersPage />} />
+                          <Route path="orders" element={<AdminOrdersPage />} />
+                          <Route path="stats" element={<AdminStatsPage />} />
+                          <Route path="marketing" element={<AdminMarketingPage />} />
+                          <Route path="financials" element={<AdminFinancialsPage />} />
+                          <Route path="settings" element={<AdminSettingsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />
