@@ -18,7 +18,6 @@ const ConsultationConfirmPage: React.FC = () => {
   const doctor = mockOnlineDoctors.find((d) => d.id === docId);
   const { getApplicable, calculateDeduction } = useCoupons();
   const [selectedCouponId, setSelectedCouponId] = useState<string | undefined>();
-  const [selectedCouponId, setSelectedCouponId] = useState<string | undefined>();
   const [showCoupons, setShowCoupons] = useState(false);
 
   if (!doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
