@@ -10,6 +10,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/RatingStars";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
+import { toast } from "@/hooks/use-toast";
 
 const InstitutionDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
