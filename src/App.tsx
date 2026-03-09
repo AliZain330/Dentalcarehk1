@@ -73,6 +73,7 @@ import InstitutionDoctorsPage from "@/institution/pages/InstitutionDoctorsPage";
 import InstitutionOrdersPage from "@/institution/pages/InstitutionOrdersPage";
 import InstitutionStatsPage from "@/institution/pages/InstitutionStatsPage";
 import InstitutionMarketingPage from "@/institution/pages/InstitutionMarketingPage";
+import InstitutionFinancePage from "@/institution/pages/InstitutionFinancePage";
 
 const queryClient = new QueryClient();
 
