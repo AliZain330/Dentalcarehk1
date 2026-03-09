@@ -10,6 +10,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/RatingStars";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
+import { toast } from "@/hooks/use-toast";
 
 const InstitutionDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -211,7 +213,8 @@ const InstitutionDetailPage: React.FC = () => {
             <Heart className={`h-4 w-4 ${saved ? "fill-destructive text-destructive" : ""}`} />
             {saved ? t.institutionDetail.saved : t.institutionDetail.saveToFavorites}
           </Button>
-          <Button variant="outline" className="flex items-center gap-1.5">
+          {/* TODO: Replace with real map/navigation integration */}
+          <Button variant="outline" className="flex items-center gap-1.5" onClick={() => toast({ title: language === "zh-HK" ? "地圖 API 金鑰尚未添加" : "Map API key not added yet", description: language === "zh-HK" ? "目前使用模擬數據運行" : "Currently running with mock data" })}>
             <Navigation className="h-4 w-4" />
             {t.institutionDetail.getDirections}
           </Button>

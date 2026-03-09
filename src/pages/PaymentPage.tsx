@@ -8,6 +8,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import PaymentMethodCard from "@/components/PaymentMethodCard";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const PaymentPage: React.FC = () => {
   const { instId, svcId, docId } = useParams<{ instId: string; svcId: string; docId: string }>();
@@ -65,6 +66,8 @@ const PaymentPage: React.FC = () => {
       </div>
 
       <div className="space-y-4 px-4">
+        {/* TODO: Replace with real payment gateway integration */}
+        <ApiPlaceholderNotice service="Payment" />
         <Card className="border-0 shadow-sm">
           <CardContent className="flex flex-col items-center p-6">
             <p className="text-sm text-muted-foreground">{t.booking.paymentAmount}</p>

@@ -7,6 +7,7 @@ import { ArrowLeft, Send, Camera, Clock, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const MAX_USER_MESSAGES = 10;
 
@@ -105,6 +106,10 @@ const ConsultationChatPage: React.FC = () => {
         </div>
       </div>
 
+      {/* TODO: Replace with real chat/messaging service */}
+      <div className="px-4 pt-2">
+        <ApiPlaceholderNotice service="Chat / Messaging" />
+      </div>
       {/* Info bar */}
       <div className="flex items-center justify-between bg-secondary px-4 py-2">
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
