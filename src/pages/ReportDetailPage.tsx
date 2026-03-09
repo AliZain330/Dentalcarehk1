@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useConsultation } from "@/context/ConsultationContext";
 import { mockOnlineDoctors } from "@/data/mockData";
-import { ArrowLeft, Download, Share2, MessageSquareText, Video } from "lucide-react";
+import { ArrowLeft, Download, Share2, MessageSquareText, Video, Calendar, Stethoscope, Pill } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -30,25 +30,34 @@ const ReportDetailPage: React.FC = () => {
       <div className="space-y-4 px-4">
         {/* Header */}
         <Card className="border-0 shadow-sm">
-          <CardContent className="flex items-center gap-3 p-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-              <span className="text-lg font-bold text-primary">{doctor?.name[lang].charAt(0)}</span>
+          <CardContent className="p-4">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <Stethoscope className="h-6 w-6 text-primary" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-foreground">{doctor?.name[lang]}</p>
+                <p className="text-xs text-muted-foreground">{doctor?.specialty[lang]}</p>
+              </div>
+              <span className="flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-xs text-info">
+                {report.consultationType === "text_image" ? <MessageSquareText className="h-3 w-3" /> : <Video className="h-3 w-3" />}
+                {report.consultationType === "text_image" ? t.consultation.textImage : t.consultation.video}
+              </span>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">{doctor?.name[lang]}</p>
-              <p className="text-xs text-muted-foreground">{new Date(report.createdAt).toLocaleDateString()}</p>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Calendar className="h-3 w-3" />
+              {new Date(report.createdAt).toLocaleDateString()}
             </div>
-            <span className="flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-xs text-info">
-              {report.consultationType === "text_image" ? <MessageSquareText className="h-3 w-3" /> : <Video className="h-3 w-3" />}
-              {report.consultationType === "text_image" ? t.consultation.textImage : t.consultation.video}
-            </span>
           </CardContent>
         </Card>
 
         {/* Diagnosis */}
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <h3 className="mb-3 text-sm font-semibold text-foreground">{t.consultation.diagnosisNotes}</h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Stethoscope className="h-4 w-4 text-primary" />
+              <h3 className="text-sm font-semibold text-foreground">{t.consultation.diagnosisNotes}</h3>
+            </div>
             <p className="text-sm leading-relaxed text-muted-foreground">{report.diagnosisNotes[lang]}</p>
           </CardContent>
         </Card>
@@ -57,14 +66,19 @@ const ReportDetailPage: React.FC = () => {
         {report.medicationAdvice && (
           <Card className="border-0 shadow-sm">
             <CardContent className="p-4">
-              <h3 className="mb-3 text-sm font-semibold text-foreground">{t.consultation.medicationAdvice}</h3>
+              <div className="mb-3 flex items-center gap-2">
+                <Pill className="h-4 w-4 text-warning" />
+                <h3 className="text-sm font-semibold text-foreground">{t.consultation.medicationAdvice}</h3>
+              </div>
               <p className="text-sm leading-relaxed text-muted-foreground">{report.medicationAdvice[lang]}</p>
             </CardContent>
           </Card>
         )}
+      </div>
 
-        {/* Actions */}
-        <div className="flex gap-3">
+      {/* Actions */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
+        <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
           <Button variant="outline" className="flex-1" onClick={() => toast({ title: t.common.comingSoon })}>
             <Download className="mr-1 h-4 w-4" /> {t.reports.save}
           </Button>

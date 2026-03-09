@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBooking } from "@/context/BookingContext";
-import { mockInstitutions, mockCoupons } from "@/data/mockData";
-import { ArrowLeft, Clock, Ticket, ChevronRight } from "lucide-react";
+import { mockInstitutions, getApplicableCoupons, calculateCouponDeduction } from "@/data/mockData";
+import { ArrowLeft, Ticket, ChevronRight, Info, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -23,14 +23,10 @@ const BookingConfirmPage: React.FC = () => {
 
   if (!institution || !service || !doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
-  const availableCoupons = mockCoupons.filter((c) => c.status === "available");
-  const selectedCoupon = availableCoupons.find((c) => c.id === selectedCouponId);
+  const applicableCoupons = getApplicableCoupons(service.price, "in_clinic");
+  const selectedCoupon = applicableCoupons.find((c) => c.id === selectedCouponId);
 
-  const couponDeduction = selectedCoupon
-    ? selectedCoupon.discountAmount > 0
-      ? selectedCoupon.discountAmount
-      : Math.round(service.price * 0.2) // 20% for percentage coupons
-    : 0;
+  const couponDeduction = selectedCoupon ? calculateCouponDeduction(selectedCoupon, service.price) : 0;
   const finalAmount = Math.max(0, service.price - couponDeduction);
 
   const rows = [
@@ -67,8 +63,10 @@ const BookingConfirmPage: React.FC = () => {
             <Ticket className="h-5 w-5 text-warning" />
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground">{t.booking.applyCoupon}</p>
-              {selectedCoupon && (
+              {selectedCoupon ? (
                 <p className="text-xs text-primary">{selectedCoupon.title[lang]} ({selectedCoupon.discount})</p>
+              ) : (
+                <p className="text-xs text-muted-foreground">{applicableCoupons.length} {t.couponsPage.available.toLowerCase()}</p>
               )}
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -77,23 +75,35 @@ const BookingConfirmPage: React.FC = () => {
 
         {showCoupons && (
           <Card className="border-0 shadow-sm">
-            <CardContent className="p-3 space-y-2">
+            <CardContent className="space-y-2 p-3">
               <button
                 onClick={() => { setSelectedCouponId(undefined); setShowCoupons(false); }}
                 className={`w-full rounded-lg border p-3 text-left text-sm transition-all ${!selectedCouponId ? "border-primary bg-secondary" : "border-border"}`}
               >
                 {t.booking.noCoupon}
               </button>
-              {availableCoupons.map((c) => (
+              {applicableCoupons.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => { setSelectedCouponId(c.id); setShowCoupons(false); }}
                   className={`w-full rounded-lg border p-3 text-left transition-all ${selectedCouponId === c.id ? "border-primary bg-secondary" : "border-border"}`}
                 >
-                  <p className="text-sm font-medium text-foreground">{c.title[lang]}</p>
-                  <p className="text-xs text-primary">{c.discount}</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-medium text-foreground">{c.title[lang]}</p>
+                    <span className="text-sm font-bold text-primary">{c.discount}</span>
+                  </div>
+                  <div className="mt-1 flex items-start gap-1">
+                    <Info className="mt-0.5 h-3 w-3 shrink-0 text-muted-foreground" />
+                    <p className="text-[11px] text-muted-foreground">{c.conditions[lang]}</p>
+                  </div>
                 </button>
               ))}
+              {applicableCoupons.length === 0 && (
+                <div className="flex items-center gap-2 rounded-lg bg-muted p-3">
+                  <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">{t.couponsPage.noCouponsApplicable}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

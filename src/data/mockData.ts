@@ -68,6 +68,9 @@ export interface Coupon {
   discountAmount: number;
   validUntil: string;
   status: "available" | "used" | "expired";
+  minSpend: number;
+  conditions: { en: string; zh: string };
+  applicableTo: "all" | "in_clinic" | "consultation";
 }
 
 export interface TimeSlot {
@@ -128,7 +131,6 @@ export interface ConsultationOrder {
   cancelledAt?: string;
   refundAmount?: number;
   reviewed?: boolean;
-  // Completed output
   diagnosisNotes?: { en: string; zh: string };
   medicationAdvice?: { en: string; zh: string };
   consultationStartedAt?: string;
@@ -141,6 +143,14 @@ export interface ChatMessage {
   type: "text" | "image";
   content: string;
   timestamp: string;
+}
+
+export interface CoinTransaction {
+  id: string;
+  type: "earned" | "spent";
+  amount: number;
+  description: { en: string; zh: string };
+  date: string;
 }
 
 // Generate time slots for a given date
@@ -226,6 +236,15 @@ export const mockChatMessages: ChatMessage[] = [
   { id: "m2", sender: "doctor", type: "text", content: "Hello! Thank you for reaching out. Can you describe the pain? Is it sharp or dull? Does it get worse when eating?", timestamp: "2026-03-09T10:02:00" },
   { id: "m3", sender: "user", type: "text", content: "It's a sharp pain, especially when I drink cold water or bite down on food.", timestamp: "2026-03-09T10:05:00" },
   { id: "m4", sender: "doctor", type: "text", content: "Based on your description, this could be a cavity or a cracked tooth. I would recommend coming in for an X-ray. In the meantime, avoid very cold/hot foods and you can take ibuprofen for pain relief.", timestamp: "2026-03-09T10:08:00" },
+];
+
+// Mock coin transactions
+export const mockCoinTransactions: CoinTransaction[] = [
+  { id: "ct1", type: "earned", amount: 100, description: { en: "Referral: Alice signed up", zh: "推薦：Alice 已註冊" }, date: "2026-02-15" },
+  { id: "ct2", type: "earned", amount: 50, description: { en: "Referral: Alice completed first booking", zh: "推薦：Alice 完成首次預約" }, date: "2026-02-20" },
+  { id: "ct3", type: "earned", amount: 100, description: { en: "Referral: Ben signed up", zh: "推薦：Ben 已註冊" }, date: "2026-03-01" },
+  { id: "ct4", type: "spent", amount: -50, description: { en: "Used for order ORD20260301001", zh: "用於訂單 ORD20260301001" }, date: "2026-03-02" },
+  { id: "ct5", type: "earned", amount: 50, description: { en: "Welcome bonus", zh: "歡迎獎勵" }, date: "2026-01-10" },
 ];
 
 // ---- Existing Mock Data ----
@@ -352,7 +371,28 @@ export const mockPopularServices: PopularService[] = [
 ];
 
 export const mockCoupons: Coupon[] = [
-  { id: "c1", title: { en: "New Patient Discount", zh: "新患者優惠" }, discount: "20%", discountAmount: 0, validUntil: "2026-06-30", status: "available" },
-  { id: "c2", title: { en: "Scaling Promo", zh: "洗牙優惠" }, discount: "HK$100", discountAmount: 100, validUntil: "2026-04-30", status: "available" },
-  { id: "c3", title: { en: "Referral Bonus", zh: "推薦獎賞" }, discount: "HK$200", discountAmount: 200, validUntil: "2025-12-31", status: "expired" },
+  { id: "c1", title: { en: "New Patient Discount", zh: "新患者優惠" }, discount: "20%", discountAmount: 0, validUntil: "2026-06-30", status: "available", minSpend: 500, conditions: { en: "Applicable to all services. Min. spend HK$500.", zh: "適用於所有服務。最低消費 HK$500。" }, applicableTo: "all" },
+  { id: "c2", title: { en: "Scaling Promo", zh: "洗牙優惠" }, discount: "HK$100", discountAmount: 100, validUntil: "2026-04-30", status: "available", minSpend: 300, conditions: { en: "Applicable to in-clinic treatments only. Min. spend HK$300.", zh: "僅適用於到診治療。最低消費 HK$300。" }, applicableTo: "in_clinic" },
+  { id: "c3", title: { en: "Referral Bonus", zh: "推薦獎賞" }, discount: "HK$200", discountAmount: 200, validUntil: "2025-12-31", status: "expired", minSpend: 1000, conditions: { en: "Applicable to all services. Min. spend HK$1,000.", zh: "適用於所有服務。最低消費 HK$1,000。" }, applicableTo: "all" },
+  { id: "c4", title: { en: "Consultation Discount", zh: "諮詢優惠" }, discount: "HK$50", discountAmount: 50, validUntil: "2026-05-31", status: "available", minSpend: 150, conditions: { en: "Applicable to online consultations only. Min. spend HK$150.", zh: "僅適用於線上諮詢。最低消費 HK$150。" }, applicableTo: "consultation" },
+  { id: "c5", title: { en: "Spring Festival Special", zh: "春節特別優惠" }, discount: "15%", discountAmount: 0, validUntil: "2026-02-28", status: "used", minSpend: 800, conditions: { en: "Applicable to all services. Min. spend HK$800.", zh: "適用於所有服務。最低消費 HK$800。" }, applicableTo: "all" },
 ];
+
+// Helper: get applicable coupons for a given price and type
+export const getApplicableCoupons = (price: number, type: "in_clinic" | "consultation"): Coupon[] => {
+  return mockCoupons.filter((c) => {
+    if (c.status !== "available") return false;
+    if (c.minSpend > price) return false;
+    if (c.applicableTo !== "all" && c.applicableTo !== type) return false;
+    return true;
+  });
+};
+
+// Helper: calculate coupon deduction
+export const calculateCouponDeduction = (coupon: Coupon, price: number): number => {
+  if (coupon.discountAmount > 0) return coupon.discountAmount;
+  // Percentage discount — extract number from string like "20%" or "15%"
+  const pctMatch = coupon.discount.match(/(\d+)%/);
+  if (pctMatch) return Math.round(price * parseInt(pctMatch[1]) / 100);
+  return 0;
+};

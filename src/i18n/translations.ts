@@ -14,8 +14,8 @@ export const translations = {
       about: "About", photos: "Clinic Photos", hours: "Business Hours", phone: "Phone", address: "Address", transport: "How to Get Here", doctors: "Onboarded Doctors", services: "Services", reviews: "Patient Reviews", viewAllDoctors: "View All Doctors", viewAllServices: "View All Services", viewAllReviews: "View All Reviews", saveToFavorites: "Save", saved: "Saved", getDirections: "Get Directions", bookNow: "Book Now", yearsExp: "yrs exp", perVisit: "per visit", verified: "Verified", mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
     },
     savedInstitutions: { title: "Saved Institutions", empty: "No saved institutions", emptyDesc: "Institutions you save will appear here" },
-    couponsPage: { title: "My Coupons", available: "Available", used: "Used", expired: "Expired", empty: "No coupons yet", emptyDesc: "Your coupons will appear here", off: "OFF", validUntil: "Valid until" },
-    referralPage: { title: "Referral Rewards", subtitle: "Invite friends, earn coins!", howItWorks: "How It Works", step1: "Share your referral link", step2: "Friend signs up and books", step3: "You both earn reward coins", yourLink: "Your Referral Link", copied: "Copied!", copy: "Copy", qrCode: "QR Code", balance: "Coin Balance", coins: "coins", history: "Reward History", emptyHistory: "No rewards yet", emptyHistoryDesc: "Start inviting friends to earn coins", invited: "invited via your link" },
+    couponsPage: { title: "My Coupons", available: "Available", used: "Used", expired: "Expired", empty: "No coupons yet", emptyDesc: "Your coupons will appear here", off: "OFF", validUntil: "Valid until", noCouponsApplicable: "No coupons applicable for this order" },
+    referralPage: { title: "Referral Rewards", subtitle: "Invite friends, earn coins!", howItWorks: "How It Works", step1: "Share your referral link", step2: "Friend signs up and books", step3: "You both earn reward coins", yourLink: "Your Referral Link", copied: "Copied!", copy: "Copy", qrCode: "QR Code", balance: "Coin Balance", coins: "coins", history: "Transaction History", emptyHistory: "No transactions yet", emptyHistoryDesc: "Start inviting friends to earn coins", invited: "invited via your link", conversion: "≈ HKD value", conversionNote: "10 coins = HK$1. Coins can offset future order payments.", earned: "Earned", spent: "Spent" },
     booking: {
       selectService: "Select Service", serviceDetails: "Service Details", duration: "Duration", minutes: "min", category: "Category", selectDoctor: "Select Doctor", doctorDetails: "Doctor Details", consultations: "consultations", specialties: "Specialties", credentials: "Credentials", bio: "About", availableServices: "Available Services", continueBooking: "Continue Booking", selectTime: "Select Appointment Time", morning: "Morning", afternoon: "Afternoon", noSlots: "No available slots for this date", selectedSlot: "Selected", unavailable: "Unavailable", confirmBooking: "Confirm Booking", bookingSummary: "Booking Summary", institution: "Institution", service: "Service", doctor: "Doctor", dateTime: "Date & Time", treatmentDuration: "Treatment Duration", originalPrice: "Original Price", couponDiscount: "Coupon Discount", finalAmount: "Final Amount", applyCoupon: "Apply Coupon", selectCoupon: "Select Coupon", noCoupon: "No coupon", proceedToPayment: "Proceed to Payment", payment: "Payment", paymentAmount: "Payment Amount", selectPaymentMethod: "Select Payment Method", creditCard: "Credit Card", alipay: "Alipay", wechatPay: "WeChat Pay", payNow: "Pay Now", processing: "Processing...", paymentSuccess: "Payment Successful!", paymentSuccessDesc: "Your appointment has been booked successfully", orderNumber: "Order Number", viewOrder: "View Order", backToHome: "Back to Home",
     },
@@ -30,7 +30,7 @@ export const translations = {
     },
     orders: { title: "My Orders", all: "All", pending: "Pending", confirmed: "Confirmed", completed: "Completed", cancelled: "Cancelled", empty: "No orders yet", emptyDesc: "Your appointment orders will appear here" },
     reports: { title: "Diagnosis Reports", empty: "No reports yet", emptyDesc: "Your diagnosis reports will appear here after consultations", searchReports: "Search reports...", reportDetail: "Report Details", save: "Save", share: "Share" },
-    profile: { title: "Profile", personalInfo: "Personal Information", languageSettings: "Language Settings", savedInstitutions: "Saved Institutions", coupons: "Coupons", referralRewards: "Referral Rewards", logout: "Logout", language: "Language", english: "English", chinese: "繁體中文" },
+    profile: { title: "Profile", personalInfo: "Personal Information", languageSettings: "Language Settings", savedInstitutions: "Saved Institutions", coupons: "Coupons", referralRewards: "Referral Rewards", logout: "Logout", language: "Language", english: "English", chinese: "繁體中文", phone: "Phone Number", email: "Email", orderHistory: "Order History", diagnosisReports: "Diagnosis Reports" },
     common: { currency: "HKD", search: "Search", cancel: "Cancel", confirm: "Confirm", save: "Save", back: "Back", next: "Next", loading: "Loading...", comingSoon: "Coming Soon" },
   },
   "zh-HK": {
@@ -48,8 +48,8 @@ export const translations = {
       about: "關於", photos: "診所照片", hours: "營業時間", phone: "電話", address: "地址", transport: "交通指引", doctors: "駐診醫生", services: "服務項目", reviews: "患者評價", viewAllDoctors: "查看全部醫生", viewAllServices: "查看全部服務", viewAllReviews: "查看全部評價", saveToFavorites: "收藏", saved: "已收藏", getDirections: "導航", bookNow: "立即預約", yearsExp: "年經驗", perVisit: "每次", verified: "已認證", mon: "星期一", tue: "星期二", wed: "星期三", thu: "星期四", fri: "星期五", sat: "星期六", sun: "星期日",
     },
     savedInstitutions: { title: "已收藏機構", empty: "暫無收藏機構", emptyDesc: "您收藏的機構將會顯示在這裡" },
-    couponsPage: { title: "我的優惠券", available: "可用", used: "已使用", expired: "已過期", empty: "暫無優惠券", emptyDesc: "您的優惠券將會顯示在這裡", off: "折扣", validUntil: "有效期至" },
-    referralPage: { title: "推薦獎賞", subtitle: "邀請朋友，賺取積分！", howItWorks: "如何運作", step1: "分享您的推薦連結", step2: "朋友註冊並預約", step3: "您和朋友都可獲得獎賞積分", yourLink: "您的推薦連結", copied: "已複製！", copy: "複製", qrCode: "二維碼", balance: "積分餘額", coins: "積分", history: "獎賞紀錄", emptyHistory: "暫無獎賞紀錄", emptyHistoryDesc: "開始邀請朋友賺取積分", invited: "透過您的連結邀請" },
+    couponsPage: { title: "我的優惠券", available: "可用", used: "已使用", expired: "已過期", empty: "暫無優惠券", emptyDesc: "您的優惠券將會顯示在這裡", off: "折扣", validUntil: "有效期至", noCouponsApplicable: "沒有適用於此訂單的優惠券" },
+    referralPage: { title: "推薦獎賞", subtitle: "邀請朋友，賺取積分！", howItWorks: "如何運作", step1: "分享您的推薦連結", step2: "朋友註冊並預約", step3: "您和朋友都可獲得獎賞積分", yourLink: "您的推薦連結", copied: "已複製！", copy: "複製", qrCode: "二維碼", balance: "積分餘額", coins: "積分", history: "交易紀錄", emptyHistory: "暫無交易紀錄", emptyHistoryDesc: "開始邀請朋友賺取積分", invited: "透過您的連結邀請", conversion: "≈ 港幣價值", conversionNote: "10積分 = HK$1。積分可用於抵扣未來訂單付款。", earned: "獲得", spent: "使用" },
     booking: {
       selectService: "選擇服務", serviceDetails: "服務詳情", duration: "時長", minutes: "分鐘", category: "類別", selectDoctor: "選擇醫生", doctorDetails: "醫生詳情", consultations: "次診症", specialties: "專科", credentials: "資歷", bio: "簡介", availableServices: "可提供服務", continueBooking: "繼續預約", selectTime: "選擇預約時間", morning: "上午", afternoon: "下午", noSlots: "該日期無可用時段", selectedSlot: "已選", unavailable: "不可用", confirmBooking: "確認預約", bookingSummary: "預約摘要", institution: "機構", service: "服務", doctor: "醫生", dateTime: "日期及時間", treatmentDuration: "治療時長", originalPrice: "原價", couponDiscount: "優惠券折扣", finalAmount: "應付金額", applyCoupon: "使用優惠券", selectCoupon: "選擇優惠券", noCoupon: "不使用優惠券", proceedToPayment: "前往付款", payment: "付款", paymentAmount: "付款金額", selectPaymentMethod: "選擇付款方式", creditCard: "信用卡", alipay: "支付寶", wechatPay: "微信支付", payNow: "立即付款", processing: "處理中...", paymentSuccess: "付款成功！", paymentSuccessDesc: "您的預約已成功確認", orderNumber: "訂單編號", viewOrder: "查看訂單", backToHome: "返回首頁",
     },
@@ -64,13 +64,11 @@ export const translations = {
     },
     orders: { title: "我的訂單", all: "全部", pending: "待確認", confirmed: "已確認", completed: "已完成", cancelled: "已取消", empty: "暫無訂單", emptyDesc: "您的預約訂單將會顯示在這裡" },
     reports: { title: "診斷報告", empty: "暫無報告", emptyDesc: "您的診斷報告將於諮詢後顯示", searchReports: "搜尋報告...", reportDetail: "報告詳情", save: "儲存", share: "分享" },
-    profile: { title: "我的", personalInfo: "個人資料", languageSettings: "語言設定", savedInstitutions: "已收藏機構", coupons: "優惠券", referralRewards: "推薦獎賞", logout: "登出", language: "語言", english: "English", chinese: "繁體中文" },
-    common: { currency: "港幣", search: "搜尋", cancel: "取消", confirm: "確認", save: "儲存", back: "返回", next: "下一步", loading: "載入中...", comingSoon: "即將推出" },
+    profile: { title: "我的", personalInfo: "個人資料", languageSettings: "語言設定", savedInstitutions: "已收藏機構", coupons: "優惠券", referralRewards: "推薦獎賞", logout: "登出", language: "語言", english: "English", chinese: "繁體中文", phone: "手機號碼", email: "電郵", orderHistory: "訂單紀錄", diagnosisReports: "診斷報告" },
+    common: { currency: "HKD", search: "搜尋", cancel: "取消", confirm: "確認", save: "儲存", back: "返回", next: "下一步", loading: "載入中...", comingSoon: "即將推出" },
   },
 } as const;
 
 export type Language = keyof typeof translations;
-type DeepStringify<T> = {
-  [K in keyof T]: T[K] extends object ? DeepStringify<T[K]> : string;
-};
-export type TranslationKeys = DeepStringify<typeof translations["en"]>;
+export type Translations = (typeof translations)[Language];
+export type TranslationKeys = Translations;

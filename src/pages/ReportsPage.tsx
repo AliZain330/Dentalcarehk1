@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useConsultation } from "@/context/ConsultationContext";
 import { mockOnlineDoctors } from "@/data/mockData";
-import { FileText, Search, MessageSquareText, Video } from "lucide-react";
+import { FileText, Search, MessageSquareText, Video, Calendar, Stethoscope } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
@@ -62,20 +62,23 @@ const ReportsPage: React.FC = () => {
               >
                 <CardContent className="p-4">
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">{report.orderNumber}</span>
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
+                      {new Date(report.createdAt).toLocaleDateString()}
+                    </div>
                     <span className="flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-xs text-info">
                       {report.consultationType === "text_image" ? <MessageSquareText className="h-3 w-3" /> : <Video className="h-3 w-3" />}
                       {report.consultationType === "text_image" ? t.consultation.textImage : t.consultation.video}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                      <span className="text-sm font-bold text-primary">{doc?.name[lang].charAt(0)}</span>
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                      <Stethoscope className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-semibold text-foreground">{doc?.name[lang]}</p>
-                      <p className="text-xs text-muted-foreground">{new Date(report.createdAt).toLocaleDateString()}</p>
-                      <p className="mt-1 text-xs text-muted-foreground line-clamp-1">{report.diagnosisNotes?.[lang]}</p>
+                      <p className="text-xs text-muted-foreground">{doc?.specialty[lang]}</p>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{report.diagnosisNotes?.[lang]}</p>
                     </div>
                   </div>
                 </CardContent>
