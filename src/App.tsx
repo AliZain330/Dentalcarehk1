@@ -62,6 +62,11 @@ import SettingsPage from "@/pages/SettingsPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import UserAgreementPage from "@/pages/UserAgreementPage";
 import NotFound from "./pages/NotFound";
+import { InstitutionProvider } from "@/institution/context/InstitutionContext";
+import InstitutionLayout from "@/institution/components/InstitutionLayout";
+import InstitutionRegisterPage from "@/institution/pages/InstitutionRegisterPage";
+import InstitutionCredentialsPage from "@/institution/pages/InstitutionCredentialsPage";
+import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPage";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +79,7 @@ const App = () => (
             <ConsultationProvider>
               <CouponProvider>
                 <ReferralProvider>
+                  <InstitutionProvider>
                   <TooltipProvider>
                     <Toaster />
                     <Sonner />
