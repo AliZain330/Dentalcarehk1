@@ -21,7 +21,9 @@ const ProfilePage: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const { favorites } = useFavorites();
-  const availableCoupons = mockCoupons.filter((c) => c.status === "available").length;
+  const { coupons } = useCoupons();
+  const { coinsBalance } = useReferral();
+  const availableCoupons = coupons.filter((c) => c.status === "available").length;
 
   const accountItems: MenuItem[] = [
     { icon: User, label: t.profile.personalInfo, action: () => {} },
