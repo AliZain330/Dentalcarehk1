@@ -1,62 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, Settings, User, Shield, Bell, Globe, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ChevronRight, Settings, User, Shield, Wallet, ClipboardList, MessageSquare, HelpCircle, Cog, Camera } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const DoctorProfilePage: React.FC = () => {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language !== "zh-HK";
+  const [showUploadNotice, setShowUploadNotice] = useState(false);
 
-  const menuItems = [
-    { icon: Settings, label: isEn ? "Service Settings" : "服務設定", desc: isEn ? "Consultation, pricing, schedule" : "接診、定價、排班", path: "/doctor/service-settings" },
-    { icon: User, label: isEn ? "Edit Profile" : "編輯資料", desc: isEn ? "Name, bio, specialties" : "姓名、簡介、專科", path: "/doctor/profile-completion" },
-    { icon: Shield, label: isEn ? "Account Security" : "帳戶安全", desc: isEn ? "Password, devices" : "密碼、裝置", action: () => toast({ title: isEn ? "Coming soon" : "即將推出" }) },
-    { icon: Bell, label: isEn ? "Notifications" : "通知設定", desc: isEn ? "Manage alerts" : "管理提醒", action: () => toast({ title: isEn ? "Coming soon" : "即將推出" }) },
-    { icon: Globe, label: isEn ? "Language" : "語言", desc: isEn ? "English / 繁體中文" : "English / 繁體中文", action: () => setLanguage(isEn ? "zh-HK" : "en") },
+  const sections = [
+    {
+      title: isEn ? "ACCOUNT" : "帳戶",
+      items: [
+        { icon: User, label: isEn ? "Personal Information" : "個人資訊", desc: isEn ? "Profile, specialties, avatar" : "資料、專科、頭像", path: "/doctor/personal-info" },
+        { icon: Shield, label: isEn ? "Account Security" : "帳戶安全", desc: isEn ? "Password, login devices" : "密碼、登入裝置", path: "/doctor/account-security" },
+      ],
+    },
+    {
+      title: isEn ? "PRACTICE" : "執業",
+      items: [
+        { icon: Settings, label: isEn ? "Service Settings" : "服務設定", desc: isEn ? "Consultation, pricing, schedule" : "接診、定價、排班", path: "/doctor/service-settings" },
+        { icon: ClipboardList, label: isEn ? "Order History" : "歷史訂單", desc: isEn ? "All past orders" : "所有過往訂單", path: "/doctor/order-history" },
+        { icon: MessageSquare, label: isEn ? "Review Management" : "評價管理", desc: isEn ? "View and reply to reviews" : "查看和回覆評價", path: "/doctor/reviews" },
+        { icon: Wallet, label: isEn ? "Earnings Details" : "收入明細", desc: isEn ? "Fees, commissions, payouts" : "費用、佣金、結算", path: "/doctor/earnings" },
+      ],
+    },
+    {
+      title: isEn ? "SUPPORT" : "支援",
+      items: [
+        { icon: HelpCircle, label: isEn ? "Customer Service" : "客服中心", desc: isEn ? "FAQ, feedback, appeal" : "常見問題、反饋、申訴", path: "/doctor/support" },
+        { icon: Cog, label: isEn ? "Settings" : "設定", desc: isEn ? "Language, notifications, about" : "語言、通知、關於", path: "/doctor/settings" },
+      ],
+    },
   ];
 
   return (
     <div className="animate-fade-in p-4 pt-5">
       {/* Profile header */}
-      <Card className="mb-4 border-0 shadow-sm">
-        <CardContent className="p-5 flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-            <span className="text-xl font-bold text-primary-foreground">{isEn ? "CW" : "陳"}</span>
+      <Card className="mb-5 border-0 shadow-sm">
+        <CardContent className="p-5">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
+                <span className="text-xl font-bold text-primary-foreground">{isEn ? "CW" : "陳"}</span>
+              </div>
+              <button
+                className="absolute -bottom-0.5 -right-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-card border border-border shadow-sm"
+                onClick={() => setShowUploadNotice(true)}
+              >
+                <Camera className="h-3 w-3 text-muted-foreground" />
+              </button>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg font-bold text-foreground">{isEn ? "Dr. Chen Wei" : "陳偉醫生"}</h2>
+              <p className="text-sm text-muted-foreground">{isEn ? "General Dentistry" : "一般牙科"}</p>
+              <div className="mt-1 flex items-center gap-2">
+                <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-[10px]">{isEn ? "Verified" : "已認證"}</Badge>
+                <Badge variant="outline" className="text-[10px]">HKU–SZH</Badge>
+              </div>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-foreground">{isEn ? "Dr. Chen Wei" : "陳偉醫生"}</h2>
-            <p className="text-sm text-muted-foreground">{isEn ? "General Dentistry • HKU–SZH" : "一般牙科 • 港大深圳醫院"}</p>
-            <Badge variant="outline" className="mt-1 bg-success/10 text-success border-success/20">{isEn ? "Verified" : "已認證"}</Badge>
+
+          {/* Quick stats */}
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-lg bg-muted/50 p-2.5 text-center">
+              <p className="text-lg font-bold text-foreground">42</p>
+              <p className="text-[10px] text-muted-foreground">{isEn ? "Orders" : "訂單"}</p>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-2.5 text-center">
+              <p className="text-lg font-bold text-foreground">4.8</p>
+              <p className="text-[10px] text-muted-foreground">{isEn ? "Rating" : "評分"}</p>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-2.5 text-center">
+              <p className="text-lg font-bold text-foreground">$28.6K</p>
+              <p className="text-[10px] text-muted-foreground">{isEn ? "Earned" : "收入"}</p>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Menu */}
-      <div className="space-y-2">
-        {menuItems.map((item, i) => (
-          <Card key={i} className="cursor-pointer border-0 shadow-sm hover:shadow-md transition-shadow" onClick={() => item.path ? navigate(item.path) : item.action?.()}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted"><item.icon className="h-4 w-4 text-foreground" /></div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-foreground">{item.label}</p>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
-              </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      {/* Menu sections */}
+      {sections.map((section) => (
+        <div key={section.title} className="mb-4">
+          <p className="mb-2 text-xs font-semibold text-muted-foreground px-1">{section.title}</p>
+          <div className="space-y-1.5">
+            {section.items.map((item) => (
+              <Card key={item.label} className="cursor-pointer border-0 shadow-sm hover:shadow-md transition-shadow" onClick={() => navigate(item.path)}>
+                <CardContent className="p-3.5 flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
+                    <item.icon className="h-4 w-4 text-foreground" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-foreground">{item.label}</p>
+                    <p className="text-xs text-muted-foreground truncate">{item.desc}</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Upload notice overlay */}
+      {showUploadNotice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowUploadNotice(false)}>
+          <Card className="max-w-sm" onClick={(e) => e.stopPropagation()}>
+            <CardContent className="p-6">
+              <ApiPlaceholderNotice service={isEn ? "Avatar Upload" : "頭像上傳"} />
+              <Button className="mt-4 w-full" variant="outline" onClick={() => setShowUploadNotice(false)}>{isEn ? "Close" : "關閉"}</Button>
             </CardContent>
           </Card>
-        ))}
-
-        <Card className="cursor-pointer border-0 shadow-sm hover:shadow-md transition-shadow" onClick={() => navigate("/doctor/login")}>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-destructive/10"><LogOut className="h-4 w-4 text-destructive" /></div>
-            <p className="text-sm font-semibold text-destructive">{isEn ? "Logout" : "登出"}</p>
-          </CardContent>
-        </Card>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
