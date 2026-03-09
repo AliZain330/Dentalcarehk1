@@ -78,7 +78,7 @@ const initialMockReviews: Review[] = [
     text: "矯齒諮詢很詳細，醫生用心解釋了不同方案的優缺點。\nThe orthodontic consultation was very detailed. The doctor carefully explained the pros and cons of different options.",
     date: "2024-03-03",
     target: "doctor",
-    targetName: "Dr. Zhang Ming",
+    targetName: "Dr. Emily Chen",
     orderRef: "ORD-20240303-007",
     images: 1,
     reply: {
