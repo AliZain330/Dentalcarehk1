@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Search, SlidersHorizontal, MapPin } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import InstitutionCard from "@/components/InstitutionCard";
 import { mockInstitutions } from "@/data/mockData";
@@ -50,9 +50,9 @@ const InstitutionsPage: React.FC = () => {
   return (
     <div className="animate-fade-in p-4 pt-5">
       {/* Header */}
-      <div className="mb-4 flex items-center gap-2">
-        <button onClick={() => navigate(-1)} className="text-muted-foreground">
-          <MapPin className="h-5 w-5" />
+      <div className="mb-4 flex items-center gap-3">
+        <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted">
+          <ArrowLeft className="h-5 w-5 text-foreground" />
         </button>
         <h1 className="flex-1 text-xl font-bold text-foreground">{t.institutions.title}</h1>
       </div>
@@ -102,7 +102,7 @@ const InstitutionsPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Results */}
+      {/* Results count */}
       <p className="mb-3 text-xs text-muted-foreground">
         {filtered.length} {t.institutions.results}
       </p>

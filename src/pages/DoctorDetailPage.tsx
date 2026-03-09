@@ -8,6 +8,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/RatingStars";
 
+const credentialsByLang: Record<string, string[]> = {
+  en: ["BDS (HKU)", "MDS (Orthodontics)", "FHKAM (Dental Surgery)"],
+  zh: ["牙科學士 (香港大學)", "牙科碩士 (矯齒科)", "香港牙科醫學院院士"],
+};
+
 const DoctorDetailPage: React.FC = () => {
   const { instId, svcId, docId } = useParams<{ instId: string; svcId: string; docId: string }>();
   const { t, language } = useLanguage();
@@ -22,6 +27,7 @@ const DoctorDetailPage: React.FC = () => {
 
   const doctorServices = institution.services.filter((s) => doctor.serviceIds.includes(s.id));
   const reviews = institution.reviews.slice(0, 2);
+  const credentials = credentialsByLang[lang] || credentialsByLang.en;
 
   return (
     <div className="animate-fade-in pb-24">
@@ -62,12 +68,12 @@ const DoctorDetailPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Credentials placeholder */}
+        {/* Credentials */}
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <h3 className="mb-2 text-base font-semibold text-foreground">{t.booking.credentials}</h3>
             <div className="space-y-1.5">
-              {["BDS (HKU)", "MDS (Orthodontics)", "FHKAM (Dental Surgery)"].map((c) => (
+              {credentials.map((c) => (
                 <div key={c} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Shield className="h-3 w-3 text-primary" />
                   {c}
@@ -96,15 +102,19 @@ const DoctorDetailPage: React.FC = () => {
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <h3 className="mb-2 text-base font-semibold text-foreground">{t.institutionDetail.reviews}</h3>
-            {reviews.map((r) => (
-              <div key={r.id} className="mb-2 rounded-lg bg-muted/50 p-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">{r.userName}</span>
-                  <RatingStars rating={r.rating} size={12} />
+            {reviews.length > 0 ? (
+              reviews.map((r) => (
+                <div key={r.id} className="mb-2 rounded-lg bg-muted/50 p-3 last:mb-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-foreground">{r.userName}</span>
+                    <RatingStars rating={r.rating} size={12} />
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">{r.comment[lang]}</p>
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">{r.comment[lang]}</p>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-xs text-muted-foreground">{t.consultation.noReviews}</p>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -7,6 +7,14 @@ import { ArrowLeft, Clock, Tag } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+const categoryLabels: Record<string, { en: string; zh: string }> = {
+  general: { en: "General Dentistry", zh: "一般牙科" },
+  cosmetic: { en: "Cosmetic Dentistry", zh: "美容牙科" },
+  orthodontics: { en: "Orthodontics", zh: "矯齒科" },
+  implants: { en: "Implantology", zh: "植牙科" },
+  pediatric: { en: "Pediatric Dentistry", zh: "兒童牙科" },
+};
+
 const ServiceDetailPage: React.FC = () => {
   const { instId, svcId } = useParams<{ instId: string; svcId: string }>();
   const { t, language } = useLanguage();
@@ -19,6 +27,7 @@ const ServiceDetailPage: React.FC = () => {
   if (!institution || !service) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
   const availableDoctors = institution.doctors.filter((d) => d.serviceIds.includes(svcId!));
+  const catLabel = categoryLabels[service.category]?.[lang] || service.category;
 
   return (
     <div className="animate-fade-in pb-24">
@@ -37,7 +46,7 @@ const ServiceDetailPage: React.FC = () => {
             </div>
             <div className="mt-2 flex items-center gap-1">
               <Tag className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground capitalize">{service.category}</span>
+              <span className="text-xs text-muted-foreground">{catLabel}</span>
             </div>
           </CardContent>
         </Card>
