@@ -117,6 +117,7 @@ import AdminCouponDetailPage from "@/admin/pages/AdminCouponDetailPage";
 import AdminCampaignsPage from "@/admin/pages/AdminCampaignsPage";
 import AdminBannersPage from "@/admin/pages/AdminBannersPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
+import AdminSettlementDetailPage from "@/admin/pages/AdminSettlementDetailPage";
 import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
 
 const queryClient = new QueryClient();
@@ -267,6 +268,7 @@ const App = () => (
                           <Route path="marketing/campaigns" element={<AdminCampaignsPage />} />
                           <Route path="marketing/banners" element={<AdminBannersPage />} />
                           <Route path="financials" element={<AdminFinancialsPage />} />
+                          <Route path="financials/settlements/:id" element={<AdminSettlementDetailPage />} />
                           <Route path="settings" element={<AdminSettingsPage />} />
                         </Route>
 
