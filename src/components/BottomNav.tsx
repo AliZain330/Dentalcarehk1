@@ -15,9 +15,10 @@ const BottomNav: React.FC = () => {
   ];
 
   // Hide on auth pages
-  const hiddenPaths = ["/login", "/register", "/forgot-password", "/verification", "/institution/", "/booking/"];
+  const hiddenPaths = ["/login", "/register", "/forgot-password", "/verification", "/institution/", "/booking/", "/consultation/"];
   if (hiddenPaths.some((p) => location.pathname.startsWith(p))) return null;
   if (location.pathname.match(/^\/order\/.+/)) return null;
+  if (location.pathname.match(/^\/report\/.+/)) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
