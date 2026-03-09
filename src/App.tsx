@@ -86,6 +86,8 @@ import DoctorReviewsPage from "@/doctor/pages/DoctorReviewsPage";
 import DoctorEarningsPage from "@/doctor/pages/DoctorEarningsPage";
 import DoctorProfilePage from "@/doctor/pages/DoctorProfilePage";
 import DoctorServiceSettingsPage from "@/doctor/pages/DoctorServiceSettingsPage";
+import DoctorClinicOrderDetailPage from "@/doctor/pages/DoctorClinicOrderDetailPage";
+import DoctorConsultOrderDetailPage from "@/doctor/pages/DoctorConsultOrderDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -196,6 +198,8 @@ const App = () => (
                         <Route path="/doctor/profile-completion" element={<DoctorProfileCompletionPage />} />
                         <Route path="/doctor" element={<DoctorLayout />}>
                           <Route path="orders" element={<DoctorOrdersPage />} />
+                          <Route path="orders/clinic/:orderId" element={<DoctorClinicOrderDetailPage />} />
+                          <Route path="orders/consult/:orderId" element={<DoctorConsultOrderDetailPage />} />
                           <Route path="schedule" element={<DoctorSchedulePage />} />
                           <Route path="reviews" element={<DoctorReviewsPage />} />
                           <Route path="earnings" element={<DoctorEarningsPage />} />
