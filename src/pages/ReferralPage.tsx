@@ -5,6 +5,7 @@ import { ArrowLeft, Gift, Copy, QrCode, Coins, Check, Share2, Users, ShoppingBag
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { mockCoinTransactions } from "@/data/mockData";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const ReferralPage: React.FC = () => {
   const { t, language } = useLanguage();
