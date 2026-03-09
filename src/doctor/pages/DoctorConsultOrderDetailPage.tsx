@@ -50,7 +50,6 @@ const DoctorConsultOrderDetailPage: React.FC = () => {
       <DoctorPageHeader
         title={isEn ? "Consultation Details" : "諮詢詳情"}
         subtitle={order.orderNo}
-        badge={{ label: badge[lang], className: "" }}
         rightContent={<DoctorStatusBadge status={badge.type} label={badge[lang]} />}
       />
 
