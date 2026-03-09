@@ -91,6 +91,11 @@ import DoctorConsultOrderDetailPage from "@/doctor/pages/DoctorConsultOrderDetai
 import DoctorConsultChatPage from "@/doctor/pages/DoctorConsultChatPage";
 import DoctorVideoConsultPage from "@/doctor/pages/DoctorVideoConsultPage";
 import DoctorDiagnosisReportPage from "@/doctor/pages/DoctorDiagnosisReportPage";
+import DoctorPersonalInfoPage from "@/doctor/pages/DoctorPersonalInfoPage";
+import DoctorAccountSecurityPage from "@/doctor/pages/DoctorAccountSecurityPage";
+import DoctorOrderHistoryPage from "@/doctor/pages/DoctorOrderHistoryPage";
+import DoctorSupportPage from "@/doctor/pages/DoctorSupportPage";
+import DoctorSettingsPage from "@/doctor/pages/DoctorSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -210,6 +215,11 @@ const App = () => (
                           <Route path="reviews" element={<DoctorReviewsPage />} />
                           <Route path="earnings" element={<DoctorEarningsPage />} />
                           <Route path="profile" element={<DoctorProfilePage />} />
+                          <Route path="personal-info" element={<DoctorPersonalInfoPage />} />
+                          <Route path="account-security" element={<DoctorAccountSecurityPage />} />
+                          <Route path="order-history" element={<DoctorOrderHistoryPage />} />
+                          <Route path="support" element={<DoctorSupportPage />} />
+                          <Route path="settings" element={<DoctorSettingsPage />} />
                           <Route path="service-settings" element={<DoctorServiceSettingsPage />} />
                         </Route>
 
