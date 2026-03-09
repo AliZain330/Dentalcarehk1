@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useFavorites } from "@/context/FavoritesContext";
 import { mockOnlineDoctors } from "@/data/mockData";
-import { ArrowLeft, Star, MessageSquareText, Video, Award, Users } from "lucide-react";
+import { ArrowLeft, Star, MessageSquareText, Video, Award, Users, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/RatingStars";
@@ -12,15 +13,23 @@ const OnlineDoctorDetailPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const lang = language === "zh-HK" ? "zh" : "en";
+  const { isDoctorFavorite, toggleDoctorFavorite } = useFavorites();
 
   const doctor = mockOnlineDoctors.find((d) => d.id === docId);
   if (!doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
+  const saved = isDoctorFavorite(doctor.id);
+
   return (
     <div className="animate-fade-in pb-28">
-      <div className="sticky top-0 z-10 flex items-center gap-3 bg-background/95 px-4 py-3 backdrop-blur-sm">
-        <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
-        <h1 className="text-lg font-bold text-foreground">{t.consultation.doctorDetail}</h1>
+      <div className="sticky top-0 z-10 flex items-center justify-between bg-background/95 px-4 py-3 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
+          <h1 className="text-lg font-bold text-foreground">{t.consultation.doctorDetail}</h1>
+        </div>
+        <button onClick={() => toggleDoctorFavorite(doctor.id)} className="rounded-full p-1 hover:bg-muted">
+          <Heart className={`h-5 w-5 ${saved ? "fill-destructive text-destructive" : "text-foreground"}`} />
+        </button>
       </div>
 
       <div className="space-y-4 px-4">
@@ -131,6 +140,10 @@ const OnlineDoctorDetailPage: React.FC = () => {
       {/* Bottom action */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
         <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
+          <Button variant="outline" onClick={() => toggleDoctorFavorite(doctor.id)} className="shrink-0">
+            <Heart className={`mr-1 h-4 w-4 ${saved ? "fill-destructive text-destructive" : ""}`} />
+            {saved ? (language === "zh-HK" ? "已收藏" : "Saved") : (language === "zh-HK" ? "收藏" : "Save")}
+          </Button>
           {doctor.availableTypes.includes("text_image") && (
             <Button variant="outline" className="flex-1" onClick={() => navigate(`/consultation/request/${docId}?type=text_image`)}>
               <MessageSquareText className="mr-1 h-4 w-4" /> {t.consultation.textImage}

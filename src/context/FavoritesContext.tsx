@@ -4,6 +4,9 @@ interface FavoritesContextType {
   favorites: Set<string>;
   toggleFavorite: (id: string) => void;
   isFavorite: (id: string) => boolean;
+  doctorFavorites: Set<string>;
+  toggleDoctorFavorite: (id: string) => void;
+  isDoctorFavorite: (id: string) => boolean;
 }
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
@@ -14,6 +17,13 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const saved = localStorage.getItem("saved-institutions");
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch { return new Set(); }
+  });
+
+  const [doctorFavorites, setDoctorFavorites] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("saved-doctors");
+      return saved ? new Set(JSON.parse(saved)) : new Set(["od1", "od3"]);
+    } catch { return new Set(["od1", "od3"]); }
   });
 
   const toggleFavorite = useCallback((id: string) => {
@@ -28,8 +38,20 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const isFavorite = useCallback((id: string) => favorites.has(id), [favorites]);
 
+  const toggleDoctorFavorite = useCallback((id: string) => {
+    setDoctorFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      localStorage.setItem("saved-doctors", JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+
+  const isDoctorFavorite = useCallback((id: string) => doctorFavorites.has(id), [doctorFavorites]);
+
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite, isFavorite }}>
+    <FavoritesContext.Provider value={{ favorites, toggleFavorite, isFavorite, doctorFavorites, toggleDoctorFavorite, isDoctorFavorite }}>
       {children}
     </FavoritesContext.Provider>
   );
