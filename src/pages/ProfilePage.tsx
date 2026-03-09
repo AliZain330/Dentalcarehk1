@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useFavorites } from "@/context/FavoritesContext";
-import { mockCoupons } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
+import { useReferral } from "@/context/ReferralContext";
 
 interface MenuItem {
   icon: React.ElementType;
