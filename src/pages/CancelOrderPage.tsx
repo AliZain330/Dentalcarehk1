@@ -18,12 +18,9 @@ const CancelOrderPage: React.FC = () => {
   const lang = language === "zh-HK" ? "zh" : "en";
 
   const order = orders.find((o) => o.id === orderId);
-  if (!order) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
-
-  const inst = mockInstitutions.find((i) => i.id === order.institutionId);
-  const svc = inst?.services.find((s) => s.id === order.serviceId);
 
   const { refundAmount, refundType } = useMemo(() => {
+    if (!order) return { refundAmount: 0, refundType: "none" as const };
     const appointmentDate = new Date(`${order.date}T${order.time}:00`);
     const now = new Date();
     const hoursUntil = (appointmentDate.getTime() - now.getTime()) / (1000 * 60 * 60);
@@ -37,6 +34,11 @@ const CancelOrderPage: React.FC = () => {
       return { refundAmount: order.finalAmount, refundType: "full" as const };
     }
   }, [order]);
+
+  if (!order) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
+
+  const inst = mockInstitutions.find((i) => i.id === order.institutionId);
+  const svc = inst?.services.find((s) => s.id === order.serviceId);
 
   const handleCancel = () => {
     cancelOrder(order.id, refundAmount);
