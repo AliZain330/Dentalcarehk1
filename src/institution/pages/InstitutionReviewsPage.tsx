@@ -41,6 +41,8 @@ interface Review {
 
 // ─── Mock Data ───────────────────────────────────────────────
 
+const INSTITUTION_NAME = "Bright Dental Clinic";
+
 const initialMockReviews: Review[] = [
   {
     id: "R001",
@@ -49,8 +51,8 @@ const initialMockReviews: Review[] = [
     text: "非常專業的洗牙服務，醫生態度友善，環境整潔。會推薦給朋友！\nVery professional teeth cleaning service. The doctor was friendly and the environment was clean. Would recommend to friends!",
     date: "2024-03-05",
     target: "institution",
-    targetName: "Bright Dental Clinic",
-    orderRef: "ORD-20240305-001",
+    targetName: INSTITUTION_NAME,
+    orderRef: "IC20240305-001",
     images: 2,
     reply: {
       content: "感謝您的好評！我們會繼續努力提供優質服務。Thank you for your kind review! We will continue to provide quality service.",
