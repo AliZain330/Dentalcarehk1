@@ -164,7 +164,7 @@ const DoctorConsultChatPage: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowApiNotice(false)}>
           <Card className="max-w-sm" onClick={(e) => e.stopPropagation()}>
             <CardContent className="p-6">
-              <ApiPlaceholderNotice feature={isEn ? "Image Upload" : "圖片上傳"} />
+              <ApiPlaceholderNotice service={isEn ? "Image Upload" : "圖片上傳"} />
               <Button className="mt-4 w-full" variant="outline" onClick={() => setShowApiNotice(false)}>{isEn ? "Close" : "關閉"}</Button>
             </CardContent>
           </Card>

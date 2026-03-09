@@ -106,7 +106,7 @@ const DoctorVideoConsultPage: React.FC = () => {
         <div className="absolute left-4 top-4 max-w-[200px]">
           <Card className="bg-black/60 border-white/10">
             <CardContent className="p-3">
-              <ApiPlaceholderNotice feature={isEn ? "Video SDK" : "視頻 SDK"} />
+              <ApiPlaceholderNotice service={isEn ? "Video SDK" : "視頻 SDK"} />
             </CardContent>
           </Card>
         </div>
