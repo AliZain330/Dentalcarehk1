@@ -155,10 +155,18 @@ const App = () => (
                           <Route path="/report/:reportId" element={<ReportDetailPage />} />
                         </Route>
 
+                        {/* Institution PC Backend */}
+                        <Route path="/institution" element={<InstitutionLayout />}>
+                          <Route path="register" element={<InstitutionRegisterPage />} />
+                          <Route path="credentials" element={<InstitutionCredentialsPage />} />
+                          <Route path="dashboard" element={<InstitutionDashboardPage />} />
+                        </Route>
+
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </BrowserRouter>
                   </TooltipProvider>
+                  </InstitutionProvider>
                 </ReferralProvider>
               </CouponProvider>
             </ConsultationProvider>
