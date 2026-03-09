@@ -62,6 +62,11 @@ import SettingsPage from "@/pages/SettingsPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import UserAgreementPage from "@/pages/UserAgreementPage";
 import NotFound from "./pages/NotFound";
+import { InstitutionProvider } from "@/institution/context/InstitutionContext";
+import InstitutionLayout from "@/institution/components/InstitutionLayout";
+import InstitutionRegisterPage from "@/institution/pages/InstitutionRegisterPage";
+import InstitutionCredentialsPage from "@/institution/pages/InstitutionCredentialsPage";
+import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPage";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +79,7 @@ const App = () => (
             <ConsultationProvider>
               <CouponProvider>
                 <ReferralProvider>
+                  <InstitutionProvider>
                   <TooltipProvider>
                     <Toaster />
                     <Sonner />
@@ -149,10 +155,18 @@ const App = () => (
                           <Route path="/report/:reportId" element={<ReportDetailPage />} />
                         </Route>
 
+                        {/* Institution PC Backend */}
+                        <Route path="/institution" element={<InstitutionLayout />}>
+                          <Route path="register" element={<InstitutionRegisterPage />} />
+                          <Route path="credentials" element={<InstitutionCredentialsPage />} />
+                          <Route path="dashboard" element={<InstitutionDashboardPage />} />
+                        </Route>
+
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </BrowserRouter>
                   </TooltipProvider>
+                  </InstitutionProvider>
                 </ReferralProvider>
               </CouponProvider>
             </ConsultationProvider>
