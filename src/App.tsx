@@ -47,6 +47,20 @@ import ConsultationChatPage from "@/pages/ConsultationChatPage";
 import VideoConsultationPage from "@/pages/VideoConsultationPage";
 import ConsultationReviewPage from "@/pages/ConsultationReviewPage";
 import ReportDetailPage from "@/pages/ReportDetailPage";
+import PersonalInfoPage from "@/pages/PersonalInfoPage";
+import AccountSecurityPage from "@/pages/AccountSecurityPage";
+import ChangePasswordPage from "@/pages/ChangePasswordPage";
+import ChangeMobilePage from "@/pages/ChangeMobilePage";
+import ChangeEmailPage from "@/pages/ChangeEmailPage";
+import LoginDevicesPage from "@/pages/LoginDevicesPage";
+import MyFavoritesPage from "@/pages/MyFavoritesPage";
+import MyReviewsPage from "@/pages/MyReviewsPage";
+import CustomerServicePage from "@/pages/CustomerServicePage";
+import FAQPage from "@/pages/FAQPage";
+import ComplaintPage from "@/pages/ComplaintPage";
+import SettingsPage from "@/pages/SettingsPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
+import UserAgreementPage from "@/pages/UserAgreementPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -91,6 +105,22 @@ const App = () => (
                           <Route path="/referral" element={<ReferralPage />} />
                           <Route path="/referral/records" element={<ReferralRecordsPage />} />
                           <Route path="/saved-institutions" element={<SavedInstitutionsPage />} />
+
+                          {/* Personal Center */}
+                          <Route path="/personal-info" element={<PersonalInfoPage />} />
+                          <Route path="/account-security" element={<AccountSecurityPage />} />
+                          <Route path="/account/change-password" element={<ChangePasswordPage />} />
+                          <Route path="/account/change-mobile" element={<ChangeMobilePage />} />
+                          <Route path="/account/change-email" element={<ChangeEmailPage />} />
+                          <Route path="/account/devices" element={<LoginDevicesPage />} />
+                          <Route path="/my-favorites" element={<MyFavoritesPage />} />
+                          <Route path="/my-reviews" element={<MyReviewsPage />} />
+                          <Route path="/customer-service" element={<CustomerServicePage />} />
+                          <Route path="/customer-service/faq" element={<FAQPage />} />
+                          <Route path="/customer-service/complaint" element={<ComplaintPage />} />
+                          <Route path="/settings" element={<SettingsPage />} />
+                          <Route path="/settings/privacy-policy" element={<PrivacyPolicyPage />} />
+                          <Route path="/settings/user-agreement" element={<UserAgreementPage />} />
 
                           {/* In-clinic booking flow */}
                           <Route path="/booking/services/:id" element={<ServiceListPage />} />
