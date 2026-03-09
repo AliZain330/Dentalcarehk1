@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useInstitution } from "../context/InstitutionContext";
@@ -16,27 +16,34 @@ const InstitutionDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const isEn = language === "en";
 
+  useEffect(() => {
+    if (profile.reviewStatus !== "approved") {
+      navigate("/institution/credentials");
+    }
+  }, [profile.reviewStatus, navigate]);
+
   if (profile.reviewStatus !== "approved") {
-    navigate("/institution/credentials");
     return null;
   }
 
+  const institutionName = profile.name || (isEn ? "Bright Dental Clinic" : "明亮牙科診所");
+
   const stats = [
     { icon: CalendarDays, label: isEn ? "Today's Appointments" : "今日預約", value: "12", color: "text-primary" },
-    { icon: Users, label: isEn ? "Total Patients" : "總患者數", value: "1,284", color: "text-info" },
+    { icon: Users, label: isEn ? "Total Patients" : "總患者數", value: "1,284", color: "text-primary" },
     { icon: Star, label: isEn ? "Average Rating" : "平均評分", value: "4.8", color: "text-warning" },
-    { icon: TrendingUp, label: isEn ? "Monthly Revenue" : "月收入", value: "HK$128,400", color: "text-success" },
+    { icon: TrendingUp, label: isEn ? "Monthly Revenue" : "月收入", value: "HK$128,400", color: "text-primary" },
   ];
 
   const modules = [
-    { icon: Info, label: isEn ? "Institution Info" : "機構資訊", desc: isEn ? "Edit profile, photos, address" : "編輯資料、照片、地址", path: "/institution/info", ready: true },
-    { icon: Stethoscope, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Add, edit, list/unlist services" : "新增、編輯、上架/下架服務", path: "/institution/services", ready: true },
-    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage doctors and permissions" : "管理醫生及權限", path: "/institution/doctors", ready: true },
-    { icon: ClipboardList, label: isEn ? "Order Management" : "訂單管理", desc: isEn ? "In-clinic & consultation orders" : "到診及諮詢訂單", path: "/institution/orders", ready: true },
-    { icon: BarChart3, label: isEn ? "Data Statistics" : "數據統計", desc: isEn ? "Revenue, orders & performance" : "營業額、訂單及績效", path: "/institution/stats", ready: true },
-    { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", desc: isEn ? "Coupons & campaigns" : "優惠券及活動", path: "/institution/marketing", ready: true },
-    { icon: Wallet, label: isEn ? "Finance" : "財務管理", desc: isEn ? "Settlements & withdrawals" : "結算及提現管理", path: "/institution/finance", ready: true },
-    { icon: MessageSquare, label: isEn ? "Reviews" : "評價管理", desc: isEn ? "View & reply to reviews" : "查看並回覆評價", path: "/institution/reviews", ready: true },
+    { icon: Info, label: isEn ? "Institution Info" : "機構資訊", desc: isEn ? "Edit profile, photos, address" : "編輯資料、照片、地址", path: "/institution/info" },
+    { icon: Stethoscope, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Add, edit, list/unlist services" : "新增、編輯、上架/下架服務", path: "/institution/services" },
+    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage doctors and permissions" : "管理醫生及權限", path: "/institution/doctors" },
+    { icon: ClipboardList, label: isEn ? "Order Management" : "訂單管理", desc: isEn ? "In-clinic & consultation orders" : "到診及諮詢訂單", path: "/institution/orders" },
+    { icon: BarChart3, label: isEn ? "Data Statistics" : "數據統計", desc: isEn ? "Revenue, orders & performance" : "營業額、訂單及績效", path: "/institution/stats" },
+    { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", desc: isEn ? "Coupons & campaigns" : "優惠券及活動", path: "/institution/marketing" },
+    { icon: Wallet, label: isEn ? "Finance" : "財務管理", desc: isEn ? "Settlements & withdrawals" : "結算及提現管理", path: "/institution/finance" },
+    { icon: MessageSquare, label: isEn ? "Reviews" : "評價管理", desc: isEn ? "View & reply to reviews" : "查看並回覆評價", path: "/institution/reviews" },
   ];
 
   return (
@@ -45,7 +52,7 @@ const InstitutionDashboardPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">
-            {isEn ? `Welcome, ${profile.name || "Institution"}` : `歡迎，${profile.name || "機構"}`}
+            {isEn ? `Welcome, ${institutionName}` : `歡迎，${institutionName}`}
           </h1>
           <p className="text-sm text-muted-foreground mt-1">{isEn ? "Institution Management Dashboard" : "機構管理控制台"}</p>
         </div>
@@ -74,23 +81,22 @@ const InstitutionDashboardPage: React.FC = () => {
       {/* Modules */}
       <div>
         <h2 className="text-lg font-semibold text-foreground mb-4">{isEn ? "Management Modules" : "管理模組"}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {modules.map((m, i) => (
             <Card
               key={i}
-              className={`transition-shadow ${m.ready ? "cursor-pointer hover:shadow-md" : "opacity-60"}`}
-              onClick={() => m.ready && m.path && navigate(m.path)}
+              className="cursor-pointer transition-all hover:shadow-md hover:border-primary/20"
+              onClick={() => navigate(m.path)}
             >
-              <CardContent className="p-5 flex items-start gap-4">
-                <div className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${m.ready ? "bg-primary/10" : "bg-muted"}`}>
-                  <m.icon className={`h-5 w-5 ${m.ready ? "text-primary" : "text-muted-foreground"}`} />
+              <CardContent className="p-4 flex items-start gap-3">
+                <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0 bg-primary/10">
+                  <m.icon className="h-4.5 w-4.5 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-foreground">{m.label}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{m.desc}</p>
-                  {!m.ready && <p className="text-xs text-muted-foreground mt-2 italic">{isEn ? "Coming soon" : "即將推出"}</p>}
+                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{m.desc}</p>
                 </div>
-                {m.ready && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />}
+                <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
               </CardContent>
             </Card>
           ))}

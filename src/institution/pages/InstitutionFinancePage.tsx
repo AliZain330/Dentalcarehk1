@@ -108,7 +108,7 @@ const InstitutionFinancePage: React.FC = () => {
   const [selectedStatement, setSelectedStatement] = useState<Statement | null>(null);
 
   // Withdrawal
-  const [withdrawalTab, setWithdrawalTab] = useState("records");
+  
   const [showBindDialog, setShowBindDialog] = useState(false);
   const [showWithdrawDialog, setShowWithdrawDialog] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState("");
@@ -134,7 +134,7 @@ const InstitutionFinancePage: React.FC = () => {
     const map: Record<WithdrawalStatus, { label: string; icon: React.ElementType; cls: string }> = {
       pending: { label: isEn ? "Pending Review" : "待審核", icon: Clock, cls: "bg-warning/10 text-warning border-warning/30" },
       approved: { label: isEn ? "Approved" : "已批准", icon: CheckCircle2, cls: "bg-primary/10 text-primary border-primary/30" },
-      paid: { label: isEn ? "Paid" : "已到賬", icon: CheckCircle2, cls: "bg-emerald-500/10 text-emerald-600 border-emerald-500/30" },
+      paid: { label: isEn ? "Paid" : "已到賬", icon: CheckCircle2, cls: "bg-primary/10 text-primary border-primary/30" },
       rejected: { label: isEn ? "Rejected" : "已拒絕", icon: XCircle, cls: "bg-destructive/10 text-destructive border-destructive/30" },
     };
     const s = map[status];
@@ -418,7 +418,7 @@ const InstitutionFinancePage: React.FC = () => {
                     <p className="text-xs font-mono text-muted-foreground">{bankAccount.accountNumber}</p>
                     <div className="flex items-center gap-2 mt-2">
                       {bankAccount.verified ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-emerald-600"><CheckCircle2 className="h-3 w-3" />{isEn ? "Verified" : "已驗證"}</span>
+                        <span className="inline-flex items-center gap-1 text-xs text-primary"><CheckCircle2 className="h-3 w-3" />{isEn ? "Verified" : "已驗證"}</span>
                       ) : (
                         <span className="inline-flex items-center gap-1 text-xs text-warning"><AlertCircle className="h-3 w-3" />{isEn ? "Pending Verification" : "待驗證"}</span>
                       )}
