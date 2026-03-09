@@ -101,6 +101,8 @@ import AdminLayout from "@/admin/components/AdminLayout";
 import AdminDashboardPage from "@/admin/pages/AdminDashboardPage";
 import AdminStatsPage from "@/admin/pages/AdminStatsPage";
 import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
+import AdminInstitutionReviewsPage from "@/admin/pages/AdminInstitutionReviewsPage";
+import AdminInstitutionDetailPage from "@/admin/pages/AdminInstitutionDetailPage";
 import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
@@ -238,6 +240,8 @@ const App = () => (
                         <Route path="/admin" element={<AdminLayout />}>
                           <Route path="dashboard" element={<AdminDashboardPage />} />
                           <Route path="institutions" element={<AdminInstitutionsPage />} />
+                          <Route path="institutions/reviews" element={<AdminInstitutionReviewsPage />} />
+                          <Route path="institutions/:id" element={<AdminInstitutionDetailPage />} />
                           <Route path="doctors" element={<AdminDoctorsPage />} />
                           <Route path="users" element={<AdminUsersPage />} />
                           <Route path="orders" element={<AdminOrdersPage />} />
