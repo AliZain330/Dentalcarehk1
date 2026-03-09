@@ -88,6 +88,9 @@ import DoctorProfilePage from "@/doctor/pages/DoctorProfilePage";
 import DoctorServiceSettingsPage from "@/doctor/pages/DoctorServiceSettingsPage";
 import DoctorClinicOrderDetailPage from "@/doctor/pages/DoctorClinicOrderDetailPage";
 import DoctorConsultOrderDetailPage from "@/doctor/pages/DoctorConsultOrderDetailPage";
+import DoctorConsultChatPage from "@/doctor/pages/DoctorConsultChatPage";
+import DoctorVideoConsultPage from "@/doctor/pages/DoctorVideoConsultPage";
+import DoctorDiagnosisReportPage from "@/doctor/pages/DoctorDiagnosisReportPage";
 
 const queryClient = new QueryClient();
 
