@@ -204,24 +204,24 @@ const App = () => (
                         {/* Dentist App */}
                         <Route path="/doctor/activation" element={<DoctorActivationPage />} />
                         <Route path="/doctor/login" element={<DoctorLoginPage />} />
-                        <Route path="/doctor/profile-completion" element={<DoctorProfileCompletionPage />} />
-                        <Route path="/doctor/consult/:orderId/chat" element={<DoctorConsultChatPage />} />
-                        <Route path="/doctor/consult/:orderId/video" element={<DoctorVideoConsultPage />} />
-                        <Route path="/doctor/consult/:orderId/report" element={<DoctorDiagnosisReportPage />} />
-                        <Route path="/doctor" element={<DoctorLayout />}>
-                          <Route path="orders" element={<DoctorOrdersPage />} />
-                          <Route path="orders/clinic/:orderId" element={<DoctorClinicOrderDetailPage />} />
-                          <Route path="orders/consult/:orderId" element={<DoctorConsultOrderDetailPage />} />
-                          <Route path="schedule" element={<DoctorSchedulePage />} />
-                          <Route path="reviews" element={<DoctorReviewsPage />} />
-                          <Route path="earnings" element={<DoctorEarningsPage />} />
-                          <Route path="profile" element={<DoctorProfilePage />} />
-                          <Route path="personal-info" element={<DoctorPersonalInfoPage />} />
-                          <Route path="account-security" element={<DoctorAccountSecurityPage />} />
-                          <Route path="order-history" element={<DoctorOrderHistoryPage />} />
-                          <Route path="support" element={<DoctorSupportPage />} />
-                          <Route path="settings" element={<DoctorSettingsPage />} />
-                          <Route path="service-settings" element={<DoctorServiceSettingsPage />} />
+                        <Route path="/doctor/profile-completion" element={<DoctorProvider><DoctorProfileCompletionPage /></DoctorProvider>} />
+                        <Route path="/doctor/consult/:orderId/chat" element={<DoctorProvider><DoctorConsultChatPage /></DoctorProvider>} />
+                        <Route path="/doctor/consult/:orderId/video" element={<DoctorProvider><DoctorVideoConsultPage /></DoctorProvider>} />
+                        <Route path="/doctor/consult/:orderId/report" element={<DoctorProvider><DoctorDiagnosisReportPage /></DoctorProvider>} />
+                        <Route element={<DoctorProvider><DoctorLayout /></DoctorProvider>}>
+                          <Route path="/doctor/orders" element={<DoctorOrdersPage />} />
+                          <Route path="/doctor/orders/clinic/:orderId" element={<DoctorClinicOrderDetailPage />} />
+                          <Route path="/doctor/orders/consult/:orderId" element={<DoctorConsultOrderDetailPage />} />
+                          <Route path="/doctor/schedule" element={<DoctorSchedulePage />} />
+                          <Route path="/doctor/reviews" element={<DoctorReviewsPage />} />
+                          <Route path="/doctor/earnings" element={<DoctorEarningsPage />} />
+                          <Route path="/doctor/profile" element={<DoctorProfilePage />} />
+                          <Route path="/doctor/personal-info" element={<DoctorPersonalInfoPage />} />
+                          <Route path="/doctor/account-security" element={<DoctorAccountSecurityPage />} />
+                          <Route path="/doctor/order-history" element={<DoctorOrderHistoryPage />} />
+                          <Route path="/doctor/support" element={<DoctorSupportPage />} />
+                          <Route path="/doctor/settings" element={<DoctorSettingsPage />} />
+                          <Route path="/doctor/service-settings" element={<DoctorServiceSettingsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />
