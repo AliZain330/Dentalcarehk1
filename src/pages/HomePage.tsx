@@ -1,92 +1,97 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Calendar, MessageSquare, MapPin, FolderOpen } from "lucide-react";
+import { Stethoscope, Video, Ticket, Gift, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import BannerCarousel from "@/components/BannerCarousel";
+import SectionHeader from "@/components/SectionHeader";
+import InstitutionCard from "@/components/InstitutionCard";
+import ServiceCard from "@/components/ServiceCard";
+import { mockInstitutions, mockPopularServices, mockCoupons } from "@/data/mockData";
 
 const HomePage: React.FC = () => {
-  const { t } = useLanguage();
-
-  const quickActions = [
-    { icon: Calendar, label: t.home.bookAppointment, color: "bg-primary" },
-    { icon: MessageSquare, label: t.home.onlineConsult, color: "bg-info" },
-    { icon: MapPin, label: t.home.findClinic, color: "bg-success" },
-    { icon: FolderOpen, label: t.home.myRecords, color: "bg-warning" },
-  ];
+  const { t, language } = useLanguage();
+  const navigate = useNavigate();
+  const availableCoupons = mockCoupons.filter((c) => c.status === "available").length;
 
   return (
-    <div className="animate-fade-in space-y-6 p-4 pt-6">
+    <div className="animate-fade-in space-y-6 p-4 pt-5">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">
-          {t.home.greeting} 👋
-        </h1>
-        <p className="mt-1 text-muted-foreground">{t.home.subtitle}</p>
+        <h1 className="text-2xl font-bold text-foreground">{t.home.greeting} 👋</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground">{t.home.subtitle}</p>
       </div>
 
-      {/* Quick Actions */}
+      {/* Banner Carousel */}
+      <BannerCarousel />
+
+      {/* Quick Entry Buttons */}
       <div className="grid grid-cols-2 gap-3">
-        {quickActions.map((action) => (
-          <Card
-            key={action.label}
-            className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md"
-          >
-            <CardContent className="flex flex-col items-center gap-3 p-5">
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-xl ${action.color}`}
-              >
-                <action.icon className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <span className="text-center text-sm font-medium text-foreground">
-                {action.label}
-              </span>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Upcoming */}
-      <div>
-        <h2 className="mb-3 text-lg font-semibold text-foreground">
-          {t.home.upcoming}
-        </h2>
-        <Card className="border-dashed">
-          <CardContent className="flex flex-col items-center py-8 text-center">
-            <Calendar className="mb-3 h-10 w-10 text-muted-foreground" />
-            <p className="text-sm font-medium text-muted-foreground">
-              {t.home.noUpcoming}
-            </p>
-            <Button variant="link" className="mt-1 text-primary">
-              {t.home.bookNow}
-            </Button>
+        <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/institutions")}>
+          <CardContent className="flex flex-col items-center gap-3 p-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary">
+              <Stethoscope className="h-7 w-7 text-primary-foreground" />
+            </div>
+            <span className="text-center text-sm font-semibold text-foreground">{t.home.inClinic}</span>
+          </CardContent>
+        </Card>
+        <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md">
+          <CardContent className="flex flex-col items-center gap-3 p-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-info">
+              <Video className="h-7 w-7 text-primary-foreground" />
+            </div>
+            <span className="text-center text-sm font-semibold text-foreground">{t.home.onlineConsult}</span>
           </CardContent>
         </Card>
       </div>
 
-      {/* Featured Clinics */}
+      {/* Recommended Institutions */}
       <div>
-        <h2 className="mb-3 text-lg font-semibold text-foreground">
-          {t.home.featured}
-        </h2>
-        <div className="flex gap-3 overflow-x-auto pb-2">
-          {[1, 2, 3].map((i) => (
-            <Card
-              key={i}
-              className="min-w-[200px] shrink-0 border-0 shadow-sm"
-            >
-              <CardContent className="p-4">
-                <div className="mb-3 h-24 rounded-lg bg-muted" />
-                <p className="text-sm font-medium text-foreground">
-                  {i === 1 ? "SmileCare Central" : i === 2 ? "DentalPlus TST" : "BrightDent MK"}
-                </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {i === 1 ? "Central, HK" : i === 2 ? "Tsim Sha Tsui" : "Mong Kok"}
-                </p>
-              </CardContent>
-            </Card>
+        <SectionHeader title={t.home.recommended} actionLabel={t.home.viewAll} onAction={() => navigate("/institutions")} />
+        <div className="mt-3 space-y-3">
+          {mockInstitutions.slice(0, 3).map((inst) => (
+            <InstitutionCard key={inst.id} institution={inst} />
           ))}
         </div>
       </div>
+
+      {/* Popular Services */}
+      <div>
+        <SectionHeader title={t.home.popularServices} />
+        <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
+          {mockPopularServices.map((s) => (
+            <ServiceCard key={s.id} service={s} />
+          ))}
+        </div>
+      </div>
+
+      {/* Coupon Entry */}
+      <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/coupons")}>
+        <CardContent className="flex items-center gap-3 p-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning">
+            <Ticket className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-foreground">{t.home.coupons}</h3>
+            <p className="text-xs text-muted-foreground">{availableCoupons} {t.home.couponsAvailable}</p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </CardContent>
+      </Card>
+
+      {/* Referral Rewards Entry */}
+      <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/referral")}>
+        <CardContent className="flex items-center gap-3 p-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-success">
+            <Gift className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-foreground">{t.home.referral}</h3>
+            <p className="text-xs text-muted-foreground line-clamp-1">{t.home.referralDesc}</p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </CardContent>
+      </Card>
     </div>
   );
 };
