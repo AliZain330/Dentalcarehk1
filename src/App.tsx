@@ -88,6 +88,9 @@ import DoctorProfilePage from "@/doctor/pages/DoctorProfilePage";
 import DoctorServiceSettingsPage from "@/doctor/pages/DoctorServiceSettingsPage";
 import DoctorClinicOrderDetailPage from "@/doctor/pages/DoctorClinicOrderDetailPage";
 import DoctorConsultOrderDetailPage from "@/doctor/pages/DoctorConsultOrderDetailPage";
+import DoctorConsultChatPage from "@/doctor/pages/DoctorConsultChatPage";
+import DoctorVideoConsultPage from "@/doctor/pages/DoctorVideoConsultPage";
+import DoctorDiagnosisReportPage from "@/doctor/pages/DoctorDiagnosisReportPage";
 
 const queryClient = new QueryClient();
 
@@ -196,6 +199,9 @@ const App = () => (
                         <Route path="/doctor/activation" element={<DoctorActivationPage />} />
                         <Route path="/doctor/login" element={<DoctorLoginPage />} />
                         <Route path="/doctor/profile-completion" element={<DoctorProfileCompletionPage />} />
+                        <Route path="/doctor/consult/:orderId/chat" element={<DoctorConsultChatPage />} />
+                        <Route path="/doctor/consult/:orderId/video" element={<DoctorVideoConsultPage />} />
+                        <Route path="/doctor/consult/:orderId/report" element={<DoctorDiagnosisReportPage />} />
                         <Route path="/doctor" element={<DoctorLayout />}>
                           <Route path="orders" element={<DoctorOrdersPage />} />
                           <Route path="orders/clinic/:orderId" element={<DoctorClinicOrderDetailPage />} />
