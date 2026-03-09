@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { mockOnlineDoctors, getApplicableCoupons, calculateCouponDeduction } from "@/data/mockData";
+import { mockOnlineDoctors } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
 import { ArrowLeft, MessageSquareText, Video, ImageIcon, Ticket, ChevronRight, Info, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
