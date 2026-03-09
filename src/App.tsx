@@ -234,6 +234,19 @@ const App = () => (
                           <Route path="/doctor/service-settings" element={<DoctorServiceSettingsPage />} />
                         </Route>
 
+                        {/* Platform Admin */}
+                        <Route path="/admin" element={<AdminLayout />}>
+                          <Route path="dashboard" element={<AdminDashboardPage />} />
+                          <Route path="institutions" element={<AdminInstitutionsPage />} />
+                          <Route path="doctors" element={<AdminDoctorsPage />} />
+                          <Route path="users" element={<AdminUsersPage />} />
+                          <Route path="orders" element={<AdminOrdersPage />} />
+                          <Route path="stats" element={<AdminStatsPage />} />
+                          <Route path="marketing" element={<AdminMarketingPage />} />
+                          <Route path="financials" element={<AdminFinancialsPage />} />
+                          <Route path="settings" element={<AdminSettingsPage />} />
+                        </Route>
+
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </BrowserRouter>
