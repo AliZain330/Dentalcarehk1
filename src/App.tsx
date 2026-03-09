@@ -70,6 +70,8 @@ import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPa
 import InstitutionInfoPage from "@/institution/pages/InstitutionInfoPage";
 import InstitutionServicesPage from "@/institution/pages/InstitutionServicesPage";
 import InstitutionDoctorsPage from "@/institution/pages/InstitutionDoctorsPage";
+import InstitutionOrdersPage from "@/institution/pages/InstitutionOrdersPage";
+import InstitutionStatsPage from "@/institution/pages/InstitutionStatsPage";
 
 const queryClient = new QueryClient();
 
@@ -166,6 +168,8 @@ const App = () => (
                           <Route path="info" element={<InstitutionInfoPage />} />
                           <Route path="services" element={<InstitutionServicesPage />} />
                           <Route path="doctors" element={<InstitutionDoctorsPage />} />
+                          <Route path="orders" element={<InstitutionOrdersPage />} />
+                          <Route path="stats" element={<InstitutionStatsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />
