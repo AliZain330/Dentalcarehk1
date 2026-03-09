@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Stethoscope, Video, Ticket, Gift, ChevronRight, Megaphone, CheckCircle2 } from "lucide-react";
+import { Stethoscope, Video, Ticket, Gift, ChevronRight, Megaphone, CheckCircle2, Bot } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import BannerCarousel from "@/components/BannerCarousel";
