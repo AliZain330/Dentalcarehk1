@@ -68,21 +68,29 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Quick Entry Buttons */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/institutions")}>
-          <CardContent className="flex flex-col items-center gap-3 p-5">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary">
-              <Stethoscope className="h-7 w-7 text-primary-foreground" />
+          <CardContent className="flex flex-col items-center gap-2 p-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary">
+              <Stethoscope className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-center text-sm font-semibold text-foreground">{t.home.inClinic}</span>
+            <span className="text-center text-xs font-semibold text-foreground">{t.home.inClinic}</span>
           </CardContent>
         </Card>
         <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/consultation/doctors")}>
-          <CardContent className="flex flex-col items-center gap-3 p-5">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-info">
-              <Video className="h-7 w-7 text-primary-foreground" />
+          <CardContent className="flex flex-col items-center gap-2 p-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-info">
+              <Video className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-center text-sm font-semibold text-foreground">{t.home.onlineConsult}</span>
+            <span className="text-center text-xs font-semibold text-foreground">{t.home.onlineConsult}</span>
+          </CardContent>
+        </Card>
+        <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/ai-triage")}>
+          <CardContent className="flex flex-col items-center gap-2 p-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-warning">
+              <Bot className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <span className="text-center text-xs font-semibold text-foreground">{lang === "zh" ? "AI分診" : "AI Triage"}</span>
           </CardContent>
         </Card>
       </div>

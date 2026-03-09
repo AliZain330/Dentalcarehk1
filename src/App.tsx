@@ -162,6 +162,7 @@ const App = () => (
 
                           {/* Reports */}
                           <Route path="/report/:reportId" element={<ReportDetailPage />} />
+                          <Route path="/ai-triage" element={<AiTriagePage />} />
                         </Route>
 
                         {/* Institution PC Backend */}
