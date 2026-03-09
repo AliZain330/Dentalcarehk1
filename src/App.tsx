@@ -69,6 +69,7 @@ import InstitutionCredentialsPage from "@/institution/pages/InstitutionCredentia
 import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPage";
 import InstitutionInfoPage from "@/institution/pages/InstitutionInfoPage";
 import InstitutionServicesPage from "@/institution/pages/InstitutionServicesPage";
+import InstitutionDoctorsPage from "@/institution/pages/InstitutionDoctorsPage";
 
 const queryClient = new QueryClient();
 
@@ -164,6 +165,7 @@ const App = () => (
                           <Route path="dashboard" element={<InstitutionDashboardPage />} />
                           <Route path="info" element={<InstitutionInfoPage />} />
                           <Route path="services" element={<InstitutionServicesPage />} />
+                          <Route path="doctors" element={<InstitutionDoctorsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />

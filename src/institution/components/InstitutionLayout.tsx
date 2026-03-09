@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useInstitution } from "../context/InstitutionContext";
-import { Building2, LayoutDashboard, FileCheck, Settings, Globe, LogOut, Info, Stethoscope } from "lucide-react";
+import { Building2, LayoutDashboard, FileCheck, Globe, LogOut, Info, Stethoscope, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const InstitutionLayout: React.FC = () => {
@@ -20,6 +20,7 @@ const InstitutionLayout: React.FC = () => {
           { icon: LayoutDashboard, label: isEn ? "Dashboard" : "控制台", path: "/institution/dashboard" },
           { icon: Info, label: isEn ? "Institution Info" : "機構資訊", path: "/institution/info" },
           { icon: Stethoscope, label: isEn ? "Services" : "服務管理", path: "/institution/services" },
+          { icon: Users, label: isEn ? "Doctors" : "醫生管理", path: "/institution/doctors" },
         ]
       : []),
     { icon: Building2, label: isEn ? "Registration" : "機構註冊", path: "/institution/register" },

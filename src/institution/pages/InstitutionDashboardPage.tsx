@@ -32,8 +32,8 @@ const InstitutionDashboardPage: React.FC = () => {
   const modules = [
     { icon: Info, label: isEn ? "Institution Info" : "機構資訊", desc: isEn ? "Edit profile, photos, address" : "編輯資料、照片、地址", path: "/institution/info", ready: true },
     { icon: Stethoscope, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Add, edit, list/unlist services" : "新增、編輯、上架/下架服務", path: "/institution/services", ready: true },
+    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage doctors and permissions" : "管理醫生及權限", path: "/institution/doctors", ready: true },
     { icon: CalendarDays, label: isEn ? "Appointment Management" : "預約管理", desc: isEn ? "View and manage appointments" : "查看和管理預約", path: null, ready: false },
-    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage onboarded doctors" : "管理入駐醫生", path: null, ready: false },
     { icon: MessageSquare, label: isEn ? "Reviews & Feedback" : "評價與反饋", desc: isEn ? "View patient feedback" : "查看患者反饋", path: null, ready: false },
     { icon: Settings, label: isEn ? "Settings" : "設定", desc: isEn ? "Account and preferences" : "帳戶和偏好設定", path: null, ready: false },
   ];
