@@ -240,6 +240,8 @@ const App = () => (
                         <Route path="/admin" element={<AdminLayout />}>
                           <Route path="dashboard" element={<AdminDashboardPage />} />
                           <Route path="institutions" element={<AdminInstitutionsPage />} />
+                          <Route path="institutions/reviews" element={<AdminInstitutionReviewsPage />} />
+                          <Route path="institutions/:id" element={<AdminInstitutionDetailPage />} />
                           <Route path="doctors" element={<AdminDoctorsPage />} />
                           <Route path="users" element={<AdminUsersPage />} />
                           <Route path="orders" element={<AdminOrdersPage />} />
