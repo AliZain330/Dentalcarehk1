@@ -7,6 +7,7 @@ import { ArrowLeft, Send, Camera, Clock, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const MAX_USER_MESSAGES = 10;
 
