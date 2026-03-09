@@ -36,7 +36,7 @@ const ProfilePage: React.FC = () => {
     { icon: FileText, label: t.profile.diagnosisReports, action: () => navigate("/reports") },
     { icon: Building2, label: t.profile.savedInstitutions, right: `${favorites.size}`, action: () => navigate("/saved-institutions") },
     { icon: Ticket, label: t.profile.coupons, right: `${availableCoupons}`, action: () => navigate("/coupons") },
-    { icon: Gift, label: t.profile.referralRewards, right: "250 coins", action: () => navigate("/referral") },
+    { icon: Gift, label: t.profile.referralRewards, right: `${coinsBalance} coins`, action: () => navigate("/referral") },
   ];
 
   const settingsItems: MenuItem[] = [

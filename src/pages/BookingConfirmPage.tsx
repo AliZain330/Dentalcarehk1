@@ -25,10 +25,10 @@ const BookingConfirmPage: React.FC = () => {
 
   if (!institution || !service || !doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
-  const applicableCoupons = getApplicableCoupons(service.price, "in_clinic");
+  const applicableCoupons = getApplicable(service.price, "in_clinic");
   const selectedCoupon = applicableCoupons.find((c) => c.id === selectedCouponId);
 
-  const couponDeduction = selectedCoupon ? calculateCouponDeduction(selectedCoupon, service.price) : 0;
+  const couponDeduction = selectedCoupon ? calculateDeduction(selectedCoupon, service.price) : 0;
   const finalAmount = Math.max(0, service.price - couponDeduction);
 
   const rows = [

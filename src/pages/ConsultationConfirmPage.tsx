@@ -24,9 +24,9 @@ const ConsultationConfirmPage: React.FC = () => {
   if (!doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
   const basePrice = consultType === "text_image" ? doctor.textImagePrice : doctor.videoPrice;
-  const applicableCoupons = getApplicableCoupons(basePrice, "consultation");
+  const applicableCoupons = getApplicable(basePrice, "consultation");
   const selectedCoupon = applicableCoupons.find((c) => c.id === selectedCouponId);
-  const couponDeduction = selectedCoupon ? calculateCouponDeduction(selectedCoupon, basePrice) : 0;
+  const couponDeduction = selectedCoupon ? calculateDeduction(selectedCoupon, basePrice) : 0;
   const finalPrice = Math.max(0, basePrice - couponDeduction);
 
   const rows = [
