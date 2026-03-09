@@ -74,6 +74,7 @@ import InstitutionOrdersPage from "@/institution/pages/InstitutionOrdersPage";
 import InstitutionStatsPage from "@/institution/pages/InstitutionStatsPage";
 import InstitutionMarketingPage from "@/institution/pages/InstitutionMarketingPage";
 import InstitutionFinancePage from "@/institution/pages/InstitutionFinancePage";
+import InstitutionReviewsPage from "@/institution/pages/InstitutionReviewsPage";
 
 const queryClient = new QueryClient();
 
@@ -174,6 +175,7 @@ const App = () => (
                           <Route path="stats" element={<InstitutionStatsPage />} />
                           <Route path="marketing" element={<InstitutionMarketingPage />} />
                           <Route path="finance" element={<InstitutionFinancePage />} />
+                          <Route path="reviews" element={<InstitutionReviewsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />
