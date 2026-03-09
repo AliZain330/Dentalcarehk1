@@ -7,7 +7,7 @@ import ReviewStatusBadge from "../components/ReviewStatusBadge";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import {
   CalendarDays, Users, Star, TrendingUp,
-  Info, Stethoscope, ChevronRight, ClipboardList, BarChart3, Ticket, Wallet,
+  Info, Stethoscope, ChevronRight, ClipboardList, BarChart3, Ticket, Wallet, MessageSquare,
 } from "lucide-react";
 
 const InstitutionDashboardPage: React.FC = () => {
