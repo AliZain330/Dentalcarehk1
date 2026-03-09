@@ -176,7 +176,7 @@ const DoctorConsultOrderDetailPage: React.FC = () => {
             )}
             {order.status === "in_consultation" && (
               <div className="space-y-2">
-                <Button className="w-full" variant="outline" onClick={() => toast({ title: isEn ? "Opening chat (mock)" : "打開對話（模擬）" })}>
+                <Button className="w-full" variant="outline" onClick={() => navigate(order.consultationType === "video" ? `/doctor/consult/${orderId}/video` : `/doctor/consult/${orderId}/chat`)}>
                   <MessageSquare className="mr-1.5 h-4 w-4" />{order.consultationType === "video" ? (isEn ? "Join Video Call" : "加入視頻通話") : (isEn ? "Enter Chat" : "進入對話")}
                 </Button>
                 <Button className="w-full" onClick={() => { setStatus("completed"); toast({ title: isEn ? "Consultation completed" : "諮詢已完成" }); }}>
