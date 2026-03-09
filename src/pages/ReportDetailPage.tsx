@@ -7,6 +7,7 @@ import { ArrowLeft, Download, Share2, MessageSquareText, Video, Calendar, Stetho
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const ReportDetailPage: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
