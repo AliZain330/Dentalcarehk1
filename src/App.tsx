@@ -112,6 +112,10 @@ import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
 import AdminOrderDetailPage from "@/admin/pages/AdminOrderDetailPage";
 import { AdminDisputesPage, AdminDisputeDetailPage } from "@/admin/pages/AdminDisputesPage";
 import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
+import AdminCouponCreatePage from "@/admin/pages/AdminCouponCreatePage";
+import AdminCouponDetailPage from "@/admin/pages/AdminCouponDetailPage";
+import AdminCampaignsPage from "@/admin/pages/AdminCampaignsPage";
+import AdminBannersPage from "@/admin/pages/AdminBannersPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
 import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
 
@@ -258,6 +262,10 @@ const App = () => (
                           <Route path="orders/disputes/:disputeId" element={<AdminDisputeDetailPage />} />
                           <Route path="stats" element={<AdminStatsPage />} />
                           <Route path="marketing" element={<AdminMarketingPage />} />
+                          <Route path="marketing/coupons/create" element={<AdminCouponCreatePage />} />
+                          <Route path="marketing/coupons/:id" element={<AdminCouponDetailPage />} />
+                          <Route path="marketing/campaigns" element={<AdminCampaignsPage />} />
+                          <Route path="marketing/banners" element={<AdminBannersPage />} />
                           <Route path="financials" element={<AdminFinancialsPage />} />
                           <Route path="settings" element={<AdminSettingsPage />} />
                         </Route>
