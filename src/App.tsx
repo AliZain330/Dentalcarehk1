@@ -91,6 +91,11 @@ import DoctorConsultOrderDetailPage from "@/doctor/pages/DoctorConsultOrderDetai
 import DoctorConsultChatPage from "@/doctor/pages/DoctorConsultChatPage";
 import DoctorVideoConsultPage from "@/doctor/pages/DoctorVideoConsultPage";
 import DoctorDiagnosisReportPage from "@/doctor/pages/DoctorDiagnosisReportPage";
+import DoctorPersonalInfoPage from "@/doctor/pages/DoctorPersonalInfoPage";
+import DoctorAccountSecurityPage from "@/doctor/pages/DoctorAccountSecurityPage";
+import DoctorOrderHistoryPage from "@/doctor/pages/DoctorOrderHistoryPage";
+import DoctorSupportPage from "@/doctor/pages/DoctorSupportPage";
+import DoctorSettingsPage from "@/doctor/pages/DoctorSettingsPage";
 
 const queryClient = new QueryClient();
 
