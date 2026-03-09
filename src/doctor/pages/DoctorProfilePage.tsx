@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, Settings, User, Shield, Wallet, ClipboardList, MessageSquare, HelpCircle, Cog, Camera } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { Camera } from "lucide-react";
+import { Settings, User, Shield, Wallet, ClipboardList, MessageSquare, HelpCircle, Cog } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useDoctorContext } from "@/doctor/context/DoctorContext";
+import DoctorSettingsItem from "@/doctor/components/DoctorSettingsItem";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const DoctorProfilePage: React.FC = () => {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const isEn = language !== "zh-HK";
+  const { profile, clinicOrders, consultOrders } = useDoctorContext();
   const [showUploadNotice, setShowUploadNotice] = useState(false);
+
+  const totalOrders = clinicOrders.length + consultOrders.length;
+  const totalEarnings = [...clinicOrders, ...consultOrders].reduce((a, o) => a + o.amount, 0);
 
   const sections = [
     {
@@ -48,7 +54,7 @@ const DoctorProfilePage: React.FC = () => {
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-                <span className="text-xl font-bold text-primary-foreground">{isEn ? "CW" : "陳"}</span>
+                <span className="text-xl font-bold text-primary-foreground">{isEn ? profile.nameEn.split(" ").map(n => n[0]).join("") : profile.nameZh[0]}</span>
               </div>
               <button
                 className="absolute -bottom-0.5 -right-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-card border border-border shadow-sm"
@@ -58,10 +64,10 @@ const DoctorProfilePage: React.FC = () => {
               </button>
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-lg font-bold text-foreground">{isEn ? "Dr. Chen Wei" : "陳偉醫生"}</h2>
+              <h2 className="text-lg font-bold text-foreground">{isEn ? `Dr. ${profile.nameEn}` : `${profile.nameZh}醫生`}</h2>
               <p className="text-sm text-muted-foreground">{isEn ? "General Dentistry" : "一般牙科"}</p>
               <div className="mt-1 flex items-center gap-2">
-                <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-[10px]">{isEn ? "Verified" : "已認證"}</Badge>
+                {profile.verified && <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-[10px]">{isEn ? "Verified" : "已認證"}</Badge>}
                 <Badge variant="outline" className="text-[10px]">HKU–SZH</Badge>
               </div>
             </div>
@@ -70,7 +76,7 @@ const DoctorProfilePage: React.FC = () => {
           {/* Quick stats */}
           <div className="mt-4 grid grid-cols-3 gap-2">
             <div className="rounded-lg bg-muted/50 p-2.5 text-center">
-              <p className="text-lg font-bold text-foreground">42</p>
+              <p className="text-lg font-bold text-foreground">{totalOrders}</p>
               <p className="text-[10px] text-muted-foreground">{isEn ? "Orders" : "訂單"}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-2.5 text-center">
@@ -78,7 +84,7 @@ const DoctorProfilePage: React.FC = () => {
               <p className="text-[10px] text-muted-foreground">{isEn ? "Rating" : "評分"}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-2.5 text-center">
-              <p className="text-lg font-bold text-foreground">$28.6K</p>
+              <p className="text-lg font-bold text-foreground">${(totalEarnings / 1000).toFixed(1)}K</p>
               <p className="text-[10px] text-muted-foreground">{isEn ? "Earned" : "收入"}</p>
             </div>
           </div>
@@ -91,24 +97,13 @@ const DoctorProfilePage: React.FC = () => {
           <p className="mb-2 text-xs font-semibold text-muted-foreground px-1">{section.title}</p>
           <div className="space-y-1.5">
             {section.items.map((item) => (
-              <Card key={item.label} className="cursor-pointer border-0 shadow-sm hover:shadow-md transition-shadow" onClick={() => navigate(item.path)}>
-                <CardContent className="p-3.5 flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
-                    <item.icon className="h-4 w-4 text-foreground" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-foreground">{item.label}</p>
-                    <p className="text-xs text-muted-foreground truncate">{item.desc}</p>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                </CardContent>
-              </Card>
+              <DoctorSettingsItem key={item.label} icon={item.icon} label={item.label} desc={item.desc} onClick={() => navigate(item.path)} />
             ))}
           </div>
         </div>
       ))}
 
-      {/* Upload notice overlay */}
+      {/* Upload notice */}
       {showUploadNotice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setShowUploadNotice(false)}>
           <Card className="max-w-sm" onClick={(e) => e.stopPropagation()}>

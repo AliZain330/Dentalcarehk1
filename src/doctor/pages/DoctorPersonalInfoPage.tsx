@@ -8,17 +8,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
+import { useDoctorContext } from "@/doctor/context/DoctorContext";
+import DoctorPageHeader from "@/doctor/components/DoctorPageHeader";
+import DoctorActionBar from "@/doctor/components/DoctorActionBar";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const specialtyOptions = [
-  { en: "General Dentistry", zh: "一般牙科" },
-  { en: "Orthodontics", zh: "矯齒科" },
-  { en: "Oral Surgery", zh: "口腔外科" },
-  { en: "Periodontics", zh: "牙周病科" },
-  { en: "Prosthodontics", zh: "修復齒科" },
-  { en: "Endodontics", zh: "牙髓治療科" },
-  { en: "Pediatric Dentistry", zh: "兒童齒科" },
-  { en: "Cosmetic Dentistry", zh: "美容牙科" },
+  { value: "general", en: "General Dentistry", zh: "一般牙科" },
+  { value: "orthodontics", en: "Orthodontics", zh: "矯齒科" },
+  { value: "oral_surgery", en: "Oral Surgery", zh: "口腔外科" },
+  { value: "periodontics", en: "Periodontics", zh: "牙周病科" },
+  { value: "prosthodontics", en: "Prosthodontics", zh: "修復齒科" },
+  { value: "endodontics", en: "Endodontics", zh: "牙髓治療科" },
+  { value: "pediatric", en: "Pediatric Dentistry", zh: "兒童齒科" },
+  { value: "cosmetic", en: "Cosmetic Dentistry", zh: "美容牙科" },
 ];
 
 const DoctorPersonalInfoPage: React.FC = () => {
@@ -26,24 +29,22 @@ const DoctorPersonalInfoPage: React.FC = () => {
   const navigate = useNavigate();
   const isEn = language !== "zh-HK";
   const lang = isEn ? "en" : "zh";
+  const { profile, updateProfile } = useDoctorContext();
 
   const [editing, setEditing] = useState(false);
   const [showUploadNotice, setShowUploadNotice] = useState(false);
   const [form, setForm] = useState({
-    nameEn: "Chen Wei",
-    nameZh: "陳偉",
-    titleEn: "Dr.",
-    titleZh: "醫生",
-    phone: "+852 9123 4567",
-    email: "dr.chenwei@example.com",
-    bioEn: "Over 8 years of experience in general and cosmetic dentistry. Specializes in dental implants and smile design.",
-    bioZh: "超過8年一般牙科及美容牙科經驗，專注牙齒種植及笑容設計。",
-    licenseNo: "DC-2018-00456",
+    nameEn: profile.nameEn,
+    nameZh: profile.nameZh,
+    phone: profile.phone,
+    email: profile.email,
+    bioEn: profile.bioEn,
+    bioZh: profile.bioZh,
   });
-  const [selectedSpecialties, setSelectedSpecialties] = useState<number[]>([0, 7]);
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(profile.specialties);
 
-  const toggleSpecialty = (idx: number) => {
-    setSelectedSpecialties((prev) => prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]);
+  const toggleSpecialty = (val: string) => {
+    setSelectedSpecialties((prev) => prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]);
   };
 
   const handleSave = () => {
@@ -55,26 +56,24 @@ const DoctorPersonalInfoPage: React.FC = () => {
       toast({ title: isEn ? "Select at least one specialty" : "請選擇至少一個專科", variant: "destructive" });
       return;
     }
+    updateProfile({ ...form, specialties: selectedSpecialties });
     setEditing(false);
     toast({ title: isEn ? "Profile updated" : "資料已更新" });
   };
 
   return (
     <div className="animate-fade-in pb-24">
-      <div className="border-b border-border bg-card px-4 py-3">
-        <div className="mx-auto flex max-w-lg items-center gap-3">
-          <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
-          <h1 className="flex-1 text-lg font-bold text-foreground">{isEn ? "Personal Information" : "個人資訊"}</h1>
-          {!editing && <Button size="sm" variant="outline" onClick={() => setEditing(true)}>{isEn ? "Edit" : "編輯"}</Button>}
-        </div>
-      </div>
+      <DoctorPageHeader
+        title={isEn ? "Personal Information" : "個人資訊"}
+        rightContent={!editing ? <Button size="sm" variant="outline" onClick={() => setEditing(true)}>{isEn ? "Edit" : "編輯"}</Button> : undefined}
+      />
 
       <div className="mx-auto max-w-lg space-y-4 p-4">
         {/* Avatar */}
         <div className="flex justify-center">
           <div className="relative">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary">
-              <span className="text-2xl font-bold text-primary-foreground">{isEn ? "CW" : "陳"}</span>
+              <span className="text-2xl font-bold text-primary-foreground">{isEn ? form.nameEn.split(" ").map(n => n[0]).join("") : form.nameZh[0]}</span>
             </div>
             {editing && (
               <button className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-card border border-border shadow-sm" onClick={() => setShowUploadNotice(true)}>
@@ -108,7 +107,7 @@ const DoctorPersonalInfoPage: React.FC = () => {
             </div>
             <div>
               <label className="text-xs text-muted-foreground">{isEn ? "License No." : "執照號碼"}</label>
-              <p className="mt-1 text-sm font-medium text-foreground">{form.licenseNo}</p>
+              <p className="mt-1 text-sm font-medium text-foreground">{profile.licenseNo}</p>
             </div>
           </CardContent>
         </Card>
@@ -118,12 +117,12 @@ const DoctorPersonalInfoPage: React.FC = () => {
           <CardContent className="p-4 space-y-3">
             <p className="text-xs font-semibold text-muted-foreground">{isEn ? "SPECIALTIES" : "專科"}</p>
             <div className="flex flex-wrap gap-2">
-              {specialtyOptions.map((s, i) => (
+              {specialtyOptions.map((s) => (
                 <Badge
-                  key={i}
-                  variant={selectedSpecialties.includes(i) ? "default" : "outline"}
-                  className={`cursor-pointer transition-colors ${editing ? "hover:opacity-80" : ""} ${selectedSpecialties.includes(i) ? "" : ""}`}
-                  onClick={() => editing && toggleSpecialty(i)}
+                  key={s.value}
+                  variant={selectedSpecialties.includes(s.value) ? "default" : "outline"}
+                  className={`cursor-pointer transition-colors ${editing ? "hover:opacity-80" : ""}`}
+                  onClick={() => editing && toggleSpecialty(s.value)}
                 >
                   {s[lang]}
                 </Badge>
@@ -150,12 +149,12 @@ const DoctorPersonalInfoPage: React.FC = () => {
 
       {/* Save bar */}
       {editing && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
-          <div className="mx-auto max-w-lg flex gap-2 px-4 py-3">
-            <Button variant="outline" className="flex-1" onClick={() => setEditing(false)}>{isEn ? "Cancel" : "取消"}</Button>
+        <DoctorActionBar>
+          <div className="flex gap-2">
+            <Button variant="outline" className="flex-1" onClick={() => { setEditing(false); setForm({ nameEn: profile.nameEn, nameZh: profile.nameZh, phone: profile.phone, email: profile.email, bioEn: profile.bioEn, bioZh: profile.bioZh }); setSelectedSpecialties(profile.specialties); }}>{isEn ? "Cancel" : "取消"}</Button>
             <Button className="flex-1" onClick={handleSave}><Save className="mr-1.5 h-4 w-4" />{isEn ? "Save" : "儲存"}</Button>
           </div>
-        </div>
+        </DoctorActionBar>
       )}
 
       {/* Upload notice */}
