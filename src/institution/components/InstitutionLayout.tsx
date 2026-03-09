@@ -25,6 +25,7 @@ const InstitutionLayout: React.FC = () => {
           { icon: BarChart3, label: isEn ? "Statistics" : "數據統計", path: "/institution/stats" },
           { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", path: "/institution/marketing" },
           { icon: Wallet, label: isEn ? "Finance" : "財務管理", path: "/institution/finance" },
+          { icon: MessageSquare, label: isEn ? "Reviews" : "評價管理", path: "/institution/reviews" },
         ]
       : []),
     { icon: Building2, label: isEn ? "Registration" : "機構註冊", path: "/institution/register" },

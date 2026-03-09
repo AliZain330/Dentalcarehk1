@@ -36,6 +36,7 @@ const InstitutionDashboardPage: React.FC = () => {
     { icon: BarChart3, label: isEn ? "Data Statistics" : "數據統計", desc: isEn ? "Revenue, orders & performance" : "營業額、訂單及績效", path: "/institution/stats", ready: true },
     { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", desc: isEn ? "Coupons & campaigns" : "優惠券及活動", path: "/institution/marketing", ready: true },
     { icon: Wallet, label: isEn ? "Finance" : "財務管理", desc: isEn ? "Settlements & withdrawals" : "結算及提現管理", path: "/institution/finance", ready: true },
+    { icon: MessageSquare, label: isEn ? "Reviews" : "評價管理", desc: isEn ? "View & reply to reviews" : "查看並回覆評價", path: "/institution/reviews", ready: true },
   ];
 
   return (
