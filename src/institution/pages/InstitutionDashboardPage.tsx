@@ -7,8 +7,7 @@ import ReviewStatusBadge from "../components/ReviewStatusBadge";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import {
   CalendarDays, Users, Star, TrendingUp,
-  MessageSquare, Settings,
-  Info, Stethoscope, ChevronRight, ClipboardList, BarChart3,
+  Info, Stethoscope, ChevronRight, ClipboardList, BarChart3, Ticket,
 } from "lucide-react";
 
 const InstitutionDashboardPage: React.FC = () => {
@@ -35,7 +34,7 @@ const InstitutionDashboardPage: React.FC = () => {
     { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage doctors and permissions" : "管理醫生及權限", path: "/institution/doctors", ready: true },
     { icon: ClipboardList, label: isEn ? "Order Management" : "訂單管理", desc: isEn ? "In-clinic & consultation orders" : "到診及諮詢訂單", path: "/institution/orders", ready: true },
     { icon: BarChart3, label: isEn ? "Data Statistics" : "數據統計", desc: isEn ? "Revenue, orders & performance" : "營業額、訂單及績效", path: "/institution/stats", ready: true },
-    { icon: MessageSquare, label: isEn ? "Reviews & Feedback" : "評價與反饋", desc: isEn ? "View patient feedback" : "查看患者反饋", path: null, ready: false },
+    { icon: Ticket, label: isEn ? "Marketing" : "營銷管理", desc: isEn ? "Coupons & campaigns" : "優惠券及活動", path: "/institution/marketing", ready: true },
   ];
 
   return (
