@@ -1,73 +1,147 @@
-# Welcome to your Lovable project
+# Dentalcarehk
 
-## Project info
+Hong Kong Dental Appointment & Online Consultation Platform (frontend MVP).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This repository contains a multi-portal web application with:
+- User app flows (booking, consultation, profile, orders)
+- Institution portal
+- Doctor portal
+- Platform Administration System
 
-## How can I edit this code?
+The current implementation is **frontend-only** and uses **mock data**.  
+Where external integrations are required, the UI explicitly shows: **"API key not added yet"**.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- React 18 + TypeScript
+- Vite
+- React Router
+- Tailwind CSS + shadcn/ui (Radix-based components)
+- TanStack Query (provider ready)
+- Recharts (admin analytics)
+- Vitest + Testing Library
+- ESLint
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## Quick Start
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 1) Install dependencies
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+npm install
+```
 
-Follow these steps:
+### 2) Run locally
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### 3) Build
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
+### 4) Preview production build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run preview
+```
 
-## What technologies are used for this project?
+### 5) Lint and tests
 
-This project is built with:
+```bash
+npm run lint
+npm run test
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## Project Structure
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```text
+src/
+  admin/         Platform Admin System
+  doctor/        Doctor portal
+  institution/   Institution portal
+  pages/         User-side pages
+  components/    Shared components + ui primitives
+  context/       User-side context state
+  i18n/          Language context and translations
+  data/          Global mock domain data
+```
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## Platform Admin System (Current Scope)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Key admin modules:
+- Dashboard
+- Institutions
+- Doctors
+- Users
+- Orders
+- Disputes
+- Marketing (Coupons, Campaigns, Banners)
+- Financials (Transactions, Settlements, Withdrawals)
+- System Settings
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Recent improvements include:
+- Unified admin navigation architecture
+- Reusable status badges and notifications
+- Cross-module linking (orders/disputes/users/doctors/institutions)
+- Better mock data relationship consistency
+- Bilingual UI consistency (English + Traditional Chinese)
+
+---
+
+## System Settings (Admin)
+
+Implemented settings modules:
+- Basic Settings
+  - Platform name
+  - Logo placeholder upload
+  - Service fee rate
+  - Appointment cancellation + penalty settings
+  - Online consultation rules (message count, time window, video duration)
+- Language Settings (EN / 繁中 editable copy table)
+- Permission Management (role-based permission matrix)
+- Admin Account Management (create/edit/enable/disable)
+- Log Management (operation and login logs with filters)
+
+Basic settings are persisted in browser storage to simulate cross-module influence (mock behavior).
+
+---
+
+## Internationalization
+
+- Supported languages: **English** and **Traditional Chinese (zh-HK)**
+- Language is managed by `LanguageContext`
+- Selection is persisted in localStorage
+
+---
+
+## Mock-Only Behavior
+
+- No real backend APIs are integrated yet
+- No real file upload, payment, export, SMS, or banking integrations
+- API-dependent UI actions display "API key not added yet"
+
+---
+
+## Notes for Developers
+
+- This project may contain uncommitted local changes during active development.
+- Prefer extending existing modules/components over rewriting pages.
+- Keep desktop admin dashboard UI clean and presentation-ready.
+- Preserve bilingual consistency for any new visible text.
+
+---
+
+## License
+
+Internal / private project (no public license specified).
