@@ -117,6 +117,7 @@ import AdminCouponDetailPage from "@/admin/pages/AdminCouponDetailPage";
 import AdminCampaignsPage from "@/admin/pages/AdminCampaignsPage";
 import AdminBannersPage from "@/admin/pages/AdminBannersPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
+import AdminSettlementDetailPage from "@/admin/pages/AdminSettlementDetailPage";
 import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
 
 const queryClient = new QueryClient();
