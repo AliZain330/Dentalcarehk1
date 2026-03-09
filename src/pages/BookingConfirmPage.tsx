@@ -13,6 +13,7 @@ const BookingConfirmPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const { booking, setBooking } = useBooking();
+  const { getApplicable, calculateDeduction } = useCoupons();
   const lang = language === "zh-HK" ? "zh" : "en";
 
   const institution = mockInstitutions.find((i) => i.id === instId);
