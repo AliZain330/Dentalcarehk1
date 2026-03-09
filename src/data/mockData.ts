@@ -153,6 +153,29 @@ export interface CoinTransaction {
   date: string;
 }
 
+export interface ReferralRecord {
+  id: string;
+  friendName: string;
+  friendMasked: string;
+  registeredAt: string;
+  firstOrderCompleted: boolean;
+  firstOrderDate?: string;
+  rewardStatus: "pending" | "claimable" | "claimed";
+}
+
+export interface CampaignCoupon {
+  id: string;
+  title: { en: string; zh: string };
+  discount: string;
+  discountAmount: number;
+  validUntil: string;
+  minSpend: number;
+  conditions: { en: string; zh: string };
+  applicableTo: "all" | "in_clinic" | "consultation";
+  source: "campaign" | "referral" | "institution";
+  sourceLabel: { en: string; zh: string };
+}
+
 // Generate time slots for a given date
 export const generateTimeSlots = (date: string): TimeSlot[] => {
   const morning = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
