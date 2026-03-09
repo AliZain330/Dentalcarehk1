@@ -8,7 +8,7 @@ import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import {
   CalendarDays, Users, Star, TrendingUp,
   MessageSquare, Settings,
-  Info, Stethoscope, ChevronRight,
+  Info, Stethoscope, ChevronRight, ClipboardList, BarChart3,
 } from "lucide-react";
 
 const InstitutionDashboardPage: React.FC = () => {
