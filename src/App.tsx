@@ -262,6 +262,10 @@ const App = () => (
                           <Route path="orders/disputes/:disputeId" element={<AdminDisputeDetailPage />} />
                           <Route path="stats" element={<AdminStatsPage />} />
                           <Route path="marketing" element={<AdminMarketingPage />} />
+                          <Route path="marketing/coupons/create" element={<AdminCouponCreatePage />} />
+                          <Route path="marketing/coupons/:id" element={<AdminCouponDetailPage />} />
+                          <Route path="marketing/campaigns" element={<AdminCampaignsPage />} />
+                          <Route path="marketing/banners" element={<AdminBannersPage />} />
                           <Route path="financials" element={<AdminFinancialsPage />} />
                           <Route path="settings" element={<AdminSettingsPage />} />
                         </Route>
