@@ -109,6 +109,8 @@ import AdminDoctorDetailPage from "@/admin/pages/AdminDoctorDetailPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
 import AdminUserDetailPage from "@/admin/pages/AdminUserDetailPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
+import AdminOrderDetailPage from "@/admin/pages/AdminOrderDetailPage";
+import { AdminDisputesPage, AdminDisputeDetailPage } from "@/admin/pages/AdminDisputesPage";
 import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
 import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
 import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
