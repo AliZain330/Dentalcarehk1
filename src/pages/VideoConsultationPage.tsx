@@ -5,6 +5,7 @@ import { useConsultation } from "@/context/ConsultationContext";
 import { mockOnlineDoctors } from "@/data/mockData";
 import { ArrowLeft, Mic, MicOff, VideoIcon, VideoOff, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const VideoConsultationPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
