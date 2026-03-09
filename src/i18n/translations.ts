@@ -70,3 +70,5 @@ export const translations = {
 } as const;
 
 export type Translations = typeof translations.en;
+export type TranslationKeys = Translations;
+export type Language = keyof typeof translations;
