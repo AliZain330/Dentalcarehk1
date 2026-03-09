@@ -61,6 +61,7 @@ import ComplaintPage from "@/pages/ComplaintPage";
 import SettingsPage from "@/pages/SettingsPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import UserAgreementPage from "@/pages/UserAgreementPage";
+import AiTriagePage from "@/pages/AiTriagePage";
 import NotFound from "./pages/NotFound";
 import { InstitutionProvider } from "@/institution/context/InstitutionContext";
 import InstitutionLayout from "@/institution/components/InstitutionLayout";
@@ -161,6 +162,7 @@ const App = () => (
 
                           {/* Reports */}
                           <Route path="/report/:reportId" element={<ReportDetailPage />} />
+                          <Route path="/ai-triage" element={<AiTriagePage />} />
                         </Route>
 
                         {/* Institution PC Backend */}
