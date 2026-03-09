@@ -9,19 +9,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useFavorites } from "@/context/FavoritesContext";
 import { mockCoupons } from "@/data/mockData";
 
+interface MenuItem {
+  icon: React.ElementType;
+  label: string;
+  right?: string;
+  action: () => void;
+}
+
 const ProfilePage: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const { favorites } = useFavorites();
   const availableCoupons = mockCoupons.filter((c) => c.status === "available").length;
 
-  const accountItems = [
+  const accountItems: MenuItem[] = [
     { icon: User, label: t.profile.personalInfo, action: () => {} },
     { icon: Phone, label: t.profile.phone, right: "+852 9123 4567", action: () => {} },
     { icon: Mail, label: t.profile.email, right: "user@example.com", action: () => {} },
   ];
 
-  const featureItems = [
+  const featureItems: MenuItem[] = [
     { icon: ClipboardList, label: t.profile.orderHistory, action: () => navigate("/orders") },
     { icon: FileText, label: t.profile.diagnosisReports, action: () => navigate("/reports") },
     { icon: Building2, label: t.profile.savedInstitutions, right: `${favorites.size}`, action: () => navigate("/saved-institutions") },
@@ -29,7 +36,7 @@ const ProfilePage: React.FC = () => {
     { icon: Gift, label: t.profile.referralRewards, right: "250 coins", action: () => navigate("/referral") },
   ];
 
-  const settingsItems = [
+  const settingsItems: MenuItem[] = [
     {
       icon: Globe,
       label: t.profile.languageSettings,
@@ -38,7 +45,7 @@ const ProfilePage: React.FC = () => {
     },
   ];
 
-  const renderMenuGroup = (items: typeof accountItems) => (
+  const renderMenuGroup = (items: MenuItem[]) => (
     <Card className="mb-4 border-0 shadow-sm">
       <CardContent className="divide-y divide-border p-0">
         {items.map((item) => (
@@ -49,7 +56,7 @@ const ProfilePage: React.FC = () => {
           >
             <item.icon className="h-5 w-5 text-muted-foreground" />
             <span className="flex-1 text-sm font-medium text-foreground">{item.label}</span>
-            {"right" in item && item.right && <span className="text-xs text-muted-foreground">{item.right}</span>}
+            {item.right && <span className="text-xs text-muted-foreground">{item.right}</span>}
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
           </button>
         ))}
@@ -76,13 +83,8 @@ const ProfilePage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Account */}
       {renderMenuGroup(accountItems)}
-
-      {/* Features */}
       {renderMenuGroup(featureItems)}
-
-      {/* Settings */}
       {renderMenuGroup(settingsItems)}
 
       {/* Logout */}
