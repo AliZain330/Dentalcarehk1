@@ -96,6 +96,7 @@ import DoctorAccountSecurityPage from "@/doctor/pages/DoctorAccountSecurityPage"
 import DoctorOrderHistoryPage from "@/doctor/pages/DoctorOrderHistoryPage";
 import DoctorSupportPage from "@/doctor/pages/DoctorSupportPage";
 import DoctorSettingsPage from "@/doctor/pages/DoctorSettingsPage";
+import { DoctorProvider } from "@/doctor/context/DoctorContext";
 
 const queryClient = new QueryClient();
 
