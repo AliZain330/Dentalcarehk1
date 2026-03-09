@@ -153,7 +153,15 @@ export const translations = {
     userAgreement: { title: "用戶協議" },
     common: { currency: "HKD", search: "搜尋", cancel: "取消", confirm: "確認", save: "儲存", back: "返回", next: "下一步", loading: "載入中...", comingSoon: "即將推出" },
   },
-} as const;
+};
 
 export type Language = keyof typeof translations;
-export type TranslationKeys = (typeof translations)["en"];
+
+// Recursive type to widen string literals to string
+type DeepStringify<T> = T extends string
+  ? string
+  : T extends object
+  ? { [K in keyof T]: DeepStringify<T[K]> }
+  : T;
+
+export type TranslationKeys = DeepStringify<(typeof translations)["en"]>;
