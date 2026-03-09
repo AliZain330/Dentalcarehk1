@@ -157,7 +157,7 @@ const InstitutionDetailPage: React.FC = () => {
           <CardContent className="p-4">
             <div className="mb-3 flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground">{t.institutionDetail.services}</h2>
-              <button className="flex items-center gap-0.5 text-xs font-medium text-primary">
+              <button onClick={() => navigate(`/booking/services/${institution.id}`)} className="flex items-center gap-0.5 text-xs font-medium text-primary">
                 {t.institutionDetail.viewAllServices} <ChevronRight className="h-3 w-3" />
               </button>
             </div>
