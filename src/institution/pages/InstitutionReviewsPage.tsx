@@ -163,10 +163,11 @@ const InstitutionReviewsPage: React.FC = () => {
   const [targetFilter, setTargetFilter] = useState<"all" | ReviewTarget>("all");
   const [ratingFilter, setRatingFilter] = useState<"all" | string>("all");
   const [replyFilter, setReplyFilter] = useState<"all" | ReplyStatus>("all");
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [replyingReviewId, setReplyingReviewId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [editingReplyId, setEditingReplyId] = useState<string | null>(null);
   const [editReplyText, setEditReplyText] = useState("");
+  const [detailReviewId, setDetailReviewId] = useState<string | null>(null);
 
   // ── Filtered reviews ──
 
