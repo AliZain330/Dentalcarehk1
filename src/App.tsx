@@ -76,6 +76,16 @@ import InstitutionStatsPage from "@/institution/pages/InstitutionStatsPage";
 import InstitutionMarketingPage from "@/institution/pages/InstitutionMarketingPage";
 import InstitutionFinancePage from "@/institution/pages/InstitutionFinancePage";
 import InstitutionReviewsPage from "@/institution/pages/InstitutionReviewsPage";
+import DoctorLayout from "@/doctor/DoctorLayout";
+import DoctorActivationPage from "@/doctor/pages/DoctorActivationPage";
+import DoctorLoginPage from "@/doctor/pages/DoctorLoginPage";
+import DoctorProfileCompletionPage from "@/doctor/pages/DoctorProfileCompletionPage";
+import DoctorOrdersPage from "@/doctor/pages/DoctorOrdersPage";
+import DoctorSchedulePage from "@/doctor/pages/DoctorSchedulePage";
+import DoctorReviewsPage from "@/doctor/pages/DoctorReviewsPage";
+import DoctorEarningsPage from "@/doctor/pages/DoctorEarningsPage";
+import DoctorProfilePage from "@/doctor/pages/DoctorProfilePage";
+import DoctorServiceSettingsPage from "@/doctor/pages/DoctorServiceSettingsPage";
 
 const queryClient = new QueryClient();
 
