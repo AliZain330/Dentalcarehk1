@@ -8,6 +8,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import PaymentMethodCard from "@/components/PaymentMethodCard";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const PaymentPage: React.FC = () => {
   const { instId, svcId, docId } = useParams<{ instId: string; svcId: string; docId: string }>();
