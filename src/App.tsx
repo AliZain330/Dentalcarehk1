@@ -215,6 +215,11 @@ const App = () => (
                           <Route path="reviews" element={<DoctorReviewsPage />} />
                           <Route path="earnings" element={<DoctorEarningsPage />} />
                           <Route path="profile" element={<DoctorProfilePage />} />
+                          <Route path="personal-info" element={<DoctorPersonalInfoPage />} />
+                          <Route path="account-security" element={<DoctorAccountSecurityPage />} />
+                          <Route path="order-history" element={<DoctorOrderHistoryPage />} />
+                          <Route path="support" element={<DoctorSupportPage />} />
+                          <Route path="settings" element={<DoctorSettingsPage />} />
                           <Route path="service-settings" element={<DoctorServiceSettingsPage />} />
                         </Route>
 
