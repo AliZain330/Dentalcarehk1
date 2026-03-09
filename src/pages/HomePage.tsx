@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
             <span className="text-center text-sm font-semibold text-foreground">{t.home.inClinic}</span>
           </CardContent>
         </Card>
-        <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md">
+        <Card className="cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/consultation/doctors")}>
           <CardContent className="flex flex-col items-center gap-3 p-5">
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-info">
               <Video className="h-7 w-7 text-primary-foreground" />

@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/i18n/LanguageContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
 import { BookingProvider } from "@/context/BookingContext";
 import { OrdersProvider } from "@/context/OrdersContext";
+import { ConsultationProvider } from "@/context/ConsultationContext";
 import AppLayout from "@/components/AppLayout";
 import HomePage from "@/pages/HomePage";
 import OrdersPage from "@/pages/OrdersPage";
@@ -32,6 +33,17 @@ import PaymentSuccessPage from "@/pages/PaymentSuccessPage";
 import OrderDetailPage from "@/pages/OrderDetailPage";
 import CancelOrderPage from "@/pages/CancelOrderPage";
 import ReviewPage from "@/pages/ReviewPage";
+import OnlineDoctorListPage from "@/pages/OnlineDoctorListPage";
+import OnlineDoctorDetailPage from "@/pages/OnlineDoctorDetailPage";
+import ConsultationRequestPage from "@/pages/ConsultationRequestPage";
+import ConsultationConfirmPage from "@/pages/ConsultationConfirmPage";
+import ConsultationPaymentPage from "@/pages/ConsultationPaymentPage";
+import ConsultationSuccessPage from "@/pages/ConsultationSuccessPage";
+import ConsultationOrderDetailPage from "@/pages/ConsultationOrderDetailPage";
+import ConsultationChatPage from "@/pages/ConsultationChatPage";
+import VideoConsultationPage from "@/pages/VideoConsultationPage";
+import ConsultationReviewPage from "@/pages/ConsultationReviewPage";
+import ReportDetailPage from "@/pages/ReportDetailPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,51 +54,70 @@ const App = () => (
       <FavoritesProvider>
         <BookingProvider>
           <OrdersProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <Routes>
-                  {/* Auth */}
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                  <Route path="/verification" element={<VerificationPage />} />
+            <ConsultationProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <Routes>
+                    {/* Auth */}
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/verification" element={<VerificationPage />} />
 
-                  {/* Payment success (no bottom nav) */}
-                  <Route path="/booking/success" element={<PaymentSuccessPage />} />
+                    {/* Payment success (no bottom nav) */}
+                    <Route path="/booking/success" element={<PaymentSuccessPage />} />
+                    <Route path="/consultation/success" element={<ConsultationSuccessPage />} />
 
-                  {/* Main app */}
-                  <Route element={<AppLayout />}>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/orders" element={<OrdersPage />} />
-                    <Route path="/reports" element={<ReportsPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/institutions" element={<InstitutionsPage />} />
-                    <Route path="/institution/:id" element={<InstitutionDetailPage />} />
-                    <Route path="/coupons" element={<CouponsPage />} />
-                    <Route path="/referral" element={<ReferralPage />} />
-                    <Route path="/saved-institutions" element={<SavedInstitutionsPage />} />
+                    {/* Consultation chat & video (full screen) */}
+                    <Route path="/consultation/chat/:orderId" element={<ConsultationChatPage />} />
+                    <Route path="/consultation/video/:orderId" element={<VideoConsultationPage />} />
 
-                    {/* Booking flow */}
-                    <Route path="/booking/services/:id" element={<ServiceListPage />} />
-                    <Route path="/booking/service-detail/:instId/:svcId" element={<ServiceDetailPage />} />
-                    <Route path="/booking/doctors/:instId/:svcId" element={<DoctorListPage />} />
-                    <Route path="/booking/doctor-detail/:instId/:svcId/:docId" element={<DoctorDetailPage />} />
-                    <Route path="/booking/time/:instId/:svcId/:docId" element={<TimeSlotPage />} />
-                    <Route path="/booking/confirm/:instId/:svcId/:docId" element={<BookingConfirmPage />} />
-                    <Route path="/booking/payment/:instId/:svcId/:docId" element={<PaymentPage />} />
+                    {/* Main app */}
+                    <Route element={<AppLayout />}>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/orders" element={<OrdersPage />} />
+                      <Route path="/reports" element={<ReportsPage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="/institutions" element={<InstitutionsPage />} />
+                      <Route path="/institution/:id" element={<InstitutionDetailPage />} />
+                      <Route path="/coupons" element={<CouponsPage />} />
+                      <Route path="/referral" element={<ReferralPage />} />
+                      <Route path="/saved-institutions" element={<SavedInstitutionsPage />} />
 
-                    {/* Orders */}
-                    <Route path="/order/:orderId" element={<OrderDetailPage />} />
-                    <Route path="/order/:orderId/cancel" element={<CancelOrderPage />} />
-                    <Route path="/order/:orderId/review" element={<ReviewPage />} />
-                  </Route>
+                      {/* In-clinic booking flow */}
+                      <Route path="/booking/services/:id" element={<ServiceListPage />} />
+                      <Route path="/booking/service-detail/:instId/:svcId" element={<ServiceDetailPage />} />
+                      <Route path="/booking/doctors/:instId/:svcId" element={<DoctorListPage />} />
+                      <Route path="/booking/doctor-detail/:instId/:svcId/:docId" element={<DoctorDetailPage />} />
+                      <Route path="/booking/time/:instId/:svcId/:docId" element={<TimeSlotPage />} />
+                      <Route path="/booking/confirm/:instId/:svcId/:docId" element={<BookingConfirmPage />} />
+                      <Route path="/booking/payment/:instId/:svcId/:docId" element={<PaymentPage />} />
 
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </TooltipProvider>
+                      {/* In-clinic orders */}
+                      <Route path="/order/:orderId" element={<OrderDetailPage />} />
+                      <Route path="/order/:orderId/cancel" element={<CancelOrderPage />} />
+                      <Route path="/order/:orderId/review" element={<ReviewPage />} />
+
+                      {/* Online consultation flow */}
+                      <Route path="/consultation/doctors" element={<OnlineDoctorListPage />} />
+                      <Route path="/consultation/doctor/:docId" element={<OnlineDoctorDetailPage />} />
+                      <Route path="/consultation/request/:docId" element={<ConsultationRequestPage />} />
+                      <Route path="/consultation/confirm/:docId" element={<ConsultationConfirmPage />} />
+                      <Route path="/consultation/payment/:docId" element={<ConsultationPaymentPage />} />
+                      <Route path="/consultation/order/:orderId" element={<ConsultationOrderDetailPage />} />
+                      <Route path="/consultation/order/:orderId/review" element={<ConsultationReviewPage />} />
+
+                      {/* Reports */}
+                      <Route path="/report/:reportId" element={<ReportDetailPage />} />
+                    </Route>
+
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </TooltipProvider>
+            </ConsultationProvider>
           </OrdersProvider>
         </BookingProvider>
       </FavoritesProvider>
