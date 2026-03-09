@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, ArrowLeft } from "lucide-react";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const ForgotPasswordPage: React.FC = () => {
   const { t } = useLanguage();
