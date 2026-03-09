@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Gift, Copy, QrCode, Coins, Check, Share2, Users, ShoppingBag, ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { ArrowLeft, Gift, Copy, QrCode, Coins, Check, Share2, Users, ShoppingBag, ArrowUpRight, ArrowDownLeft, ChevronRight, UserCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { mockCoinTransactions } from "@/data/mockData";
+import { useReferral } from "@/context/ReferralContext";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const ReferralPage: React.FC = () => {
@@ -13,8 +13,10 @@ const ReferralPage: React.FC = () => {
   const lang = language === "zh-HK" ? "zh" : "en";
   const [copied, setCopied] = useState(false);
   const [historyTab, setHistoryTab] = useState<"all" | "earned" | "spent">("all");
-  const referralLink = "https://dentalplus.hk/ref/USER123";
-  const coinsBalance = 250;
+  const referralCode = "DENTAL-USER123";
+  const referralLink = `https://dentalplus.hk/ref/${referralCode}`;
+
+  const { transactions, coinsBalance, totalReferred, completedFirstOrder } = useReferral();
 
   const handleCopy = () => {
     // TODO: Replace with real share/clipboard API
@@ -29,12 +31,12 @@ const ReferralPage: React.FC = () => {
     { icon: ShoppingBag, text: t.referralPage.step3 },
   ];
 
-  const filteredTransactions = mockCoinTransactions.filter((tx) =>
+  const filteredTransactions = transactions.filter((tx) =>
     historyTab === "all" ? true : tx.type === historyTab
   );
 
   return (
-    <div className="animate-fade-in p-4 pt-5">
+    <div className="animate-fade-in p-4 pt-5 pb-28">
       <div className="mb-4 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted">
           <ArrowLeft className="h-5 w-5 text-foreground" />
@@ -47,6 +49,43 @@ const ReferralPage: React.FC = () => {
         <CardContent className="flex flex-col items-center p-6 text-center">
           <Gift className="mb-2 h-10 w-10 text-primary-foreground" />
           <h2 className="text-lg font-bold text-primary-foreground">{t.referralPage.subtitle}</h2>
+          <p className="mt-1 text-xs text-primary-foreground/80">
+            {lang === "zh" ? "每位朋友完成首單，您獲得 HK$50 優惠券" : "Get a HK$50 coupon for each friend's first order"}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Stats row */}
+      <div className="mb-5 grid grid-cols-3 gap-3">
+        <Card className="border-0 shadow-sm">
+          <CardContent className="flex flex-col items-center p-3">
+            <p className="text-xl font-bold text-foreground">{totalReferred}</p>
+            <p className="text-[10px] text-muted-foreground">{lang === "zh" ? "已推薦" : "Referred"}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-0 shadow-sm">
+          <CardContent className="flex flex-col items-center p-3">
+            <p className="text-xl font-bold text-foreground">{completedFirstOrder}</p>
+            <p className="text-[10px] text-muted-foreground">{lang === "zh" ? "已下單" : "Ordered"}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-0 shadow-sm">
+          <CardContent className="flex flex-col items-center p-3">
+            <p className="text-xl font-bold text-primary">≈HK${(coinsBalance / 10).toFixed(0)}</p>
+            <p className="text-[10px] text-muted-foreground">{lang === "zh" ? "積分價值" : "Coin Value"}</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Referral Records entry */}
+      <Card className="mb-5 cursor-pointer border-0 shadow-sm transition-shadow hover:shadow-md" onClick={() => navigate("/referral/records")}>
+        <CardContent className="flex items-center gap-3 p-4">
+          <UserCheck className="h-5 w-5 text-primary" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-foreground">{lang === "zh" ? "推薦紀錄" : "Referral Records"}</p>
+            <p className="text-xs text-muted-foreground">{lang === "zh" ? "查看推薦狀態及領取獎賞" : "View status & claim rewards"}</p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </CardContent>
       </Card>
 
@@ -85,9 +124,13 @@ const ReferralPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Referral Link */}
+      {/* Referral Code */}
       <Card className="mb-5 border-0 shadow-sm">
         <CardContent className="p-4">
+          <h3 className="mb-2 text-sm font-semibold text-foreground">{lang === "zh" ? "您的推薦碼" : "Your Referral Code"}</h3>
+          <div className="mb-3 flex items-center justify-center rounded-lg bg-muted p-4">
+            <span className="font-mono text-xl font-bold tracking-widest text-primary">{referralCode}</span>
+          </div>
           <h3 className="mb-2 text-sm font-semibold text-foreground">{t.referralPage.yourLink}</h3>
           <div className="flex items-center gap-2 rounded-lg bg-muted p-3">
             <p className="flex-1 truncate text-xs text-muted-foreground">{referralLink}</p>
@@ -107,6 +150,17 @@ const ReferralPage: React.FC = () => {
           </div>
           <p className="text-sm text-muted-foreground">{t.referralPage.qrCode}</p>
           <ApiPlaceholderNotice service="QR Code" className="mt-3" />
+        </CardContent>
+      </Card>
+
+      {/* Share button with API placeholder */}
+      <Card className="mb-5 border-0 shadow-sm">
+        <CardContent className="p-4">
+          <ApiPlaceholderNotice service="Share" className="mb-3" />
+          <Button variant="outline" className="w-full" onClick={handleCopy}>
+            <Share2 className="mr-2 h-4 w-4" />
+            {lang === "zh" ? "分享推薦連結" : "Share Referral Link"}
+          </Button>
         </CardContent>
       </Card>
 

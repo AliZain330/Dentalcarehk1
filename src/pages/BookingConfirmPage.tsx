@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useBooking } from "@/context/BookingContext";
-import { mockInstitutions, getApplicableCoupons, calculateCouponDeduction } from "@/data/mockData";
+import { mockInstitutions } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
 import { ArrowLeft, Ticket, ChevronRight, Info, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ const BookingConfirmPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const { booking, setBooking } = useBooking();
+  const { getApplicable, calculateDeduction } = useCoupons();
   const lang = language === "zh-HK" ? "zh" : "en";
 
   const institution = mockInstitutions.find((i) => i.id === instId);
@@ -23,10 +25,10 @@ const BookingConfirmPage: React.FC = () => {
 
   if (!institution || !service || !doctor) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
-  const applicableCoupons = getApplicableCoupons(service.price, "in_clinic");
+  const applicableCoupons = getApplicable(service.price, "in_clinic");
   const selectedCoupon = applicableCoupons.find((c) => c.id === selectedCouponId);
 
-  const couponDeduction = selectedCoupon ? calculateCouponDeduction(selectedCoupon, service.price) : 0;
+  const couponDeduction = selectedCoupon ? calculateDeduction(selectedCoupon, service.price) : 0;
   const finalAmount = Math.max(0, service.price - couponDeduction);
 
   const rows = [

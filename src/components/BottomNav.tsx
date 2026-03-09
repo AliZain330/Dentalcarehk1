@@ -15,7 +15,7 @@ const BottomNav: React.FC = () => {
   ];
 
   // Only show bottom nav on main tab pages and secondary pages that aren't full-screen flows
-  const showNavPaths = ["/", "/orders", "/reports", "/profile", "/institutions", "/coupons", "/referral", "/saved-institutions"];
+  const showNavPaths = ["/", "/orders", "/reports", "/profile", "/institutions", "/coupons", "/referral", "/referral/records", "/saved-institutions"];
   const isShowNav = showNavPaths.includes(location.pathname);
   if (!isShowNav) return null;
 

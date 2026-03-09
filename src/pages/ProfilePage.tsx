@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useFavorites } from "@/context/FavoritesContext";
-import { mockCoupons } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
+import { useReferral } from "@/context/ReferralContext";
 
 interface MenuItem {
   icon: React.ElementType;
@@ -20,7 +21,9 @@ const ProfilePage: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const { favorites } = useFavorites();
-  const availableCoupons = mockCoupons.filter((c) => c.status === "available").length;
+  const { coupons } = useCoupons();
+  const { coinsBalance } = useReferral();
+  const availableCoupons = coupons.filter((c) => c.status === "available").length;
 
   const accountItems: MenuItem[] = [
     { icon: User, label: t.profile.personalInfo, action: () => {} },
@@ -33,7 +36,7 @@ const ProfilePage: React.FC = () => {
     { icon: FileText, label: t.profile.diagnosisReports, action: () => navigate("/reports") },
     { icon: Building2, label: t.profile.savedInstitutions, right: `${favorites.size}`, action: () => navigate("/saved-institutions") },
     { icon: Ticket, label: t.profile.coupons, right: `${availableCoupons}`, action: () => navigate("/coupons") },
-    { icon: Gift, label: t.profile.referralRewards, right: "250 coins", action: () => navigate("/referral") },
+    { icon: Gift, label: t.profile.referralRewards, right: `${coinsBalance} coins`, action: () => navigate("/referral") },
   ];
 
   const settingsItems: MenuItem[] = [

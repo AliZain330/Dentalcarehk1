@@ -153,6 +153,29 @@ export interface CoinTransaction {
   date: string;
 }
 
+export interface ReferralRecord {
+  id: string;
+  friendName: string;
+  friendMasked: string;
+  registeredAt: string;
+  firstOrderCompleted: boolean;
+  firstOrderDate?: string;
+  rewardStatus: "pending" | "claimable" | "claimed";
+}
+
+export interface CampaignCoupon {
+  id: string;
+  title: { en: string; zh: string };
+  discount: string;
+  discountAmount: number;
+  validUntil: string;
+  minSpend: number;
+  conditions: { en: string; zh: string };
+  applicableTo: "all" | "in_clinic" | "consultation";
+  source: "campaign" | "referral" | "institution";
+  sourceLabel: { en: string; zh: string };
+}
+
 // Generate time slots for a given date
 export const generateTimeSlots = (date: string): TimeSlot[] => {
   const morning = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"];
@@ -245,6 +268,22 @@ export const mockCoinTransactions: CoinTransaction[] = [
   { id: "ct3", type: "earned", amount: 100, description: { en: "Referral: Ben signed up", zh: "推薦：Ben 已註冊" }, date: "2026-03-01" },
   { id: "ct4", type: "spent", amount: -50, description: { en: "Used for order ORD20260301001", zh: "用於訂單 ORD20260301001" }, date: "2026-03-02" },
   { id: "ct5", type: "earned", amount: 50, description: { en: "Welcome bonus", zh: "歡迎獎勵" }, date: "2026-01-10" },
+];
+
+// Mock referral records
+export const mockReferralRecords: ReferralRecord[] = [
+  { id: "ref1", friendName: "Alice L.", friendMasked: "Ali***", registeredAt: "2026-02-15", firstOrderCompleted: true, firstOrderDate: "2026-02-20", rewardStatus: "claimed" },
+  { id: "ref2", friendName: "Ben T.", friendMasked: "Ben***", registeredAt: "2026-03-01", firstOrderCompleted: true, firstOrderDate: "2026-03-05", rewardStatus: "claimable" },
+  { id: "ref3", friendName: "Cindy W.", friendMasked: "Cin***", registeredAt: "2026-03-07", firstOrderCompleted: false, rewardStatus: "pending" },
+  { id: "ref4", friendName: "David C.", friendMasked: "Dav***", registeredAt: "2026-03-08", firstOrderCompleted: false, rewardStatus: "pending" },
+];
+
+// Mock campaign coupons (claimable from banners / institution pages)
+export const mockCampaignCoupons: CampaignCoupon[] = [
+  { id: "camp1", title: { en: "Welcome Gift: HK$30 Off", zh: "迎新禮物：減HK$30" }, discount: "HK$30", discountAmount: 30, validUntil: "2026-06-30", minSpend: 200, conditions: { en: "All services. Min. spend HK$200.", zh: "所有服務。最低消費 HK$200。" }, applicableTo: "all", source: "campaign", sourceLabel: { en: "Home Banner Campaign", zh: "首頁活動" } },
+  { id: "camp2", title: { en: "Teeth Whitening Promo: HK$500 Off", zh: "牙齒美白優惠：減HK$500" }, discount: "HK$500", discountAmount: 500, validUntil: "2026-05-31", minSpend: 2000, conditions: { en: "In-clinic whitening only. Min. spend HK$2,000.", zh: "僅限到診美白。最低消費 HK$2,000。" }, applicableTo: "in_clinic", source: "campaign", sourceLabel: { en: "Promo Campaign", zh: "優惠活動" } },
+  { id: "camp3", title: { en: "Referral Bonus: HK$50 Off", zh: "推薦獎賞：減HK$50" }, discount: "HK$50", discountAmount: 50, validUntil: "2026-12-31", minSpend: 0, conditions: { en: "No minimum spend. All services.", zh: "無最低消費。所有服務。" }, applicableTo: "all", source: "referral", sourceLabel: { en: "Referral Reward", zh: "推薦獎賞" } },
+  { id: "camp4", title: { en: "SmileCare Exclusive: 10% Off", zh: "微笑牙科專屬：9折" }, discount: "10%", discountAmount: 0, validUntil: "2026-04-30", minSpend: 500, conditions: { en: "SmileCare Central only. Min. spend HK$500.", zh: "僅限微笑牙科中環。最低消費 HK$500。" }, applicableTo: "in_clinic", source: "institution", sourceLabel: { en: "SmileCare Dental", zh: "微笑牙科" } },
 ];
 
 // ---- Existing Mock Data ----

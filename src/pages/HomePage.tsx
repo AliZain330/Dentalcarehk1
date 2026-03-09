@@ -1,18 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Stethoscope, Video, Ticket, Gift, ChevronRight } from "lucide-react";
+import { Stethoscope, Video, Ticket, Gift, ChevronRight, Megaphone, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import BannerCarousel from "@/components/BannerCarousel";
 import SectionHeader from "@/components/SectionHeader";
 import InstitutionCard from "@/components/InstitutionCard";
 import ServiceCard from "@/components/ServiceCard";
-import { mockInstitutions, mockPopularServices, mockCoupons } from "@/data/mockData";
+import { mockInstitutions, mockPopularServices, mockCampaignCoupons } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
+import { toast } from "@/hooks/use-toast";
 
 const HomePage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
-  const availableCoupons = mockCoupons.filter((c) => c.status === "available").length;
+  const lang = language === "zh-HK" ? "zh" : "en";
+  const { coupons, claimCoupon, isClaimed } = useCoupons();
+  const availableCoupons = coupons.filter((c) => c.status === "available").length;
+
+  // Show first campaign coupon that hasn't been claimed
+  const campaignCoupon = mockCampaignCoupons.find((c) => c.source === "campaign" && !isClaimed(c.id));
+
+  const handleClaimCampaign = () => {
+    if (!campaignCoupon) return;
+    const success = claimCoupon({
+      id: campaignCoupon.id,
+      title: campaignCoupon.title,
+      discount: campaignCoupon.discount,
+      discountAmount: campaignCoupon.discountAmount,
+      validUntil: campaignCoupon.validUntil,
+      status: "available",
+      minSpend: campaignCoupon.minSpend,
+      conditions: campaignCoupon.conditions,
+      applicableTo: campaignCoupon.applicableTo,
+    });
+    if (success) {
+      toast({ title: lang === "zh" ? "優惠券已領取！" : "Coupon claimed!" });
+    }
+  };
 
   return (
     <div className="animate-fade-in space-y-6 p-4 pt-5">
@@ -24,6 +50,22 @@ const HomePage: React.FC = () => {
 
       {/* Banner Carousel */}
       <BannerCarousel />
+
+      {/* Campaign coupon claim banner */}
+      {campaignCoupon && (
+        <Card className="border-0 bg-gradient-to-r from-warning/10 to-warning/5 shadow-sm">
+          <CardContent className="flex items-center gap-3 p-4">
+            <Megaphone className="h-8 w-8 shrink-0 text-warning" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-foreground">{campaignCoupon.title[lang]}</p>
+              <p className="text-xs text-muted-foreground">{campaignCoupon.conditions[lang]}</p>
+            </div>
+            <Button size="sm" onClick={handleClaimCampaign}>
+              {lang === "zh" ? "領取" : "Claim"}
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Quick Entry Buttons */}
       <div className="grid grid-cols-2 gap-3">
