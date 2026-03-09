@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { ArrowLeft, User, Clock, MapPin, Stethoscope, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { User, Clock, MapPin, Stethoscope, CheckCircle2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { mockClinicOrders, type ClinicOrderStatus } from "./DoctorOrdersPage";
+import { useDoctorContext } from "@/doctor/context/DoctorContext";
+import DoctorPageHeader from "@/doctor/components/DoctorPageHeader";
+import DoctorActionBar from "@/doctor/components/DoctorActionBar";
+import DoctorStatusBadge from "@/doctor/components/DoctorStatusBadge";
+import type { ClinicOrderStatus } from "./DoctorOrdersPage";
+
+const statusBadgeMap: Record<ClinicOrderStatus, { type: "pending" | "confirmed" | "completed"; en: string; zh: string }> = {
+  pending_acceptance: { type: "pending", en: "Pending Acceptance", zh: "待接受" },
+  pending_treatment: { type: "confirmed", en: "Pending Treatment", zh: "待治療" },
+  completed: { type: "completed", en: "Completed", zh: "已完成" },
+};
 
 const DoctorClinicOrderDetailPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -14,32 +23,22 @@ const DoctorClinicOrderDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const isEn = language !== "zh-HK";
   const lang = isEn ? "en" : "zh";
+  const { clinicOrders, updateClinicOrderStatus } = useDoctorContext();
 
-  const original = mockClinicOrders.find((o) => o.id === orderId);
-  const [status, setStatus] = useState<ClinicOrderStatus>(original?.status || "pending_acceptance");
+  const order = clinicOrders.find((o) => o.id === orderId);
+  if (!order) return <div className="p-8 text-center text-muted-foreground">{isEn ? "Order not found" : "未找到訂單"}</div>;
 
-  if (!original) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
-  const order = { ...original, status };
-
-  const statusMap: Record<ClinicOrderStatus, { label: string; cls: string }> = {
-    pending_acceptance: { label: isEn ? "Pending Acceptance" : "待接受", cls: "bg-warning/10 text-warning border-warning/20" },
-    pending_treatment: { label: isEn ? "Pending Treatment" : "待治療", cls: "bg-primary/10 text-primary border-primary/20" },
-    completed: { label: isEn ? "Completed" : "已完成", cls: "bg-success/10 text-success border-success/20" },
-  };
-  const st = statusMap[order.status];
+  const badge = statusBadgeMap[order.status];
 
   return (
-    <div className="animate-fade-in p-4 pt-5 pb-28">
-      <div className="mb-4 flex items-center gap-3">
-        <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
-        <div className="flex-1">
-          <h1 className="text-lg font-bold text-foreground">{isEn ? "Order Details" : "訂單詳情"}</h1>
-          <p className="text-xs text-muted-foreground">{order.orderNo}</p>
-        </div>
-        <Badge variant="outline" className={st.cls}>{st.label}</Badge>
-      </div>
+    <div className="animate-fade-in pb-28">
+      <DoctorPageHeader
+        title={isEn ? "Order Details" : "訂單詳情"}
+        subtitle={order.orderNo}
+        badge={{ label: badge[lang], className: `bg-${badge.type === "pending" ? "warning" : badge.type === "confirmed" ? "primary" : "success"}/10 text-${badge.type === "pending" ? "warning" : badge.type === "confirmed" ? "primary" : "success"} border-${badge.type === "pending" ? "warning" : badge.type === "confirmed" ? "primary" : "success"}/20` }}
+      />
 
-      <div className="space-y-3">
+      <div className="mx-auto max-w-lg space-y-3 p-4">
         {/* Patient */}
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
@@ -100,30 +99,23 @@ const DoctorClinicOrderDetailPage: React.FC = () => {
 
       {/* Actions */}
       {order.status !== "completed" && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
-          <div className="mx-auto max-w-lg px-4 py-3 space-y-2">
-            {order.status === "pending_acceptance" && (
-              <div className="flex gap-2">
-                <Button className="flex-1" onClick={() => { setStatus("pending_treatment"); toast({ title: isEn ? "Order accepted" : "已接受訂單" }); }}>
-                  <CheckCircle2 className="mr-1.5 h-4 w-4" />{isEn ? "Accept Order" : "接受訂單"}
-                </Button>
-                <Button variant="outline" className="flex-1" onClick={() => { navigate(-1); toast({ title: isEn ? "Order declined (mock)" : "已拒絕訂單（模擬）" }); }}>
-                  {isEn ? "Decline" : "拒絕"}
-                </Button>
-              </div>
-            )}
-            {order.status === "pending_treatment" && (
-              <div className="space-y-2">
-                <Button className="w-full" variant="outline" onClick={() => toast({ title: isEn ? "Treatment started (mock)" : "已開始治療（模擬）" })}>
-                  {isEn ? "Mark Treatment Started" : "標記開始治療"}
-                </Button>
-                <Button className="w-full" onClick={() => { setStatus("completed"); toast({ title: isEn ? "Treatment completed" : "治療已完成" }); }}>
-                  <CheckCircle2 className="mr-1.5 h-4 w-4" />{isEn ? "Mark Completed" : "標記完成"}
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
+        <DoctorActionBar>
+          {order.status === "pending_acceptance" && (
+            <div className="flex gap-2">
+              <Button className="flex-1" onClick={() => { updateClinicOrderStatus(order.id, "pending_treatment"); toast({ title: isEn ? "Order accepted" : "已接受訂單" }); }}>
+                <CheckCircle2 className="mr-1.5 h-4 w-4" />{isEn ? "Accept Order" : "接受訂單"}
+              </Button>
+              <Button variant="outline" className="flex-1" onClick={() => { navigate(-1); toast({ title: isEn ? "Order declined" : "已拒絕訂單" }); }}>
+                {isEn ? "Decline" : "拒絕"}
+              </Button>
+            </div>
+          )}
+          {order.status === "pending_treatment" && (
+            <Button className="w-full" onClick={() => { updateClinicOrderStatus(order.id, "completed"); toast({ title: isEn ? "Treatment completed" : "治療已完成" }); }}>
+              <CheckCircle2 className="mr-1.5 h-4 w-4" />{isEn ? "Mark Completed" : "標記完成"}
+            </Button>
+          )}
+        </DoctorActionBar>
       )}
     </div>
   );
