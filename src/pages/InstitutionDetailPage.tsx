@@ -215,7 +215,7 @@ const InstitutionDetailPage: React.FC = () => {
             <Navigation className="h-4 w-4" />
             {t.institutionDetail.getDirections}
           </Button>
-          <Button className="flex-1">
+          <Button className="flex-1" onClick={() => navigate(`/booking/services/${institution.id}`)}>
             <Calendar className="mr-1.5 h-4 w-4" />
             {t.institutionDetail.bookNow}
           </Button>
