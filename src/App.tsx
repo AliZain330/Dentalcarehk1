@@ -97,6 +97,16 @@ import DoctorOrderHistoryPage from "@/doctor/pages/DoctorOrderHistoryPage";
 import DoctorSupportPage from "@/doctor/pages/DoctorSupportPage";
 import DoctorSettingsPage from "@/doctor/pages/DoctorSettingsPage";
 import { DoctorProvider } from "@/doctor/context/DoctorContext";
+import AdminLayout from "@/admin/components/AdminLayout";
+import AdminDashboardPage from "@/admin/pages/AdminDashboardPage";
+import AdminStatsPage from "@/admin/pages/AdminStatsPage";
+import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
+import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
+import AdminUsersPage from "@/admin/pages/AdminUsersPage";
+import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
+import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
+import AdminFinancialsPage from "@/admin/pages/AdminFinancialsPage";
+import AdminSettingsPage from "@/admin/pages/AdminSettingsPage";
 
 const queryClient = new QueryClient();
 
