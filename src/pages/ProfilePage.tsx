@@ -20,10 +20,11 @@ interface MenuItem {
 const ProfilePage: React.FC = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { favorites } = useFavorites();
+  const { favorites, doctorFavorites } = useFavorites();
   const { coupons } = useCoupons();
   const { coinsBalance } = useReferral();
   const availableCoupons = coupons.filter((c) => c.status === "available").length;
+  const totalFavorites = favorites.size + doctorFavorites.size;
 
   const orderItems: MenuItem[] = [
     { icon: ClipboardList, label: t.profile.inClinicOrders, action: () => navigate("/orders") },
@@ -31,7 +32,7 @@ const ProfilePage: React.FC = () => {
   ];
 
   const featureItems: MenuItem[] = [
-    { icon: Heart, label: t.profile.myFavorites, right: `${favorites.size}`, action: () => navigate("/my-favorites") },
+    { icon: Heart, label: t.profile.myFavorites, right: `${totalFavorites}`, action: () => navigate("/my-favorites") },
     { icon: Ticket, label: t.profile.coupons, right: `${availableCoupons}`, action: () => navigate("/coupons") },
     { icon: Gift, label: t.profile.referralRewards, right: `${coinsBalance} coins`, action: () => navigate("/referral") },
     { icon: FileText, label: t.profile.diagnosisReports, action: () => navigate("/reports") },
@@ -46,9 +47,9 @@ const ProfilePage: React.FC = () => {
   const renderMenuGroup = (items: MenuItem[]) => (
     <Card className="mb-3 border-0 shadow-sm">
       <CardContent className="divide-y divide-border p-0">
-        {items.map((item) => (
+        {items.map((item, i) => (
           <button
-            key={item.label}
+            key={`${item.label}-${i}`}
             onClick={item.action}
             className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-muted"
           >
@@ -67,7 +68,7 @@ const ProfilePage: React.FC = () => {
       <h1 className="mb-5 text-xl font-bold text-foreground">{t.profile.title}</h1>
 
       {/* Avatar card */}
-      <Card className="mb-5 border-0 shadow-sm" onClick={() => navigate("/personal-info")}>
+      <Card className="mb-5 cursor-pointer border-0 shadow-sm" onClick={() => navigate("/personal-info")}>
         <CardContent className="flex items-center gap-4 p-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
             <User className="h-8 w-8 text-primary-foreground" />

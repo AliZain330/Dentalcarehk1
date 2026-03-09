@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Star, Pencil, Trash2, MessageSquare } from "lucide-react";
@@ -7,6 +7,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
+import { useOrders } from "@/context/OrdersContext";
+import { useConsultation } from "@/context/ConsultationContext";
+import { mockInstitutions, mockOnlineDoctors } from "@/data/mockData";
 
 interface UserReview {
   id: string;
@@ -15,21 +18,59 @@ interface UserReview {
   rating: number;
   comment: string;
   date: string;
+  orderId: string;
 }
-
-const mockUserReviews: UserReview[] = [
-  { id: "ur1", type: "in_clinic", targetName: { en: "SmileCare Dental Central", zh: "微笑牙科中環診所" }, rating: 5, comment: "Excellent service! Very professional and clean environment.", date: "2026-02-20" },
-  { id: "ur2", type: "consultation", targetName: { en: "Dr. Sarah Chan", zh: "陳醫生" }, rating: 4, comment: "Very helpful advice. Quick response time.", date: "2026-03-01" },
-  { id: "ur3", type: "in_clinic", targetName: { en: "DentalPlus TST", zh: "齒科佳尖沙咀店" }, rating: 5, comment: "Great orthodontist, highly recommend!", date: "2026-02-28" },
-];
 
 const MyReviewsPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const r = t.myReviews;
   const lang = language === "zh-HK" ? "zh" : "en";
+  const { orders } = useOrders();
+  const { consultations } = useConsultation();
 
-  const [reviews, setReviews] = useState(mockUserReviews);
+  // Build reviews from reviewed orders
+  const initialReviews = useMemo(() => {
+    const clinicReviews: UserReview[] = orders
+      .filter((o) => o.reviewed)
+      .map((o) => {
+        const inst = mockInstitutions.find((i) => i.id === o.institutionId);
+        return {
+          id: `clinic-${o.id}`,
+          type: "in_clinic" as const,
+          targetName: inst?.name || { en: "Unknown", zh: "未知" },
+          rating: 5,
+          comment: "Great experience!",
+          date: o.createdAt.split("T")[0],
+          orderId: o.id,
+        };
+      });
+
+    const consultReviews: UserReview[] = consultations
+      .filter((c) => c.reviewed)
+      .map((c) => {
+        const doc = mockOnlineDoctors.find((d) => d.id === c.doctorId);
+        return {
+          id: `consult-${c.id}`,
+          type: "consultation" as const,
+          targetName: doc?.name || { en: "Unknown", zh: "未知" },
+          rating: 4,
+          comment: "Very helpful consultation.",
+          date: c.createdAt.split("T")[0],
+          orderId: c.id,
+        };
+      });
+
+    // Add some mock reviews for demo
+    const mockReviews: UserReview[] = [
+      { id: "ur1", type: "in_clinic", targetName: { en: "SmileCare Dental Central", zh: "微笑牙科中環診所" }, rating: 5, comment: "Excellent service! Very professional and clean environment.", date: "2026-02-20", orderId: "" },
+      { id: "ur2", type: "consultation", targetName: { en: "Dr. Sarah Chan", zh: "陳醫生" }, rating: 4, comment: "Very helpful advice. Quick response time.", date: "2026-03-01", orderId: "" },
+    ];
+
+    return [...clinicReviews, ...consultReviews, ...mockReviews];
+  }, [orders, consultations]);
+
+  const [reviews, setReviews] = useState(initialReviews);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
 
@@ -100,7 +141,7 @@ const MyReviewsPage: React.FC = () => {
   };
 
   return (
-    <div className="animate-fade-in p-4 pt-5">
+    <div className="animate-fade-in p-4 pt-5 pb-28">
       <div className="mb-5 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
         <h1 className="text-xl font-bold text-foreground">{r.title}</h1>

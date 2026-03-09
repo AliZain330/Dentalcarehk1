@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart, Star, X } from "lucide-react";
+import { ArrowLeft, Heart, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useFavorites } from "@/context/FavoritesContext";
@@ -12,30 +12,15 @@ const MyFavoritesPage: React.FC = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const f = t.myFavorites;
-  const { favorites, toggleFavorite } = useFavorites();
-  const [favDoctors, setFavDoctors] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem("saved-doctors");
-      return saved ? new Set(JSON.parse(saved)) : new Set(["od1", "od3"]);
-    } catch { return new Set(["od1", "od3"]); }
-  });
+  const { favorites, toggleFavorite, doctorFavorites, toggleDoctorFavorite } = useFavorites();
 
   const savedInstitutions = mockInstitutions.filter((i) => favorites.has(i.id));
-  const savedDoctors = mockOnlineDoctors.filter((d) => favDoctors.has(d.id));
-
-  const removeFavDoctor = (id: string) => {
-    setFavDoctors((prev) => {
-      const next = new Set(prev);
-      next.delete(id);
-      localStorage.setItem("saved-doctors", JSON.stringify([...next]));
-      return next;
-    });
-  };
+  const savedDoctors = mockOnlineDoctors.filter((d) => doctorFavorites.has(d.id));
 
   const lang = language === "zh-HK" ? "zh" : "en";
 
   return (
-    <div className="animate-fade-in p-4 pt-5">
+    <div className="animate-fade-in p-4 pt-5 pb-28">
       <div className="mb-5 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
         <h1 className="text-xl font-bold text-foreground">{f.title}</h1>
@@ -43,8 +28,8 @@ const MyFavoritesPage: React.FC = () => {
 
       <Tabs defaultValue="institutions">
         <TabsList className="w-full">
-          <TabsTrigger value="institutions" className="flex-1">{f.institutions}</TabsTrigger>
-          <TabsTrigger value="doctors" className="flex-1">{f.doctors}</TabsTrigger>
+          <TabsTrigger value="institutions" className="flex-1">{f.institutions} ({savedInstitutions.length})</TabsTrigger>
+          <TabsTrigger value="doctors" className="flex-1">{f.doctors} ({savedDoctors.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="institutions">
@@ -57,7 +42,7 @@ const MyFavoritesPage: React.FC = () => {
           ) : (
             <div className="mt-3 space-y-2">
               {savedInstitutions.map((inst) => (
-                <Card key={inst.id} className="border-0 shadow-sm">
+                <Card key={inst.id} className="cursor-pointer border-0 shadow-sm">
                   <CardContent className="flex items-center gap-3 p-3" onClick={() => navigate(`/institution/${inst.id}`)}>
                     <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${inst.logoColor} text-primary-foreground font-bold text-sm`}>{inst.logoInitials}</div>
                     <div className="flex-1 min-w-0">
@@ -87,7 +72,7 @@ const MyFavoritesPage: React.FC = () => {
           ) : (
             <div className="mt-3 space-y-2">
               {savedDoctors.map((doc) => (
-                <Card key={doc.id} className="border-0 shadow-sm">
+                <Card key={doc.id} className="cursor-pointer border-0 shadow-sm">
                   <CardContent className="flex items-center gap-3 p-3" onClick={() => navigate(`/consultation/doctor/${doc.id}`)}>
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">{doc.name.en.charAt(4)}</div>
                     <div className="flex-1 min-w-0">
@@ -95,7 +80,7 @@ const MyFavoritesPage: React.FC = () => {
                       <p className="text-xs text-muted-foreground">{doc.specialty[lang]}</p>
                       <RatingStars rating={doc.rating} size={12} />
                     </div>
-                    <button onClick={(e) => { e.stopPropagation(); removeFavDoctor(doc.id); }} className="p-1.5 hover:bg-muted rounded-full">
+                    <button onClick={(e) => { e.stopPropagation(); toggleDoctorFavorite(doc.id); }} className="p-1.5 hover:bg-muted rounded-full">
                       <X className="h-4 w-4 text-destructive" />
                     </button>
                   </CardContent>

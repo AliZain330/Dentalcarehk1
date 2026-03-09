@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { mockReferralRecords as initialRecords, mockCoinTransactions as initialTx, type ReferralRecord, type CoinTransaction } from "@/data/mockData";
+import { useCoupons } from "@/context/CouponContext";
 
 interface ReferralContextType {
   records: ReferralRecord[];
@@ -16,6 +17,7 @@ const ReferralContext = createContext<ReferralContextType | null>(null);
 export const ReferralProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [records, setRecords] = useState<ReferralRecord[]>(initialRecords);
   const [transactions, setTransactions] = useState<CoinTransaction[]>(initialTx);
+  const { claimCoupon } = useCoupons();
 
   const coinsBalance = transactions.reduce((sum, tx) => sum + tx.amount, 0);
   const totalReferred = records.length;
@@ -41,8 +43,22 @@ export const ReferralProvider: React.FC<{ children: ReactNode }> = ({ children }
       },
       ...prev,
     ]);
+
+    // Also add HK$50 coupon to user's coupon list
+    claimCoupon({
+      id: `referral-reward-${recordId}-${Date.now()}`,
+      title: { en: "Referral Reward: HK$50 Off", zh: "推薦獎賞：減HK$50" },
+      discount: "HK$50",
+      discountAmount: 50,
+      validUntil: "2026-12-31",
+      status: "available",
+      minSpend: 0,
+      conditions: { en: "No minimum spend. All services.", zh: "無最低消費。所有服務。" },
+      applicableTo: "all",
+    });
+
     return true;
-  }, [records]);
+  }, [records, claimCoupon]);
 
   return (
     <ReferralContext.Provider value={{ records, transactions, coinsBalance, totalReferred, completedFirstOrder, rewardsEarned, claimReward }}>
