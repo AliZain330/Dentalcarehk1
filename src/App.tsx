@@ -104,6 +104,8 @@ import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
 import AdminInstitutionReviewsPage from "@/admin/pages/AdminInstitutionReviewsPage";
 import AdminInstitutionDetailPage from "@/admin/pages/AdminInstitutionDetailPage";
 import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
+import AdminDoctorReviewsPage from "@/admin/pages/AdminDoctorReviewsPage";
+import AdminDoctorDetailPage from "@/admin/pages/AdminDoctorDetailPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
 import AdminMarketingPage from "@/admin/pages/AdminMarketingPage";
@@ -243,6 +245,8 @@ const App = () => (
                           <Route path="institutions/reviews" element={<AdminInstitutionReviewsPage />} />
                           <Route path="institutions/:id" element={<AdminInstitutionDetailPage />} />
                           <Route path="doctors" element={<AdminDoctorsPage />} />
+                          <Route path="doctors/reviews" element={<AdminDoctorReviewsPage />} />
+                          <Route path="doctors/:id" element={<AdminDoctorDetailPage />} />
                           <Route path="users" element={<AdminUsersPage />} />
                           <Route path="orders" element={<AdminOrdersPage />} />
                           <Route path="stats" element={<AdminStatsPage />} />
