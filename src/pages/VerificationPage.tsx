@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
+import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 
 const VerificationPage: React.FC = () => {
   const { t } = useLanguage();
