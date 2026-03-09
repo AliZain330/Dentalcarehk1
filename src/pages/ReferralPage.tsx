@@ -98,13 +98,14 @@ const ReferralPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* QR Code placeholder */}
+      {/* QR Code placeholder — TODO: Replace with real QR code generation */}
       <Card className="mb-5 border-0 shadow-sm">
         <CardContent className="flex flex-col items-center p-6">
           <div className="mb-2 flex h-32 w-32 items-center justify-center rounded-lg border-2 border-dashed border-border">
             <QrCode className="h-16 w-16 text-muted-foreground" />
           </div>
           <p className="text-sm text-muted-foreground">{t.referralPage.qrCode}</p>
+          <ApiPlaceholderNotice service="QR Code" className="mt-3" />
         </CardContent>
       </Card>
 
