@@ -69,6 +69,7 @@ import InstitutionCredentialsPage from "@/institution/pages/InstitutionCredentia
 import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPage";
 import InstitutionInfoPage from "@/institution/pages/InstitutionInfoPage";
 import InstitutionServicesPage from "@/institution/pages/InstitutionServicesPage";
+import InstitutionDoctorsPage from "@/institution/pages/InstitutionDoctorsPage";
 
 const queryClient = new QueryClient();
 
