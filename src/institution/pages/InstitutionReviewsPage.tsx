@@ -79,7 +79,7 @@ const initialMockReviews: Review[] = [
     date: "2024-03-03",
     target: "doctor",
     targetName: "Dr. Emily Chen",
-    orderRef: "ORD-20240303-007",
+    orderRef: "IC20240303-007",
     images: 1,
     reply: {
       content: "謝謝您的肯定！如有任何問題歡迎隨時聯繫我們。Thank you for your feedback! Feel free to contact us anytime.",
