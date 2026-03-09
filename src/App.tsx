@@ -101,6 +101,8 @@ import AdminLayout from "@/admin/components/AdminLayout";
 import AdminDashboardPage from "@/admin/pages/AdminDashboardPage";
 import AdminStatsPage from "@/admin/pages/AdminStatsPage";
 import AdminInstitutionsPage from "@/admin/pages/AdminInstitutionsPage";
+import AdminInstitutionReviewsPage from "@/admin/pages/AdminInstitutionReviewsPage";
+import AdminInstitutionDetailPage from "@/admin/pages/AdminInstitutionDetailPage";
 import AdminDoctorsPage from "@/admin/pages/AdminDoctorsPage";
 import AdminUsersPage from "@/admin/pages/AdminUsersPage";
 import AdminOrdersPage from "@/admin/pages/AdminOrdersPage";
