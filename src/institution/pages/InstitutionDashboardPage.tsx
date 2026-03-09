@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useInstitution } from "../context/InstitutionContext";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import ReviewStatusBadge from "../components/ReviewStatusBadge";
 import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import {
   CalendarDays, Users, Star, TrendingUp,
-  ClipboardList, MessageSquare, Settings, Building2,
+  MessageSquare, Settings,
+  Info, Stethoscope, ChevronRight,
 } from "lucide-react";
 
 const InstitutionDashboardPage: React.FC = () => {
@@ -30,12 +30,12 @@ const InstitutionDashboardPage: React.FC = () => {
   ];
 
   const modules = [
-    { icon: CalendarDays, label: isEn ? "Appointment Management" : "預約管理", desc: isEn ? "View and manage appointments" : "查看和管理預約" },
-    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage onboarded doctors" : "管理入駐醫生" },
-    { icon: ClipboardList, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Manage services and pricing" : "管理服務和定價" },
-    { icon: MessageSquare, label: isEn ? "Reviews & Feedback" : "評價與反饋", desc: isEn ? "View patient feedback" : "查看患者反饋" },
-    { icon: Building2, label: isEn ? "Institution Profile" : "機構資料", desc: isEn ? "Update institution info" : "更新機構資訊" },
-    { icon: Settings, label: isEn ? "Settings" : "設定", desc: isEn ? "Account and preferences" : "帳戶和偏好設定" },
+    { icon: Info, label: isEn ? "Institution Info" : "機構資訊", desc: isEn ? "Edit profile, photos, address" : "編輯資料、照片、地址", path: "/institution/info", ready: true },
+    { icon: Stethoscope, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Add, edit, list/unlist services" : "新增、編輯、上架/下架服務", path: "/institution/services", ready: true },
+    { icon: CalendarDays, label: isEn ? "Appointment Management" : "預約管理", desc: isEn ? "View and manage appointments" : "查看和管理預約", path: null, ready: false },
+    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage onboarded doctors" : "管理入駐醫生", path: null, ready: false },
+    { icon: MessageSquare, label: isEn ? "Reviews & Feedback" : "評價與反饋", desc: isEn ? "View patient feedback" : "查看患者反饋", path: null, ready: false },
+    { icon: Settings, label: isEn ? "Settings" : "設定", desc: isEn ? "Account and preferences" : "帳戶和偏好設定", path: null, ready: false },
   ];
 
   return (
@@ -72,19 +72,24 @@ const InstitutionDashboardPage: React.FC = () => {
 
       {/* Modules */}
       <div>
-        <h2 className="text-lg font-semibold text-foreground mb-4">{isEn ? "Quick Access" : "快速訪問"}</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">{isEn ? "Management Modules" : "管理模組"}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {modules.map((m, i) => (
-            <Card key={i} className="cursor-pointer hover:shadow-md transition-shadow">
+            <Card
+              key={i}
+              className={`transition-shadow ${m.ready ? "cursor-pointer hover:shadow-md" : "opacity-60"}`}
+              onClick={() => m.ready && m.path && navigate(m.path)}
+            >
               <CardContent className="p-5 flex items-start gap-4">
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <m.icon className="h-5 w-5 text-primary" />
+                <div className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${m.ready ? "bg-primary/10" : "bg-muted"}`}>
+                  <m.icon className={`h-5 w-5 ${m.ready ? "text-primary" : "text-muted-foreground"}`} />
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-foreground">{m.label}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{m.desc}</p>
-                  <p className="text-xs text-muted-foreground mt-2 italic">{isEn ? "Coming soon" : "即將推出"}</p>
+                  {!m.ready && <p className="text-xs text-muted-foreground mt-2 italic">{isEn ? "Coming soon" : "即將推出"}</p>}
                 </div>
+                {m.ready && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />}
               </CardContent>
             </Card>
           ))}
