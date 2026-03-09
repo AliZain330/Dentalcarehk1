@@ -4,7 +4,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useOrders } from "@/context/OrdersContext";
 import { useConsultation } from "@/context/ConsultationContext";
 import { mockInstitutions, mockOnlineDoctors } from "@/data/mockData";
-import { ClipboardList, Search, MessageSquareText, Video, Stethoscope } from "lucide-react";
+import { ClipboardList, Search, MessageSquareText, Video, Stethoscope, Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import StatusBadge from "@/components/StatusBadge";
@@ -32,7 +32,9 @@ const OrdersPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [search, setSearch] = useState("");
 
-  // Clinic orders
+  const clinicCount = orders.length;
+  const consultCount = consultations.length;
+
   const filteredClinic = useMemo(() => {
     if (orderType !== "clinic") return [];
     return orders.filter((o) => {
@@ -44,7 +46,6 @@ const OrdersPage: React.FC = () => {
     });
   }, [orders, activeTab, search, lang, orderType]);
 
-  // Consultation orders
   const filteredConsultation = useMemo(() => {
     if (orderType !== "consultation") return [];
     return consultations.filter((c) => {
@@ -66,15 +67,23 @@ const OrdersPage: React.FC = () => {
       <div className="mb-4 flex rounded-xl bg-muted p-1">
         <button
           onClick={() => { setOrderType("clinic"); setActiveTab("all"); }}
-          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-all ${orderType === "clinic" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
+          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-medium transition-all ${orderType === "clinic" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
         >
-          <Stethoscope className="h-3.5 w-3.5" /> {t.orderManagement.inClinic}
+          <Stethoscope className="h-3.5 w-3.5" />
+          {t.orderManagement.inClinic}
+          <span className={`ml-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold ${orderType === "clinic" ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground"}`}>
+            {clinicCount}
+          </span>
         </button>
         <button
           onClick={() => { setOrderType("consultation"); setActiveTab("all"); }}
-          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-all ${orderType === "consultation" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
+          className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-medium transition-all ${orderType === "consultation" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
         >
-          <MessageSquareText className="h-3.5 w-3.5" /> {t.orderManagement.onlineConsult}
+          <MessageSquareText className="h-3.5 w-3.5" />
+          {t.orderManagement.onlineConsult}
+          <span className={`ml-1 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold ${orderType === "consultation" ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground"}`}>
+            {consultCount}
+          </span>
         </button>
       </div>
 
@@ -119,7 +128,12 @@ const OrdersPage: React.FC = () => {
                     <div className="flex-1">
                       <p className="text-sm font-semibold text-foreground">{svc?.name[lang]}</p>
                       <p className="text-xs text-muted-foreground">{doc?.name[lang]} · {order.date} {order.time}</p>
-                      <p className="mt-1 text-sm font-bold text-primary">HK${order.finalAmount.toLocaleString()}</p>
+                      <div className="mt-1 flex items-center justify-between">
+                        <p className="text-sm font-bold text-primary">HK${order.finalAmount.toLocaleString()}</p>
+                        {order.couponDeduction > 0 && (
+                          <span className="text-[10px] text-success">-HK${order.couponDeduction}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -155,11 +169,13 @@ const OrdersPage: React.FC = () => {
           })}
         </div>
       ) : (
-        <div className="flex flex-col items-center py-16 text-center">
-          <ClipboardList className="mb-3 h-12 w-12 text-muted-foreground" />
-          <p className="text-base font-medium text-foreground">{t.orderManagement.empty}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t.orderManagement.emptyDesc}</p>
-        </div>
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-center py-16 text-center">
+            <ClipboardList className="mb-3 h-12 w-12 text-muted-foreground" />
+            <p className="text-base font-medium text-foreground">{t.orderManagement.empty}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t.orderManagement.emptyDesc}</p>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

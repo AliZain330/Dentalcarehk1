@@ -14,9 +14,9 @@ const BottomNav: React.FC = () => {
     { to: "/profile", icon: User, label: t.nav.profile },
   ];
 
-  // Hide on auth pages
-  const hiddenPaths = ["/login", "/register", "/forgot-password", "/verification", "/institution/", "/booking/", "/consultation/"];
-  if (hiddenPaths.some((p) => location.pathname.startsWith(p))) return null;
+  // Hide on auth, detail, and full-screen pages
+  const hiddenPrefixes = ["/login", "/register", "/forgot-password", "/verification", "/institution/", "/booking/", "/consultation/"];
+  if (hiddenPrefixes.some((p) => location.pathname.startsWith(p))) return null;
   if (location.pathname.match(/^\/order\/.+/)) return null;
   if (location.pathname.match(/^\/report\/.+/)) return null;
 
@@ -30,9 +30,7 @@ const BottomNav: React.FC = () => {
             end={item.to === "/"}
             className={({ isActive }) =>
               `flex flex-col items-center gap-0.5 px-3 py-1.5 text-xs transition-colors ${
-                isActive
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground"
+                isActive ? "text-primary font-medium" : "text-muted-foreground"
               }`
             }
           >

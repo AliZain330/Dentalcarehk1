@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Gift, Copy, QrCode, Coins, Check, Share2, Users, ShoppingBag } from "lucide-react";
+import { ArrowLeft, Gift, Copy, QrCode, Coins, Check, Share2, Users, ShoppingBag, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { mockCoinTransactions } from "@/data/mockData";
 
 const ReferralPage: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const lang = language === "zh-HK" ? "zh" : "en";
   const [copied, setCopied] = useState(false);
+  const [historyTab, setHistoryTab] = useState<"all" | "earned" | "spent">("all");
   const referralLink = "https://dentalplus.hk/ref/USER123";
+  const coinsBalance = 250;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink).catch(() => {});
@@ -22,6 +26,10 @@ const ReferralPage: React.FC = () => {
     { icon: Users, text: t.referralPage.step2 },
     { icon: ShoppingBag, text: t.referralPage.step3 },
   ];
+
+  const filteredTransactions = mockCoinTransactions.filter((tx) =>
+    historyTab === "all" ? true : tx.type === historyTab
+  );
 
   return (
     <div className="animate-fade-in p-4 pt-5">
@@ -40,6 +48,23 @@ const ReferralPage: React.FC = () => {
         </CardContent>
       </Card>
 
+      {/* Coin Balance */}
+      <Card className="mb-5 border-0 shadow-sm">
+        <CardContent className="flex items-center gap-4 p-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-warning/10">
+            <Coins className="h-7 w-7 text-warning" />
+          </div>
+          <div className="flex-1">
+            <p className="text-sm text-muted-foreground">{t.referralPage.balance}</p>
+            <p className="text-2xl font-bold text-foreground">{coinsBalance} <span className="text-sm font-normal text-muted-foreground">{t.referralPage.coins}</span></p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground">{t.referralPage.conversion}</p>
+            <p className="text-sm font-semibold text-primary">≈ HK${(coinsBalance / 10).toFixed(0)}</p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* How it works */}
       <Card className="mb-5 border-0 shadow-sm">
         <CardContent className="p-4">
@@ -54,6 +79,7 @@ const ReferralPage: React.FC = () => {
               </div>
             ))}
           </div>
+          <p className="mt-3 text-xs text-muted-foreground">{t.referralPage.conversionNote}</p>
         </CardContent>
       </Card>
 
@@ -81,28 +107,51 @@ const ReferralPage: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Coin Balance */}
-      <Card className="mb-5 border-0 shadow-sm">
-        <CardContent className="flex items-center gap-4 p-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-warning/10">
-            <Coins className="h-6 w-6 text-warning" />
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">{t.referralPage.balance}</p>
-            <p className="text-2xl font-bold text-foreground">250 <span className="text-sm font-normal text-muted-foreground">{t.referralPage.coins}</span></p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* History */}
+      {/* Coin Transaction History */}
       <Card className="border-0 shadow-sm">
         <CardContent className="p-4">
           <h3 className="mb-3 text-base font-semibold text-foreground">{t.referralPage.history}</h3>
-          <div className="flex flex-col items-center py-6 text-center">
-            <Gift className="mb-2 h-8 w-8 text-muted-foreground" />
-            <p className="text-sm font-medium text-foreground">{t.referralPage.emptyHistory}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{t.referralPage.emptyHistoryDesc}</p>
+          <div className="mb-3 flex gap-2">
+            {(["all", "earned", "spent"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setHistoryTab(tab)}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  historyTab === tab ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {tab === "all" ? t.orderManagement.all : tab === "earned" ? t.referralPage.earned : t.referralPage.spent}
+              </button>
+            ))}
           </div>
+          {filteredTransactions.length > 0 ? (
+            <div className="space-y-2">
+              {filteredTransactions.map((tx) => (
+                <div key={tx.id} className="flex items-center gap-3 rounded-lg bg-muted/50 p-3">
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${tx.type === "earned" ? "bg-success/10" : "bg-destructive/10"}`}>
+                    {tx.type === "earned" ? (
+                      <ArrowDownLeft className="h-4 w-4 text-success" />
+                    ) : (
+                      <ArrowUpRight className="h-4 w-4 text-destructive" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-foreground">{tx.description[lang]}</p>
+                    <p className="text-xs text-muted-foreground">{tx.date}</p>
+                  </div>
+                  <span className={`text-sm font-semibold ${tx.type === "earned" ? "text-success" : "text-destructive"}`}>
+                    {tx.type === "earned" ? "+" : ""}{tx.amount}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center py-6 text-center">
+              <Gift className="mb-2 h-8 w-8 text-muted-foreground" />
+              <p className="text-sm font-medium text-foreground">{t.referralPage.emptyHistory}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{t.referralPage.emptyHistoryDesc}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
