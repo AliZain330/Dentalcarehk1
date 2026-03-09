@@ -190,6 +190,19 @@ const App = () => (
                           <Route path="reviews" element={<InstitutionReviewsPage />} />
                         </Route>
 
+                        {/* Dentist App */}
+                        <Route path="/doctor/activation" element={<DoctorActivationPage />} />
+                        <Route path="/doctor/login" element={<DoctorLoginPage />} />
+                        <Route path="/doctor/profile-completion" element={<DoctorProfileCompletionPage />} />
+                        <Route path="/doctor" element={<DoctorLayout />}>
+                          <Route path="orders" element={<DoctorOrdersPage />} />
+                          <Route path="schedule" element={<DoctorSchedulePage />} />
+                          <Route path="reviews" element={<DoctorReviewsPage />} />
+                          <Route path="earnings" element={<DoctorEarningsPage />} />
+                          <Route path="profile" element={<DoctorProfilePage />} />
+                          <Route path="service-settings" element={<DoctorServiceSettingsPage />} />
+                        </Route>
+
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </BrowserRouter>
