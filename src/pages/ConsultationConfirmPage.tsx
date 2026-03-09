@@ -16,6 +16,8 @@ const ConsultationConfirmPage: React.FC = () => {
 
   const { consultType, symptoms, medicalHistory, imageCount } = (location.state as any) || {};
   const doctor = mockOnlineDoctors.find((d) => d.id === docId);
+  const { getApplicable, calculateDeduction } = useCoupons();
+  const [selectedCouponId, setSelectedCouponId] = useState<string | undefined>();
   const [selectedCouponId, setSelectedCouponId] = useState<string | undefined>();
   const [showCoupons, setShowCoupons] = useState(false);
 
