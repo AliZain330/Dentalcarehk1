@@ -14,11 +14,10 @@ const BottomNav: React.FC = () => {
     { to: "/profile", icon: User, label: t.nav.profile },
   ];
 
-  // Hide on auth, detail, and full-screen pages
-  const hiddenPrefixes = ["/login", "/register", "/forgot-password", "/verification", "/institution/", "/booking/", "/consultation/"];
-  if (hiddenPrefixes.some((p) => location.pathname.startsWith(p))) return null;
-  if (location.pathname.match(/^\/order\/.+/)) return null;
-  if (location.pathname.match(/^\/report\/.+/)) return null;
+  // Only show bottom nav on main tab pages and secondary pages that aren't full-screen flows
+  const showNavPaths = ["/", "/orders", "/reports", "/profile", "/institutions", "/coupons", "/referral", "/saved-institutions"];
+  const isShowNav = showNavPaths.includes(location.pathname);
+  if (!isShowNav) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">

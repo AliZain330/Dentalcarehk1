@@ -31,9 +31,11 @@ const ConsultationOrderDetailPage: React.FC = () => {
     { label: t.orderManagement.status, value: <ConsultationStatusBadge status={order.status} /> },
     { label: t.booking.doctor, value: doctor?.name[lang] || "" },
     { label: t.consultation.consultationType, value: order.consultationType === "text_image" ? t.consultation.textImage : t.consultation.video },
-    { label: t.consultation.symptoms, value: order.symptoms.substring(0, 60) + (order.symptoms.length > 60 ? "..." : "") },
+    { label: t.consultation.symptoms, value: order.symptoms.length > 60 ? order.symptoms.substring(0, 60) + "..." : order.symptoms },
     { label: t.orderManagement.createdAt, value: new Date(order.createdAt).toLocaleString() },
   ];
+
+  const hasBottomActions = canCancel || canChat || canVideo || canReview || hasReport || order.status === "pending_acceptance";
 
   return (
     <div className="animate-fade-in pb-28">
@@ -48,7 +50,7 @@ const ConsultationOrderDetailPage: React.FC = () => {
             {rows.map((r, i) => (
               <div key={i} className="flex items-center justify-between px-4 py-3">
                 <span className="text-sm text-muted-foreground">{r.label}</span>
-                <span className="text-sm font-medium text-foreground">{r.value}</span>
+                <span className="max-w-[60%] text-right text-sm font-medium text-foreground">{r.value}</span>
               </div>
             ))}
           </CardContent>
@@ -91,8 +93,12 @@ const ConsultationOrderDetailPage: React.FC = () => {
             <CardContent className="p-4">
               <h3 className="mb-2 text-sm font-semibold text-foreground">{t.consultation.diagnosisNotes}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{order.diagnosisNotes?.[lang]}</p>
-              <h3 className="mb-2 mt-4 text-sm font-semibold text-foreground">{t.consultation.medicationAdvice}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{order.medicationAdvice?.[lang]}</p>
+              {order.medicationAdvice && (
+                <>
+                  <h3 className="mb-2 mt-4 text-sm font-semibold text-foreground">{t.consultation.medicationAdvice}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{order.medicationAdvice[lang]}</p>
+                </>
+              )}
             </CardContent>
           </Card>
         )}
@@ -105,35 +111,37 @@ const ConsultationOrderDetailPage: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
-        <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
-          {canCancel && (
-            <Button variant="outline" className="flex-1 text-destructive" onClick={() => { cancelConsultation(order.id); navigate(-1); }}>
-              {t.orderManagement.cancelOrder}
-            </Button>
-          )}
-          {canChat && (
-            <Button className="flex-1" onClick={() => navigate(`/consultation/chat/${orderId}`)}>
-              <MessageSquareText className="mr-1 h-4 w-4" /> {t.consultation.enterChat}
-            </Button>
-          )}
-          {canVideo && (
-            <Button className="flex-1" onClick={() => navigate(`/consultation/video/${orderId}`)}>
-              <Video className="mr-1 h-4 w-4" /> {t.consultation.joinVideo}
-            </Button>
-          )}
-          {canReview && (
-            <Button className="flex-1" onClick={() => navigate(`/consultation/order/${orderId}/review`)}>
-              {t.orderManagement.writeReview}
-            </Button>
-          )}
-          {hasReport && (
-            <Button variant="outline" className="flex-1" onClick={() => navigate(`/report/${orderId}`)}>
-              <FileText className="mr-1 h-4 w-4" /> {t.consultation.viewReport}
-            </Button>
-          )}
+      {hasBottomActions && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
+          <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
+            {canCancel && (
+              <Button variant="outline" className="flex-1 text-destructive" onClick={() => { cancelConsultation(order.id); navigate(-1); }}>
+                {t.orderManagement.cancelOrder}
+              </Button>
+            )}
+            {canChat && (
+              <Button className="flex-1" onClick={() => navigate(`/consultation/chat/${orderId}`)}>
+                <MessageSquareText className="mr-1 h-4 w-4" /> {t.consultation.enterChat}
+              </Button>
+            )}
+            {canVideo && (
+              <Button className="flex-1" onClick={() => navigate(`/consultation/video/${orderId}`)}>
+                <Video className="mr-1 h-4 w-4" /> {t.consultation.joinVideo}
+              </Button>
+            )}
+            {canReview && (
+              <Button className="flex-1" onClick={() => navigate(`/consultation/order/${orderId}/review`)}>
+                {t.orderManagement.writeReview}
+              </Button>
+            )}
+            {hasReport && (
+              <Button variant="outline" className="flex-1" onClick={() => navigate(`/report/${orderId}`)}>
+                <FileText className="mr-1 h-4 w-4" /> {t.consultation.viewReport}
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

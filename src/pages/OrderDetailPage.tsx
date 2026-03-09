@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useOrders } from "@/context/OrdersContext";
 import { mockInstitutions } from "@/data/mockData";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import StatusBadge from "@/components/StatusBadge";
@@ -16,7 +16,7 @@ const OrderDetailPage: React.FC = () => {
   const lang = language === "zh-HK" ? "zh" : "en";
 
   const order = orders.find((o) => o.id === orderId);
-  if (!order) return <div className="p-8 text-center text-muted-foreground">Order not found</div>;
+  if (!order) return <div className="p-8 text-center text-muted-foreground">Not found</div>;
 
   const inst = mockInstitutions.find((i) => i.id === order.institutionId);
   const svc = inst?.services.find((s) => s.id === order.serviceId);
@@ -37,7 +37,7 @@ const OrderDetailPage: React.FC = () => {
   const canReview = order.status === "completed" && !order.reviewed;
 
   return (
-    <div className="animate-fade-in pb-24">
+    <div className="animate-fade-in pb-28">
       <div className="sticky top-0 z-10 flex items-center gap-3 bg-background/95 px-4 py-3 backdrop-blur-sm">
         <button onClick={() => navigate(-1)} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5 text-foreground" /></button>
         <h1 className="text-lg font-bold text-foreground">{t.orderManagement.orderDetail}</h1>
@@ -96,20 +96,22 @@ const OrderDetailPage: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
-        <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
-          {canCancel && (
-            <Button variant="outline" className="flex-1 text-destructive" onClick={() => navigate(`/order/${orderId}/cancel`)}>
-              {t.orderManagement.cancelOrder}
-            </Button>
-          )}
-          {canReview && (
-            <Button className="flex-1" onClick={() => navigate(`/order/${orderId}/review`)}>
-              {t.orderManagement.writeReview}
-            </Button>
-          )}
+      {(canCancel || canReview) && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card safe-bottom">
+          <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
+            {canCancel && (
+              <Button variant="outline" className="flex-1 text-destructive" onClick={() => navigate(`/order/${orderId}/cancel`)}>
+                {t.orderManagement.cancelOrder}
+              </Button>
+            )}
+            {canReview && (
+              <Button className="flex-1" onClick={() => navigate(`/order/${orderId}/review`)}>
+                {t.orderManagement.writeReview}
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
