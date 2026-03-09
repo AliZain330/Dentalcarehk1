@@ -9,7 +9,99 @@ import ApiPlaceholderNotice from "@/components/ApiPlaceholderNotice";
 import {
   CalendarDays, Users, Star, TrendingUp,
   ClipboardList, MessageSquare, Settings, Building2,
+  Info, Stethoscope, ChevronRight,
 } from "lucide-react";
+
+const InstitutionDashboardPage: React.FC = () => {
+  const { language } = useLanguage();
+  const { profile } = useInstitution();
+  const navigate = useNavigate();
+  const isEn = language === "en";
+
+  if (profile.reviewStatus !== "approved") {
+    navigate("/institution/credentials");
+    return null;
+  }
+
+  const stats = [
+    { icon: CalendarDays, label: isEn ? "Today's Appointments" : "今日預約", value: "12", color: "text-primary" },
+    { icon: Users, label: isEn ? "Total Patients" : "總患者數", value: "1,284", color: "text-info" },
+    { icon: Star, label: isEn ? "Average Rating" : "平均評分", value: "4.8", color: "text-warning" },
+    { icon: TrendingUp, label: isEn ? "Monthly Revenue" : "月收入", value: "HK$128,400", color: "text-success" },
+  ];
+
+  const modules = [
+    { icon: Info, label: isEn ? "Institution Info" : "機構資訊", desc: isEn ? "Edit profile, photos, address" : "編輯資料、照片、地址", path: "/institution/info", ready: true },
+    { icon: Stethoscope, label: isEn ? "Service Management" : "服務管理", desc: isEn ? "Add, edit, list/unlist services" : "新增、編輯、上架/下架服務", path: "/institution/services", ready: true },
+    { icon: CalendarDays, label: isEn ? "Appointment Management" : "預約管理", desc: isEn ? "View and manage appointments" : "查看和管理預約", path: null, ready: false },
+    { icon: Users, label: isEn ? "Doctor Management" : "醫生管理", desc: isEn ? "Manage onboarded doctors" : "管理入駐醫生", path: null, ready: false },
+    { icon: MessageSquare, label: isEn ? "Reviews & Feedback" : "評價與反饋", desc: isEn ? "View patient feedback" : "查看患者反饋", path: null, ready: false },
+    { icon: Settings, label: isEn ? "Settings" : "設定", desc: isEn ? "Account and preferences" : "帳戶和偏好設定", path: null, ready: false },
+  ];
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">
+            {isEn ? `Welcome, ${profile.name || "Institution"}` : `歡迎，${profile.name || "機構"}`}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">{isEn ? "Institution Management Dashboard" : "機構管理控制台"}</p>
+        </div>
+        <ReviewStatusBadge status="approved" />
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((s, i) => (
+          <Card key={i}>
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className={`h-10 w-10 rounded-lg bg-muted flex items-center justify-center ${s.color}`}>
+                <s.icon className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-foreground">{s.value}</p>
+                <p className="text-xs text-muted-foreground">{s.label}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <ApiPlaceholderNotice service={isEn ? "Dashboard Analytics" : "控制台分析"} variant="inline" />
+
+      {/* Modules */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-4">{isEn ? "Management Modules" : "管理模組"}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {modules.map((m, i) => (
+            <Card
+              key={i}
+              className={`transition-shadow ${m.ready ? "cursor-pointer hover:shadow-md" : "opacity-60"}`}
+              onClick={() => m.ready && m.path && navigate(m.path)}
+            >
+              <CardContent className="p-5 flex items-start gap-4">
+                <div className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${m.ready ? "bg-primary/10" : "bg-muted"}`}>
+                  <m.icon className={`h-5 w-5 ${m.ready ? "text-primary" : "text-muted-foreground"}`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-foreground">{m.label}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{m.desc}</p>
+                  {!m.ready && <p className="text-xs text-muted-foreground mt-2 italic">{isEn ? "Coming soon" : "即將推出"}</p>}
+                </div>
+                {m.ready && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InstitutionDashboardPage;
+
 
 const InstitutionDashboardPage: React.FC = () => {
   const { language } = useLanguage();
