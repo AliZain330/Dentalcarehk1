@@ -67,6 +67,8 @@ import InstitutionLayout from "@/institution/components/InstitutionLayout";
 import InstitutionRegisterPage from "@/institution/pages/InstitutionRegisterPage";
 import InstitutionCredentialsPage from "@/institution/pages/InstitutionCredentialsPage";
 import InstitutionDashboardPage from "@/institution/pages/InstitutionDashboardPage";
+import InstitutionInfoPage from "@/institution/pages/InstitutionInfoPage";
+import InstitutionServicesPage from "@/institution/pages/InstitutionServicesPage";
 
 const queryClient = new QueryClient();
 
