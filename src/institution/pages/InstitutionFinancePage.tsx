@@ -418,7 +418,7 @@ const InstitutionFinancePage: React.FC = () => {
                     <p className="text-xs font-mono text-muted-foreground">{bankAccount.accountNumber}</p>
                     <div className="flex items-center gap-2 mt-2">
                       {bankAccount.verified ? (
-                        <span className="inline-flex items-center gap-1 text-xs text-emerald-600"><CheckCircle2 className="h-3 w-3" />{isEn ? "Verified" : "已驗證"}</span>
+                        <span className="inline-flex items-center gap-1 text-xs text-primary"><CheckCircle2 className="h-3 w-3" />{isEn ? "Verified" : "已驗證"}</span>
                       ) : (
                         <span className="inline-flex items-center gap-1 text-xs text-warning"><AlertCircle className="h-3 w-3" />{isEn ? "Pending Verification" : "待驗證"}</span>
                       )}
