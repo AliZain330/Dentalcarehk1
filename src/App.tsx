@@ -76,6 +76,16 @@ import InstitutionStatsPage from "@/institution/pages/InstitutionStatsPage";
 import InstitutionMarketingPage from "@/institution/pages/InstitutionMarketingPage";
 import InstitutionFinancePage from "@/institution/pages/InstitutionFinancePage";
 import InstitutionReviewsPage from "@/institution/pages/InstitutionReviewsPage";
+import DoctorLayout from "@/doctor/DoctorLayout";
+import DoctorActivationPage from "@/doctor/pages/DoctorActivationPage";
+import DoctorLoginPage from "@/doctor/pages/DoctorLoginPage";
+import DoctorProfileCompletionPage from "@/doctor/pages/DoctorProfileCompletionPage";
+import DoctorOrdersPage from "@/doctor/pages/DoctorOrdersPage";
+import DoctorSchedulePage from "@/doctor/pages/DoctorSchedulePage";
+import DoctorReviewsPage from "@/doctor/pages/DoctorReviewsPage";
+import DoctorEarningsPage from "@/doctor/pages/DoctorEarningsPage";
+import DoctorProfilePage from "@/doctor/pages/DoctorProfilePage";
+import DoctorServiceSettingsPage from "@/doctor/pages/DoctorServiceSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -178,6 +188,19 @@ const App = () => (
                           <Route path="marketing" element={<InstitutionMarketingPage />} />
                           <Route path="finance" element={<InstitutionFinancePage />} />
                           <Route path="reviews" element={<InstitutionReviewsPage />} />
+                        </Route>
+
+                        {/* Dentist App */}
+                        <Route path="/doctor/activation" element={<DoctorActivationPage />} />
+                        <Route path="/doctor/login" element={<DoctorLoginPage />} />
+                        <Route path="/doctor/profile-completion" element={<DoctorProfileCompletionPage />} />
+                        <Route path="/doctor" element={<DoctorLayout />}>
+                          <Route path="orders" element={<DoctorOrdersPage />} />
+                          <Route path="schedule" element={<DoctorSchedulePage />} />
+                          <Route path="reviews" element={<DoctorReviewsPage />} />
+                          <Route path="earnings" element={<DoctorEarningsPage />} />
+                          <Route path="profile" element={<DoctorProfilePage />} />
+                          <Route path="service-settings" element={<DoctorServiceSettingsPage />} />
                         </Route>
 
                         <Route path="*" element={<NotFound />} />
