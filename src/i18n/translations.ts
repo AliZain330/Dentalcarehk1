@@ -30,7 +30,50 @@ export const translations = {
     },
     orders: { title: "My Orders", all: "All", pending: "Pending", confirmed: "Confirmed", completed: "Completed", cancelled: "Cancelled", empty: "No orders yet", emptyDesc: "Your appointment orders will appear here" },
     reports: { title: "Diagnosis Reports", empty: "No reports yet", emptyDesc: "Your diagnosis reports will appear here after consultations", searchReports: "Search reports...", reportDetail: "Report Details", save: "Save", share: "Share" },
-    profile: { title: "Profile", personalInfo: "Personal Information", languageSettings: "Language Settings", savedInstitutions: "Saved Institutions", coupons: "Coupons", referralRewards: "Referral Rewards", logout: "Logout", language: "Language", english: "English", chinese: "繁體中文", phone: "Phone Number", email: "Email", orderHistory: "Order History", diagnosisReports: "Diagnosis Reports" },
+    profile: {
+      title: "Personal Center", personalInfo: "Personal Information", languageSettings: "Language Settings", savedInstitutions: "Saved Institutions", coupons: "My Coupons", referralRewards: "Referral Rewards", logout: "Logout", language: "Language", english: "English", chinese: "繁體中文", phone: "Phone Number", email: "Email", orderHistory: "Order History", diagnosisReports: "Diagnosis Reports",
+      accountSecurity: "Account Security", myFavorites: "My Favorites", myReviews: "My Reviews", customerService: "Customer Service", settings: "Settings",
+      inClinicOrders: "In-Clinic Orders", consultationOrders: "Consultation Orders",
+    },
+    personalInfo: {
+      title: "Personal Information", nickname: "Nickname", mobile: "Mobile Number", email: "Email", avatar: "Avatar", addresses: "My Addresses", addAddress: "Add Address", editAddress: "Edit Address", addressLabel: "Label", addressDetail: "Detailed Address", addressArea: "Area/District", save: "Save", cancel: "Cancel", deleteAddress: "Delete", home: "Home", work: "Work", other: "Other", noAddresses: "No saved addresses", noAddressesDesc: "Add an address for appointment navigation", nicknamePlaceholder: "Enter nickname", addressPlaceholder: "Enter detailed address", areaPlaceholder: "Select area",
+      saved: "Saved successfully",
+    },
+    accountSecurity: {
+      title: "Account Security", changePassword: "Change Password", changeMobile: "Change Mobile Number", changeEmail: "Change Email", loginDevices: "Login Devices",
+      currentPassword: "Current Password", newPassword: "New Password", confirmPassword: "Confirm New Password", save: "Save Changes",
+      currentMobile: "Current Mobile", newMobile: "New Mobile Number", verificationCode: "Verification Code", sendCode: "Send Code",
+      currentEmail: "Current Email", newEmail: "New Email",
+      deviceName: "Device", lastLogin: "Last Login", currentDevice: "Current Device", removeDevice: "Remove",
+      passwordChanged: "Password changed successfully", mobileChanged: "Mobile number changed successfully", emailChanged: "Email changed successfully", deviceRemoved: "Device removed",
+    },
+    myFavorites: {
+      title: "My Favorites", institutions: "Institutions", doctors: "Doctors", emptyInstitutions: "No saved institutions", emptyInstitutionsDesc: "Institutions you save will appear here", emptyDoctors: "No saved doctors", emptyDoctorsDesc: "Doctors you save will appear here", remove: "Remove",
+    },
+    myReviews: {
+      title: "My Reviews", inClinic: "In-Clinic", consultation: "Consultation", empty: "No reviews yet", emptyDesc: "Your reviews will appear here after you write them", edit: "Edit", delete: "Delete", deleteConfirm: "Are you sure you want to delete this review?", deleted: "Review deleted", updated: "Review updated",
+    },
+    customerService: {
+      title: "Customer Service", faq: "Frequently Asked Questions", onlineSupport: "Online Support", complaint: "Complaint & Feedback", searchFaq: "Search questions...",
+      complaintTitle: "Complaint & Feedback", complaintDesc: "We value your feedback. Please describe your issue below.", complaintType: "Type", complaintContent: "Description", complaintContentPlaceholder: "Please describe your issue in detail...", complaintImages: "Attach Images", complaintSubmit: "Submit", complaintSuccess: "Your feedback has been submitted!", complaintSuccessDesc: "We will review and respond within 1-3 business days.",
+      typeAppointment: "Appointment Issue", typePayment: "Payment Issue", typeConsultation: "Consultation Issue", typeOther: "Other",
+    },
+    faq: {
+      title: "FAQ",
+      q1: "How do I book an appointment?", a1: "Go to the Home page, select an institution, choose a service and doctor, pick a time slot, and confirm your booking.",
+      q2: "How do I cancel an appointment?", a2: "Go to Orders, find the appointment you want to cancel, tap on it, and select 'Cancel Order'. Refund policies apply based on timing.",
+      q3: "How does online consultation work?", a3: "Select 'Online Consultation' from Home, choose a doctor, describe your symptoms, pay the consultation fee, and wait for the doctor to accept.",
+      q4: "How do I use a coupon?", a4: "During booking confirmation, tap 'Apply Coupon' to select an available coupon. The discount will be applied to your total.",
+      q5: "How do I get a refund?", a5: "Refunds are processed based on the cancellation policy. Full refund if cancelled 24h+ before appointment; partial refund within 24h.",
+      q6: "How do I view my diagnosis report?", a6: "After an online consultation is completed, go to Reports to view your diagnosis report.",
+      q7: "How do I earn referral rewards?", a7: "Share your referral link with friends. When they register and complete their first order, you'll earn reward coins.",
+      q8: "What payment methods are supported?", a8: "We support Credit Card, Alipay, and WeChat Pay.",
+    },
+    settingsPage: {
+      title: "Settings", language: "Language", notifications: "Message Notifications", notificationsDesc: "Receive appointment reminders and updates", privacyPolicy: "Privacy Policy", userAgreement: "User Agreement", logout: "Logout", logoutConfirm: "Are you sure you want to logout?",
+    },
+    privacyPolicy: { title: "Privacy Policy" },
+    userAgreement: { title: "User Agreement" },
     common: { currency: "HKD", search: "Search", cancel: "Cancel", confirm: "Confirm", save: "Save", back: "Back", next: "Next", loading: "Loading...", comingSoon: "Coming Soon" },
   },
   "zh-HK": {
@@ -63,12 +106,62 @@ export const translations = {
       doctorList: "線上諮詢", doctorDetail: "醫生詳情", searchDoctors: "按名稱或專科搜尋...", textImage: "圖文諮詢", video: "視頻諮詢", consultationFees: "諮詢費用", noReviews: "暫無評價", credentialsPlaceholder: "專業資歷將經驗證後顯示。", requestConsultation: "發起諮詢", selectType: "諮詢類型", symptoms: "症狀描述", symptomsPlaceholder: "描述您的牙齒症狀...", medicalHistory: "病史", medicalHistoryPlaceholder: "相關病史...", uploadImages: "上傳圖片", tapToUpload: "點擊上傳", consultationFee: "諮詢費用", proceedToConfirm: "前往確認", confirmConsultation: "確認諮詢", consultationType: "諮詢類型", uploadedImages: "已上傳圖片", textImageDesc: "圖文諮詢（10條訊息，24小時有效）", videoDesc: "與牙醫即時視頻諮詢", consultationCreated: "您的諮詢請求已提交", orderDetail: "諮詢詳情", cancellationRules: "取消規則", cancelPendingRule: "醫生接受前取消：全額退款", cancelInProgressRule: "已接受後：不可取消", simulateAccept: "模擬：醫生接受", enterChat: "進入對話", joinVideo: "加入視頻通話", viewReport: "查看報告", diagnosisNotes: "診斷意見", medicationAdvice: "用藥建議", overallRating: "整體評分", chatStarted: "諮詢已開始。您可以發送最多10條訊息。", chatEnded: "諮詢已結束", messagesRemaining: "剩餘訊息", typeMessage: "輸入訊息...", videoConsultation: "視頻諮詢", waitingForDoctor: "等待醫生加入...", connected: "已連接", callEnded: "通話已結束", duration: "通話時長", you: "您",
     },
     orders: { title: "我的訂單", all: "全部", pending: "待確認", confirmed: "已確認", completed: "已完成", cancelled: "已取消", empty: "暫無訂單", emptyDesc: "您的預約訂單將會顯示在這裡" },
-    reports: { title: "診斷報告", empty: "暫無報告", emptyDesc: "您的診斷報告將於諮詢後顯示", searchReports: "搜尋報告...", reportDetail: "報告詳情", save: "儲存", share: "分享" },
-    profile: { title: "我的", personalInfo: "個人資料", languageSettings: "語言設定", savedInstitutions: "已收藏機構", coupons: "優惠券", referralRewards: "推薦獎賞", logout: "登出", language: "語言", english: "English", chinese: "繁體中文", phone: "手機號碼", email: "電郵", orderHistory: "訂單紀錄", diagnosisReports: "診斷報告" },
+    reports: { title: "診斷報告", empty: "暫無報告", emptyDesc: "完成線上諮詢後，您的診斷報告將會顯示在這裡", searchReports: "搜尋報告...", reportDetail: "報告詳情", save: "儲存", share: "分享" },
+    profile: {
+      title: "個人中心", personalInfo: "個人資料", languageSettings: "語言設定", savedInstitutions: "已收藏機構", coupons: "我的優惠券", referralRewards: "推薦獎賞", logout: "登出", language: "語言", english: "English", chinese: "繁體中文", phone: "電話號碼", email: "電郵", orderHistory: "訂單記錄", diagnosisReports: "診斷報告",
+      accountSecurity: "帳戶安全", myFavorites: "我的收藏", myReviews: "我的評價", customerService: "客戶服務", settings: "設定",
+      inClinicOrders: "到診訂單", consultationOrders: "諮詢訂單",
+    },
+    personalInfo: {
+      title: "個人資料", nickname: "暱稱", mobile: "手機號碼", email: "電郵", avatar: "頭像", addresses: "我的地址", addAddress: "新增地址", editAddress: "編輯地址", addressLabel: "標籤", addressDetail: "詳細地址", addressArea: "地區", save: "儲存", cancel: "取消", deleteAddress: "刪除", home: "住宅", work: "公司", other: "其他", noAddresses: "暫無已儲存地址", noAddressesDesc: "新增地址以便預約導航", nicknamePlaceholder: "輸入暱稱", addressPlaceholder: "輸入詳細地址", areaPlaceholder: "選擇地區",
+      saved: "儲存成功",
+    },
+    accountSecurity: {
+      title: "帳戶安全", changePassword: "更改密碼", changeMobile: "更改手機號碼", changeEmail: "更改電郵", loginDevices: "登入裝置",
+      currentPassword: "目前密碼", newPassword: "新密碼", confirmPassword: "確認新密碼", save: "儲存更改",
+      currentMobile: "目前手機", newMobile: "新手機號碼", verificationCode: "驗證碼", sendCode: "發送驗證碼",
+      currentEmail: "目前電郵", newEmail: "新電郵",
+      deviceName: "裝置", lastLogin: "最後登入", currentDevice: "目前裝置", removeDevice: "移除",
+      passwordChanged: "密碼已成功更改", mobileChanged: "手機號碼已成功更改", emailChanged: "電郵已成功更改", deviceRemoved: "裝置已移除",
+    },
+    myFavorites: {
+      title: "我的收藏", institutions: "機構", doctors: "醫生", emptyInstitutions: "暫無收藏機構", emptyInstitutionsDesc: "您收藏的機構將會顯示在這裡", emptyDoctors: "暫無收藏醫生", emptyDoctorsDesc: "您收藏的醫生將會顯示在這裡", remove: "移除",
+    },
+    myReviews: {
+      title: "我的評價", inClinic: "到診", consultation: "諮詢", empty: "暫無評價", emptyDesc: "您撰寫的評價將會顯示在這裡", edit: "編輯", delete: "刪除", deleteConfirm: "您確定要刪除此評價嗎？", deleted: "評價已刪除", updated: "評價已更新",
+    },
+    customerService: {
+      title: "客戶服務", faq: "常見問題", onlineSupport: "在線客服", complaint: "投訴與反饋", searchFaq: "搜尋問題...",
+      complaintTitle: "投訴與反饋", complaintDesc: "我們重視您的意見。請在下方描述您的問題。", complaintType: "類型", complaintContent: "描述", complaintContentPlaceholder: "請詳細描述您的問題...", complaintImages: "附加圖片", complaintSubmit: "提交", complaintSuccess: "您的反饋已提交！", complaintSuccessDesc: "我們將在1-3個工作天內審核並回覆。",
+      typeAppointment: "預約問題", typePayment: "付款問題", typeConsultation: "諮詢問題", typeOther: "其他",
+    },
+    faq: {
+      title: "常見問題",
+      q1: "如何預約？", a1: "前往首頁，選擇機構，選擇服務和醫生，選擇時段，確認預約即可。",
+      q2: "如何取消預約？", a2: "前往訂單頁面，找到要取消的預約，點擊進入後選擇「取消訂單」。退款政策按時間而定。",
+      q3: "線上諮詢如何運作？", a3: "從首頁選擇「線上諮詢」，選擇醫生，描述症狀，支付諮詢費用，等待醫生接受。",
+      q4: "如何使用優惠券？", a4: "在預約確認時，點擊「使用優惠券」選擇可用的優惠券，折扣將自動應用。",
+      q5: "如何退款？", a5: "退款按取消政策處理。預約24小時前取消可全額退款；24小時內取消部分退款。",
+      q6: "如何查看診斷報告？", a6: "線上諮詢完成後，前往「報告」頁面查看診斷報告。",
+      q7: "如何賺取推薦獎賞？", a7: "與朋友分享您的推薦連結。當朋友註冊並完成首張訂單時，您即可獲得獎勵積分。",
+      q8: "支持哪些付款方式？", a8: "我們支持信用卡、支付寶和微信支付。",
+    },
+    settingsPage: {
+      title: "設定", language: "語言", notifications: "消息通知", notificationsDesc: "接收預約提醒和更新", privacyPolicy: "私隱政策", userAgreement: "用戶協議", logout: "登出", logoutConfirm: "您確定要登出嗎？",
+    },
+    privacyPolicy: { title: "私隱政策" },
+    userAgreement: { title: "用戶協議" },
     common: { currency: "HKD", search: "搜尋", cancel: "取消", confirm: "確認", save: "儲存", back: "返回", next: "下一步", loading: "載入中...", comingSoon: "即將推出" },
   },
-} as const;
+};
 
 export type Language = keyof typeof translations;
-export type Translations = (typeof translations)[Language];
-export type TranslationKeys = Translations;
+
+// Recursive type to widen string literals to string
+type DeepStringify<T> = T extends string
+  ? string
+  : T extends object
+  ? { [K in keyof T]: DeepStringify<T[K]> }
+  : T;
+
+export type TranslationKeys = DeepStringify<(typeof translations)["en"]>;
