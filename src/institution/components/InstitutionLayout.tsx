@@ -66,7 +66,7 @@ const InstitutionLayout: React.FC = () => {
       <aside className="hidden lg:flex w-60 flex-col border-r border-border bg-card">
         <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <Stethoscope className="h-4 w-4 text-primary-foreground" />
+            <img src="/tooth-logo.png" alt="DentalCare logo" className="h-5 w-5 object-contain" />
           </div>
           <div>
             <p className="text-sm font-semibold text-foreground">{isEn ? "Institution Portal" : "機構後台"}</p>
@@ -131,7 +131,7 @@ const InstitutionLayout: React.FC = () => {
         <header className="lg:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-card">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <Stethoscope className="h-4 w-4 text-primary-foreground" />
+              <img src="/tooth-logo.png" alt="DentalCare logo" className="h-5 w-5 object-contain" />
             </div>
             <span className="text-sm font-semibold text-foreground">{isEn ? "Institution Portal" : "機構後台"}</span>
           </div>
