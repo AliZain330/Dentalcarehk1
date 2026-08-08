@@ -15,6 +15,7 @@ export interface Institution {
   logoColor: string;
   logoInitials: string;
   photoCount: number;
+  photos?: string[];
   doctors: Doctor[];
   services: ServiceItem[];
   reviews: Review[];
@@ -308,6 +309,12 @@ export const mockInstitutions: Institution[] = [
     categories: ["general", "orthodontics", "implants", "cosmetic"],
     popularServices: [{ en: "Dental Implants", zh: "種植牙" }, { en: "Orthodontics", zh: "正畸矯齒" }, { en: "Teeth Whitening", zh: "牙齒美白" }],
     logoColor: "bg-primary", logoInitials: "HKU", photoCount: 12,
+    photos: [
+      "/clinics/hku-szh/4.webp", // aerial view
+      "/clinics/hku-szh/1.webp", // main entrance
+      "/clinics/hku-szh/3.webp", // treatment bay
+      "/clinics/hku-szh/2.webp", // pediatric room
+    ],
     doctors: [
       { id: "d1", name: { en: "Dr. Chen Wei", zh: "陳偉醫生" }, specialty: { en: "General Dentistry", zh: "一般牙科" }, yearsExp: 15, rating: 4.9, consultations: 2340, bio: { en: "Chief Dentist at HKU–SZH Dental Centre. Specializes in preventive and restorative dentistry. Trained at HKU Faculty of Dentistry.", zh: "港大深圳醫院口腔醫學中心主任牙醫，專注預防及修復牙科，畢業於港大牙醫學院。" }, serviceIds: ["s1", "s2", "s3"] },
       { id: "d2", name: { en: "Dr. Zhang Liming", zh: "張力明醫生" }, specialty: { en: "Orthodontics", zh: "矯齒科" }, yearsExp: 10, rating: 4.7, consultations: 1800, bio: { en: "Orthodontic specialist at HKU–SZH. Expert in Invisalign and ceramic braces.", zh: "港大深圳醫院矯齒專科醫生，擅長隱適美及陶瓷牙箍。" }, serviceIds: ["s1", "s2", "s6"] },

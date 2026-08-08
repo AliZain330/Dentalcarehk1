@@ -78,14 +78,24 @@ const InstitutionDetailPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Photos placeholder */}
+        {/* Photos */}
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <h2 className="mb-3 text-base font-semibold text-foreground">{t.institutionDetail.photos}</h2>
             <div className="flex gap-2 overflow-x-auto pb-1">
-              {Array.from({ length: Math.min(institution.photoCount, 4) }).map((_, i) => (
-                <div key={i} className="h-20 w-28 shrink-0 rounded-lg bg-muted" />
-              ))}
+              {institution.photos?.length
+                ? institution.photos.map((src) => (
+                    <img
+                      key={src}
+                      src={src}
+                      alt=""
+                      loading="lazy"
+                      className="h-20 w-28 shrink-0 rounded-lg bg-muted object-cover"
+                    />
+                  ))
+                : Array.from({ length: Math.min(institution.photoCount, 4) }).map((_, i) => (
+                    <div key={i} className="h-20 w-28 shrink-0 rounded-lg bg-muted" />
+                  ))}
             </div>
           </CardContent>
         </Card>

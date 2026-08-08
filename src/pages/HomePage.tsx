@@ -42,12 +42,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="animate-fade-in space-y-6 p-4 pt-5">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">{t.home.greeting} 👋</h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">{t.home.subtitle}</p>
-      </div>
-
       {/* Banner Carousel */}
       <BannerCarousel />
 
